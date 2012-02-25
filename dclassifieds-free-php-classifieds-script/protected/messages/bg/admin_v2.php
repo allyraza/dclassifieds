@@ -34,5 +34,6 @@ return array(
 	'Create IP Ban' => 'Създаване на IP Бан',
 	'Create AdBanEmail' => 'Създаване на E-Mail Бан',
 	'Enable Visual Editor' => 'Покажи визуален редактор при публикуване',
-	'Enable Google Map' => 'Покажи карта при публикуване'
+	'Enable Google Map' => 'Покажи карта при публикуване',
+	'Enable Tips on Publish' => 'Покажи балончета с помощ при публикуване'
 );
