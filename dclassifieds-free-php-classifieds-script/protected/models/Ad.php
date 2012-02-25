@@ -70,7 +70,6 @@ class Ad extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			//array('category_id, location_id, ad_email, ad_title, ad_description, ad_type_id', 'required', 'message' => Yii::t('publish_page', 'Please fill in this field.')),
 			array('category_id, location_id, ad_email, ad_title, ad_description, ad_type_id, ad_valid_id', 'required', 'message' => Yii::t('publish_page', 'Please fill in this field.')),
 			array('category_id, location_id', 'length', 'max'=>10),
 			array('ad_email, ad_price, ad_phone, ad_title, ad_puslisher_name, code, ad_address', 'length', 'max'=>255),
