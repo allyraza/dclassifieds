@@ -1,1 +1,0 @@
-<a href=""><img src="<?=SITE_UF_BANNERS?>300x250_google_ad.jpg" width="300" height="250" alt="" /></a>
