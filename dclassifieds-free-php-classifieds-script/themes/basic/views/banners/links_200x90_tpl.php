@@ -1,0 +1,1 @@
+<a href=""><img src="<?=SITE_UF_BANNERS?>links_200_90.gif" width="200" height="90" alt="" /></a>

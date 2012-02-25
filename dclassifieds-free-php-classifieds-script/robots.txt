@@ -1,0 +1,7 @@
+User-Agent: *
+Disallow: /assets/
+Disallow: /kcaptcha/
+Disallow: /protected/
+Disallow: /yii/
+Allow: /
+

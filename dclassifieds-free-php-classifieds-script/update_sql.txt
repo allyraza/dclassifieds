@@ -1,0 +1,48 @@
+ALTER TABLE `location` ADD `location_parent_id` INT NULL DEFAULT NULL AFTER `location_id`;
+ALTER TABLE `ad` ADD `ad_link` VARCHAR( 255 ) NULL DEFAULT NULL;
+ALTER TABLE `ad` ADD `ad_video` VARCHAR( 255 ) NULL DEFAULT NULL;
+
+ALTER TABLE `ad` ADD `ad_lat` VARCHAR( 50 ) NULL DEFAULT NULL ,
+ADD `ad_lng` VARCHAR( 50 ) NULL DEFAULT NULL;
+ALTER TABLE `ad` ADD `ad_skype` VARCHAR( 255 ) NULL DEFAULT NULL; 
+
+ALTER TABLE `ad` ADD `ad_valid_until` DATE NULL;
+ALTER TABLE `ad` ADD `ad_valid_id` INT NULL DEFAULT NULL;
+
+ALTER TABLE `ad` ADD `ad_type_id` INT UNSIGNED NOT NULL AFTER `ad_id`;
+
+ALTER TABLE `category` ADD `category_description` VARCHAR( 255 ) NULL DEFAULT NULL AFTER `category_title` ,
+ADD `category_keywords` VARCHAR( 255 ) NULL DEFAULT NULL AFTER `category_description` ;
+
+Create table ad_type (
+	ad_type_id Int UNSIGNED NOT NULL AUTO_INCREMENT,
+	ad_type_name Varchar(255) NOT NULL,
+ Primary Key (ad_type_id)) ENGINE = MyISAM;
+
+Create table ad_ban_ip (
+	ban_ip_id Int UNSIGNED NOT NULL AUTO_INCREMENT,
+	ban_ip Varchar(50),
+ Primary Key (ban_ip_id)) ENGINE = MyISAM;
+
+Create table ad_ban_email (
+	ban_email_id Int UNSIGNED NOT NULL AUTO_INCREMENT,
+	ban_email Varchar(255),
+ Primary Key (ban_email_id)) ENGINE = MyISAM;
+
+Create table ad_valid (
+	ad_valid_id Int UNSIGNED NOT NULL AUTO_INCREMENT,
+	ad_valid_days Int,
+	ad_valid_name Varchar(255),
+	ad_valid_ord Int,
+ Primary Key (ad_valid_id)) ENGINE = MyISAM;
+
+
+INSERT INTO `dclassifieds_v1`.`settings` (
+`setting_id` ,
+`setting_name` ,
+`setting_value` ,
+`setting_description` ,
+`setting_show_in_admin`
+)
+VALUES (
+NULL , 'ENABLE_VISUAL_EDITOR', '1', 'Enable Visual Editor', '1'

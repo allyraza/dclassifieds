@@ -1,0 +1,1 @@
+<a href=""><img src="<?=SITE_UF_BANNERS?>468x60_google_ads.jpg" width="468" height="60" alt="" /></a>

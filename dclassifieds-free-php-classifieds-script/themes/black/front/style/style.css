@@ -1,0 +1,264 @@
+@charset "utf-8";
+/* CSS Document */
+body, html			{
+					width: 100%;
+					padding: 0px;
+					margin: 0px;
+					background-color: #1f1d1e;
+					font-family: Tahoma;
+					font-size: 12px;
+					color: #d9d9d9;
+					background-image:url(../i/body_back.jpg);
+					background-repeat:repeat-x;
+					}
+					
+.clear				{
+					clear: both;
+					}	
+					
+a, a:visited		{
+					color: #fef7db;
+					text-decoration: none;
+					}
+					
+a:hover				{
+					text-decoration: underline;
+					}					
+					
+#wrapper			{
+					width: 940px;
+					padding-left: 10px;
+					padding-right: 10px;
+					margin: 0 auto;
+					}
+					
+#header				{
+					height: 41px;
+					margin-bottom: 10px;
+					}
+					
+#logo				{
+					float: left;
+					margin-top: 10px;
+					color: #fff;
+					}
+					
+#logo a, #logo a:visited{
+					color:#fff;
+					}					
+					
+#logo a:hover		{
+					text-decoration:none;
+					}
+
+.logo				{
+					font-weight:bold;
+					font-size:18px;
+					}					
+					
+						
+					
+#search				{
+					float: right;
+					margin-top: 10px;
+					}
+					
+#main_menu			{
+					margin-bottom: 10px;
+					}
+					
+#top_google_classifieds{
+					margin-bottom: 10px;
+					}
+					
+#breadcrump			{
+					background-color: #000;
+					padding: 4px;
+					margin-bottom: 10px;
+					}
+					
+#left_panel			{
+					float: left;
+					width: 630px;
+					}
+					
+#right_panel		{
+					float: left;
+					margin-left: 10px;
+					width: 300px;
+					}
+					
+h1, h2					{
+					margin-bottom: 10px;
+					font-size: 18px;
+					text-shadow: 2px 2px 2px #000;
+					}
+					
+.classified_list_container{
+					padding: 10px;
+					padding-left: 0px;
+					border-bottom: 1px solid #1f1d1e;
+					background-color: #000;
+					}
+
+.classified_list_pic{
+					float: left;
+					width: 120px;
+					}
+
+.classified_list_description{
+					float: left;
+					margin-left: 10px;
+					width: 480px;
+					}
+					
+.classified_list_description a{
+					font-weight: bold;
+					color: #f8c301;
+					font-size: 14px;
+					}
+
+.classified_list_description a:hover, .classified_list_description a:visited{
+					text-decoration: underline;
+					}
+
+.classified_list_description p{
+					margin-bottom: 5px;
+					}
+
+.info				{
+					margin-bottom: 5px;
+					color: #f8c301;
+					font-size: 11px;
+					}
+
+.home_category_block{
+					float: left;
+					width: 200px;
+					margin-right: 10px;
+					margin-bottom: 10px;
+					background-color:#000;
+					padding-bottom:5px;
+					}
+
+.home_category_block_title{
+					padding: 5px;
+					}
+
+.home_category_block_title a{
+					font-weight: bold;
+					color: #f8c301;
+					}
+
+.home_category_block_title a:hover, .home_category_block_title a:visited{
+					text-decoration: underline;
+					}
+
+.home_category_block_item{
+					padding: 2px;
+					padding-left: 10px;
+					}
+
+#footer				{
+					padding: 10px;
+					margin-bottom: 20px;
+					background-color: #000;
+					}
+
+.box				{
+					margin-bottom: 10px;
+					background-color:#000;
+					}
+
+.box_title			{
+					padding: 5px;
+					color: #d4d4d4;
+					font-size: 18px;
+					}
+
+.box_content		{
+					padding: 5px;
+					}
+
+.location_list_container{
+					float: left;
+					width: 140px;
+					margin-bottom: 5px;
+					margin-right: 5px;
+					}
+					
+.input, .textarea	{
+					font-family: Tahoma;
+					font-size: 12px;
+					padding: 3px;
+					border: 2px solid #c0c0c0;
+					}
+					
+.input:focus, .textarea:focus{
+					border: 2px solid #f8c102;
+					}
+					
+
+.publish_input		{
+					padding: 5px;
+					font-family:Tahoma;
+					font-size: 12px;
+					width:610px;
+					border: 2px solid #c0c0c0;
+					background-color: #a0a0a0;
+					}
+					
+.publish_area		{
+					padding: 5px;
+					font-family:Tahoma;
+					font-size: 12px;
+					width:610px;
+					border: 2px solid #c0c0c0;
+					background-color: #a0a0a0;
+					}
+					
+
+.publish_select		{
+					padding: 5px;
+					font-family:Tahoma;
+					font-size: 12px;
+					width:624px;
+					border: 2px solid #c0c0c0;
+					background-color: #a0a0a0;
+					}
+					
+.publish_input:focus, .publish_area:focus, .publish_select:focus{
+					border: 2px solid #f8c102;
+					}
+
+
+.publish_info		{
+					/*background-color: #f2f2f2;*/
+					padding: 5px;
+					margin-bottom:10px;
+					width: 613px;
+					}
+
+.publish_error		{
+					background-color: #bb0000;
+					color: #fff;
+					padding:5px;
+					margin-bottom:10px;
+					width: 613px;
+					}
+					
+span.required		{
+					color:red;
+					}					
+
+									
+					
+					
+
+					
+					
+					
+
+
+
+

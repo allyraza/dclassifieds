@@ -1,0 +1,354 @@
+@charset "utf-8";
+/* CSS Document */
+body, html			{
+					width: 100%;
+					padding: 0px;
+					margin: 0px;
+					background-color: #d8e7e9;
+					font-family: Tahoma;
+					font-size: 12px;
+					color: #1f5d94;
+					
+					}
+					
+.clear				{
+					clear: both;
+					}	
+					
+a, a:visited		{
+					color: #000;
+					text-decoration: none;
+					}
+					
+a:hover				{
+					text-decoration: underline;
+					}					
+					
+#wrapper			{
+					width: 940px;
+					padding-left: 10px;
+					padding-right: 10px;
+					margin: 0 auto;
+					background-color: #fff;
+					background-image:url(../i/body_back.jpg);
+					background-repeat:repeat-x;
+					}
+					
+#header				{
+					height: 41px;
+					margin-bottom: 3px;
+					}
+					
+#logo				{
+					float: left;
+					margin-top: 10px;
+					color: #fff;
+					}
+					
+#logo a, #logo a:visited{
+					color:#fff;
+					}					
+					
+#logo a:hover		{
+					text-decoration:none;
+					}
+
+.logo				{
+					font-weight:bold;
+					font-size:18px;
+					}									
+					
+						
+					
+#search				{
+					float: right;
+					margin-top: 10px;
+					}
+					
+#main_menu			{
+					margin-bottom: 10px;
+					}
+					
+#top_google_classifieds{
+					margin-bottom: 10px;
+					}
+					
+#breadcrump			{
+					padding: 4px;
+					margin-bottom: 10px;
+					padding-left:0px;
+					}
+					
+#content_container	{
+					background-color: #fff;
+					}					
+					
+#left_panel			{
+					float: left;
+					width: 730px;
+					}
+					
+#right_panel		{
+					float: left;
+					margin-left: 10px;
+					width: 200px;
+					}
+					
+h1, h2				{
+					margin-bottom: 10px;
+					font-size: 18px;
+					}
+					
+.classified_list_container{
+					padding: 10px;
+					padding-left: 0px;
+					border: 3px solid #659dcc;
+					margin-bottom:5px;
+					background-color:#fff;
+					
+					-moz-border-radius: 8px;
+				    -webkit-border-radius: 8px;
+				    -khtml-border-radius: 8px;
+				    border-radius: 8px;
+					}
+					
+.classified_list_container:hover{
+					border: 3px solid #42d50a;
+					
+					-moz-border-radius: 8px;
+				    -webkit-border-radius: 8px;
+				    -khtml-border-radius: 8px;
+				    border-radius: 8px;
+}					
+
+.classified_list_pic{
+					float: left;
+					width: 120px;
+					}
+
+.classified_list_description{
+					float: left;
+					margin-left: 10px;
+					width: 474px;
+					}
+					
+.classified_list_description a{
+					font-weight: bold;
+					color: #2c4272;
+					font-size: 14px;
+					}
+
+.classified_list_description a:hover, .classified_list_description a:visited{
+					text-decoration: underline;
+					}
+
+.classified_list_description p{
+					margin-bottom: 5px;
+					}
+
+.info				{
+					margin-bottom: 5px;
+					color: #2c4272;
+					font-size: 11px;
+					}
+
+.home_category_block{
+					float: left;
+					width: 198px;
+					margin-right: 6px;
+					margin-bottom: 10px;
+					border: 3px solid #659dcc;
+					background-color: #fff;
+					
+					-moz-border-radius: 8px;
+				    -webkit-border-radius: 8px;
+				    -khtml-border-radius: 8px;
+				    border-radius: 8px;
+					}
+
+.home_category_block_title{
+					background-color: #659dcc;
+					padding: 5px;
+					color: #fff;
+					}
+
+.home_category_block_title a{
+					font-weight: bold;
+					color: #fff;
+					}
+
+.home_category_block_title a:hover, .home_category_block_title a:visited{
+					text-decoration: underline;
+					}
+
+.home_category_block_item{
+					padding: 2px;
+					padding-left: 10px;
+					}
+
+#footer				{
+					padding: 10px;
+					margin-bottom: 20px;
+					}
+
+.box				{
+					margin-bottom: 10px;
+					border: 3px solid #659dcc;
+					background-color: #fff;
+					
+					-moz-border-radius: 8px;
+				    -webkit-border-radius: 8px;
+				    -khtml-border-radius: 8px;
+				    border-radius: 8px;
+					}
+
+.box_title			{
+					padding: 5px;
+					background-color: #659dcc;
+					font-weight: bold;
+					color: #fff;
+					}
+
+.box_content		{
+					padding: 5px;
+					}
+
+.location_list_container{
+					float: left;
+					width: 135px;
+					margin-bottom: 5px;
+					margin-right: 5px;
+					}
+					
+/*publish form*/					
+					
+.input, .textarea	{
+					font-family: Tahoma;
+					font-size: 12px;
+					padding: 3px;
+					border: 2px solid #c0c0c0;
+					}
+					
+.input:focus, .textarea:focus{
+					border: 2px solid #6e89ff;
+					}
+					
+
+.publish_input		{
+					padding: 5px;
+					font-family:Tahoma;
+					font-size: 12px;
+					border: 2px solid #c0c0c0;
+					}
+					
+.publish_area		{
+					padding: 5px;
+					font-family:Tahoma;
+					font-size: 12px;
+					width:600px;
+					border: 2px solid #c0c0c0;
+					}
+					
+
+.publish_select		{
+					padding: 5px;
+					font-family:Tahoma;
+					font-size: 12px;
+					border: 2px solid #c0c0c0;
+					}
+					
+.publish_input:focus, .publish_area:focus, .publish_select:focus{
+					border: 2px solid #6e89ff;
+					}
+
+
+.publish_info		{
+					padding: 5px;
+					margin-bottom:10px;
+					}
+
+.publish_error		{
+					background-color: #bb0000;
+					color: #fff;
+					padding:5px;
+					margin-bottom:10px;
+					}
+					
+div.error input,
+div.error textarea,
+div.error select,
+input.error,
+textarea.error,
+select.error
+					{
+					background: #FEE;
+					border-color: #C00;
+					}					
+
+.row				{
+					margin: 5px 0;
+					}
+					
+.publish_section_header{
+					border-bottom:2px solid #c0c0c0; 
+					margin-bottom:20px;
+					}
+					
+.publish_section_header h1, .publish_section_header h2{
+					margin-bottom:3px;
+					}
+					
+.last_row_in_publish_section{
+					margin-bottom:30px;
+					}					
+
+.publish_left_row	{
+					float:left; 
+					width:350px;
+					margin: 5px 0;
+					}
+
+.publish_right_row	{
+					float:left; 
+					margin-left:30px; 
+					width:350px;
+					margin: 5px 0px 5px 30px;
+					}
+					
+.publish_label_conatiner{
+					margin-bottom:5px;
+					font-weight:bold;
+					}
+					
+.publish_input_container{
+					margin-bottom:5px;
+					}					
+					
+.errorMessage		{
+					color: red;
+					padding: 5px 7px 0px 0px;
+					/*margin: 0 0 5px 0;*/
+					}									
+					
+span.required		{
+					color:red;
+					}
+					
+.thelp				{
+					color: #909090;
+					}					
+					
+/*end of publish form*/					
+
+.previous hidden a{
+					color: #fff;
+					}
+
+.page > selected	{
+					
+					}
+					
+li.next a			{
+					color: #fff;
+					}
+					

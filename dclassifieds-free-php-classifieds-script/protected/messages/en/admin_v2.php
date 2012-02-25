@@ -1,0 +1,27 @@
+<?
+return array(
+	'Ad Link' => 'Ad Link',
+	'Ad Video' => 'Ad Video',
+	'Ad Latitute' => 'Ad Latitute',
+	'Ad Altitude' => 'Ad Altitude',
+	'Skype' => 'Skype',
+	'Category Description' => 'Category Description',
+	'Category Keywords' => 'Category Keywords',
+	'Location Parent' => 'Location Parent',
+	'Banlist by IP' => 'Banlist by IP',
+	'Banlist by E-Mail' => 'Banlist by E-Mail',
+	'Classifieds Validity Period' => 'Classifieds Validity Period',
+	'Classifieds Type' => 'Classifieds Type',
+	'Ad Type Id' => 'Ad Type Id',
+	'Ad Type Name' => 'Ad Type Name',
+	'Ad Valid Id' => 'Ad Valid Id',
+	'Ad Valid Days' => 'Ad Valid Days',
+	'Ad Valid Name' => 'Ad Valid Name',
+	'Ad Valid Ord' => 'Ad Valid Ord',
+	'Ban Ip Id' => 'Ban Ip Id',
+	'Ban Ip' => 'Ban Ip',
+	'Ban Email Id' => 'Ban Email Id',
+	'Ban Email' => 'Ban Email',
+	'Admin Index' => 'Admin Index',
+	'Address' => 'Address'
+);
