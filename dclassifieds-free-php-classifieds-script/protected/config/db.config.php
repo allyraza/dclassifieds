@@ -19,6 +19,6 @@
 **********************************************************************************/
 //db settings
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'dclassifieds_v1');
-define('DB_USER', 'dedo');
-define('DB_PASS', '201201');
+define('DB_NAME', '');
+define('DB_USER', '');
+define('DB_PASS', '');
