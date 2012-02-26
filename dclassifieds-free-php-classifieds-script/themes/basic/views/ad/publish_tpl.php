@@ -163,9 +163,12 @@
 		<div class="clear"></div>
 	</div>
 	
+	<?if(ENABLE_VIDEO_LINK_PUBLISH || ENABLE_LINK_PUBLISH){?>
+	
 	<div class="publish_section_header"><h2><?=Yii::t('publish_page_v2', 'Additional information')?></h2></div>
 	
 	<div class="last_row_in_publish_section">
+		<?if(ENABLE_LINK_PUBLISH){?>
 		<div class="publish_left_row">
 			<div class="publish_label_conatiner">
 			<?php echo $form->labelEx($model,'ad_link', array('label' => Yii::t('publish_page_v2', 'Web Site'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter website url in this format : http://www.site.com')?>">[?]</a><?}?>
@@ -173,7 +176,9 @@
 			<?php echo $form->textField($model,'ad_link',array('size'=>60,'maxlength'=>255, 'class' => 'publish_input', 'style' => 'width:336px;')); ?>
 			<?php echo $form->error($model,'ad_link'); ?>
 		</div>
+		<?}?>
 		
+		<?if(ENABLE_VIDEO_LINK_PUBLISH){?>
 		<div class="publish_right_row">
 			<div class="publish_label_conatiner">
 			<?php echo $form->labelEx($model,'ad_video', array('label' => Yii::t('publish_page_v2', 'Video'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Paste YouTube, Vimeo, etc. video embed code here.')?>">[?]</a><?}?>
@@ -181,8 +186,11 @@
 			<?php echo $form->textField($model,'ad_video',array('size'=>60,'maxlength'=>255, 'class' => 'publish_input', 'style' => 'width:336px;')); ?>
 			<?php echo $form->error($model,'ad_video'); ?>
 		</div>
+		<?}?>
 		<div class="clear"></div>
 	</div>
+	
+	<?}?>
 
 	<div class="publish_section_header"><h2><?=Yii::t('publish_page_v2', 'Photos')?></h2></div>
 	<div class="last_row_in_publish_section">
