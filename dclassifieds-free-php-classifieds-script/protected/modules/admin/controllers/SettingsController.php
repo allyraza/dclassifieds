@@ -47,7 +47,7 @@ class SettingsController extends Controller
 		}
 		
 		//checkbox settings fields
-		$checkboxFields = array('SEND_CONTROL_MAIL', 'ENABLE_VISUAL_EDITOR', 'ENABLE_GOOGLE_MAP', 'ENABLE_TIPSY_PUBLISH');
+		$checkboxFields = array('SEND_CONTROL_MAIL', 'ENABLE_VISUAL_EDITOR', 'ENABLE_GOOGLE_MAP', 'ENABLE_TIPSY_PUBLISH', 'ENABLE_VIDEO_LINK_PUBLISH', 'ENABLE_LINK_PUBLISH');
 
 		$this->render('update',array(
 			'model'=>$model,

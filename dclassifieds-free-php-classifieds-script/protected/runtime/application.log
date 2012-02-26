@@ -2522,3 +2522,282 @@ Stack trace:
 REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/blueactive.gif
 HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
 ---
+2012/02/25 20:52:31 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 20:52:33 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/blueactive.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/blueactive.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 20:52:35 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 20:59:10 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/blueactive.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/blueactive.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 22:50:20 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:06:56 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/blueactive.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/blueactive.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:06:56 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:07:21 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:10:03 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:10:16 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:10:47 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:13:34 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:13:41 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:14:52 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:16:23 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:16:38 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:25:05 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:25:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/25 23:26:10 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/26 21:09:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/26 21:10:16 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/blueactive.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/blueactive.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/26 21:10:17 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/26 21:18:09 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/26 21:20:33 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/26 21:20:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/26 21:20:56 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/26 21:21:19 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/26 21:21:34 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/26 21:21:46 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/26 21:22:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---
+2012/02/26 21:22:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/basic/front/style/bluedefault.gif".' in D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php:280
+Stack trace:
+#0 D:\www\dclassifieds\htdocs\yii\framework\web\CWebApplication.php(135): CWebApplication->runController('themes/basic/fr...')
+#1 D:\www\dclassifieds\htdocs\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\www\dclassifieds\htdocs\index.php(35): CApplication->run()
+#3 {main}
+REQUEST_URI=/dclassifieds/htdocs/themes/basic/front/style/bluedefault.gif
+HTTP_REFERER=http://localhost/dclassifieds/htdocs/themes/basic/front/style/droplinebar.css
+---

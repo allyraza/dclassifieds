@@ -35,5 +35,7 @@ return array(
 	'Create AdBanEmail' => 'Създаване на E-Mail Бан',
 	'Enable Visual Editor' => 'Покажи визуален редактор при публикуване',
 	'Enable Google Map' => 'Покажи карта при публикуване',
-	'Enable Tips on Publish' => 'Покажи балончета с помощ при публикуване'
+	'Enable Tips on Publish' => 'Покажи балончета с помощ при публикуване',
+	'Enable video link publish' => 'Покажи линк за видео при публикуване',
+	'Enable link publish' => 'Покажи линк при публикуване'
 );
