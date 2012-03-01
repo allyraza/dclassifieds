@@ -37,5 +37,7 @@ return array(
 	'Enable Google Map' => 'Покажи карта при публикуване',
 	'Enable Tips on Publish' => 'Покажи балончета с помощ при публикуване',
 	'Enable video link publish' => 'Покажи линк за видео при публикуване',
-	'Enable link publish' => 'Покажи линк при публикуване'
+	'Enable link publish' => 'Покажи линк при публикуване',
+	'Maximum upload image size' => 'Максимален размер на снимка при публикуване в bytes',
+	'Num upload pics publish' => 'Брой снимки при публикуване на обява'
 );
