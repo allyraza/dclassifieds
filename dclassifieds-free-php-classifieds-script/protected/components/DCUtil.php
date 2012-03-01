@@ -191,9 +191,9 @@ class DCUtil
 		
 	}
 
-	static function sanitize( $string )
+	static function sanitize( $string, $allowable_tags = '' )
 	{
-		$string = strip_tags(trim($string));
+		$string = strip_tags(trim($string), $allowable_tags);
 		if(!get_magic_quotes_gpc() || !get_magic_quotes_runtime()){
 			$string = addslashes($string);
 		}
