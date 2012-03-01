@@ -11,7 +11,7 @@ return array(
 	'Enter the title of your classified' => 'Моля, въведете заглавие за своята обява.',
 	'Please select category for your classified' => 'Моля, изберете категория',
 	'Please select how long your classified will be active' => 'Моля, избере колко дълго ше бъде валидна Вашата обява.',
-	'Enter price for your classified.' => 'Моля, въведете цена',
+	'Enter price for your classified.' => 'Ако желате въведете цена.',
 	'If you want write several keyword that describe best your classified. Devide keywords with comma (,).' => 'Ако желаете, въведете няколко ключови думи, които най - добре описват Вашата обява. Разделете думите със запетая (,)',
 	'Enter contact mail for your classified. The mail will not be visible to other users.' => 'Моля, въведете E-Mail за контакт. (Няма да бъде публичен)',
 	'Type address for your classified, or click on "Find on map" to select your address from map.' => 'Ако желаете въведете адрес за по - точно информация или кликнете на "Намери на картата"',
@@ -25,5 +25,13 @@ return array(
 	'Additional information' => 'Допълнителна информация',
 	'Find on map' => 'Намери на картата',
 	'Photos' => 'Снимки',
-	'Are you human?' => 'Анти спам код'
+	'Are you human?' => 'Анти спам код',
+	'Your Classified Ad' => 'Вашата обява',
+	'Enter description for your classified' => 'Напишете максимално детейлно описание за Вашата обява',
+	'Enter Contact Name' => 'Ако желаете въведете Вашето име за контакт',
+	'Enter phone' => 'Ако желате въведете телефон или мобилен телефон за контакт',
+	'Enter skype' => 'Ако желаете въведете skype за контакт',
+	'Select Region for your classified' => 'Изберете Регион за който се отнася обявата',
+	'Find on the map' => 'Намери на картата',
+	'Yes, this is my location' => 'Да, това е моят адрес'
 );
