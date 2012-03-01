@@ -14,6 +14,8 @@
 		),
 	)); ?>
 
+	<?=Yii::t('publish_page_nom', 'Sale')?>
+	
 	<div class="publish_section_header"><h1>Your Classified Ad</h1></div>
 	<div>
 		<div class="publish_left_row">
@@ -203,7 +205,7 @@
                 'model'		=> $model,
                 'attribute'	=> 'images',
                 'accept' 	=> 'gif|jpg|png', 
-                'max'		=> 5,
+                'max'		=> NUM_PICS_UPLOAD,
                 'duplicate' => 'Duplicate file!', 
                 'denied' 	=> 'Invalid file type',
             ));
@@ -211,7 +213,7 @@
 			<?php echo $form->error($model,'images'); ?>
 		</div>
 		<div class="publish_right_row">
-			<?=Yii::t('publish_page_v2', 'Select up to 5 photos to attach to your classified. The photos must be in gif, jpg or png format and no bigger than 200kb.')?>			
+			<?=Yii::t('publish_page_v2', 'Select up to 5 photos to attach to your classified. The photos must be in gif, jpg or png format and no bigger than 200kb.', array('{num_pics}' => NUM_PICS_UPLOAD, '{bytes}' => floor(MAX_PIC_UPLOAD_SIZE/1024)))?>			
 		</div>
 		<div class="clear"></div>
 	</div>
