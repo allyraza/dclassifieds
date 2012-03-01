@@ -138,6 +138,20 @@ class Settings extends CActiveRecord
 			}
 		}
 		
+		if($this->attributes['setting_name'] == 'MAX_PIC_UPLOAD_SIZE'){
+			$value = $this->attributes['setting_value'];
+			if(!is_numeric($value) || $value <= 0){
+				$this->addError('setting_value', Yii::t('admin', 'Only Digits'));
+			}
+		}
+		
+		if($this->attributes['setting_name'] == 'NUM_PICS_UPLOAD'){
+			$value = $this->attributes['setting_value'];
+			if(!is_numeric($value) || $value <= 0){
+				$this->addError('setting_value', Yii::t('admin', 'Only Digits'));
+			}
+		}
+		
 		if($this->attributes['setting_name'] == 'APP_LANG'){
 			$value = $this->attributes['setting_value'];
 			if(!file_exists(SITE_PATH . 'protected/messages/' . $value)){

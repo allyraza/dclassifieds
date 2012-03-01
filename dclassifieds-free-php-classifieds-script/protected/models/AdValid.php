@@ -103,7 +103,7 @@ class AdValid extends CActiveRecord
 		$res = $this->findAll( $criteria );
 		if(!empty($res)){
 			foreach ($res as $k){
-				$ret[$k->ad_valid_id] = $k->ad_valid_name;
+				$ret[$k->ad_valid_id] = Yii::t('publish_page_nom', $k->ad_valid_name);
 			}
 		}
 		return $ret;

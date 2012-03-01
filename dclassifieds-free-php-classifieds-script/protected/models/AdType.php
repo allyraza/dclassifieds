@@ -89,7 +89,7 @@ class AdType extends CActiveRecord
 		$res = $this->findAll();
 		if(!empty($res)){
 			foreach ($res as $k){
-				$ret[$k->ad_type_id] = $k->ad_type_name;
+				$ret[$k->ad_type_id] = Yii::t('publish_page_nom', $k->ad_type_name);
 			}
 		}
 		return $ret;
