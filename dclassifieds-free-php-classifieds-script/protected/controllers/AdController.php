@@ -367,7 +367,12 @@ class AdController extends Controller
 		
 		if(isset($_POST['Ad'])){
 			foreach ($_POST['Ad'] as $k => $v){
-				$_POST['Ad'][$k] = DCUtil::sanitize($v);
+				//enable visual editor tags if editor is enabled
+				if($k == 'ad_description' && ENABLE_VISUAL_EDITOR == 1){
+					$_POST['Ad'][$k] = DCUtil::sanitize($v, '<strong><em><u><ol><li><ul><br />');
+				} else {
+					$_POST['Ad'][$k] = DCUtil::sanitize($v);
+				}
 			}
 			
 			$adModel->attributes = $_POST['Ad'];
