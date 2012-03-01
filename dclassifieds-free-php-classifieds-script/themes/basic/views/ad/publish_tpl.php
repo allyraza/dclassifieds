@@ -14,9 +14,7 @@
 		),
 	)); ?>
 
-	<?=Yii::t('publish_page_nom', 'Sale')?>
-	
-	<div class="publish_section_header"><h1>Your Classified Ad</h1></div>
+	<div class="publish_section_header"><h1><?=Yii::t('publish_page_v2', 'Your Classified Ad')?></h1></div>
 	<div>
 		<div class="publish_left_row">
 			<div class="publish_label_conatiner">
@@ -64,7 +62,7 @@
 	
 	<div class="row">
 		<div class="publish_label_conatiner">
-		<?php echo $form->labelEx($model,'ad_description', array('label' => Yii::t('publish_page', 'Description'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter the title of your classified')?>">[?]</a><?}?>
+		<?php echo $form->labelEx($model,'ad_description', array('label' => Yii::t('publish_page', 'Description'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter description for your classified')?>">[?]</a><?}?>
 		</div>
 		<?php echo $form->textArea($model,'ad_description',array('rows'=>6, 'cols'=>50, 'class' => 'publish_input', 'style' => 'width:716px;')); ?>
 		<?php echo $form->error($model,'ad_description'); ?>
@@ -103,7 +101,7 @@
 		
 		<div class="publish_right_row">
 			<div class="publish_label_conatiner">
-			<?php echo $form->labelEx($model,'ad_puslisher_name', array('label' => Yii::t('publish_page_v2', 'Contact Name'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter the title of your classified')?>">[?]</a><?}?>
+			<?php echo $form->labelEx($model,'ad_puslisher_name', array('label' => Yii::t('publish_page_v2', 'Contact Name'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter Contact Name')?>">[?]</a><?}?>
 			</div>
 			<?php echo $form->textField($model,'ad_puslisher_name',array('size'=>60,'maxlength'=>255, 'class' => 'publish_input', 'style' => 'width:336px;')); ?>
 			<?php echo $form->error($model,'ad_puslisher_name'); ?>
@@ -116,7 +114,7 @@
 	<div>
 		<div class="publish_left_row">
 			<div class="publish_label_conatiner">
-			<?php echo $form->labelEx($model,'ad_phone', array('label' => Yii::t('publish_page', 'Phone'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter the title of your classified')?>">[?]</a><?}?>
+			<?php echo $form->labelEx($model,'ad_phone', array('label' => Yii::t('publish_page', 'Phone'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter phone')?>">[?]</a><?}?>
 			</div>
 			<?php echo $form->textField($model,'ad_phone',array('size'=>60,'maxlength'=>255, 'class' => 'publish_input', 'style' => 'width:336px;')); ?>
 			<?php echo $form->error($model,'ad_phone'); ?>
@@ -124,7 +122,7 @@
 		
 		<div class="publish_right_row">
 			<div class="publish_label_conatiner">
-			<?php echo $form->labelEx($model,'ad_skype', array('label' => Yii::t('admin_v2', 'Skype'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter the title of your classified')?>">[?]</a><?}?>
+			<?php echo $form->labelEx($model,'ad_skype', array('label' => Yii::t('admin_v2', 'Skype'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter skype')?>">[?]</a><?}?>
 			</div>
 			<?php echo $form->textField($model,'ad_skype',array('size'=>60,'maxlength'=>255, 'class' => 'publish_input', 'style' => 'width:336px;')); ?>
 			<?php echo $form->error($model,'ad_skype'); ?>
@@ -135,7 +133,7 @@
 	<div class="last_row_in_publish_section">
 		<div class="publish_left_row">
 			<div class="publish_label_conatiner">
-			<?php echo $form->labelEx($model,'location_id', array('label' => Yii::t('publish_page', 'Location'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter the title of your classified')?>">[?]</a><?}?>
+			<?php echo $form->labelEx($model,'location_id', array('label' => Yii::t('publish_page', 'Location'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Select Region for your classified')?>">[?]</a><?}?>
 			</div>
 			<?php echo $form->dropDownList($model,'location_id', $this->view->cityList, array('encode' => false, 'prompt' => Yii::t('publish_page_v2', 'Select Location'), 'class' => 'publish_select', 'style' => 'width:350px;')); ?>
 			<?php echo $form->error($model,'location_id');?>
