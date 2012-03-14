@@ -19,6 +19,11 @@
 **********************************************************************************/
 function beginRequest()
 {
+	$userRemoteAddress = $_SERVER['REMOTE_ADDR'];
+	if(AdBanIp::model()->isBanned($userRemoteAddress)){
+		echo Yii::t('common_v2', 'you are banned');
+		exit;
+	}
 }
 
 function endRequest($event)
