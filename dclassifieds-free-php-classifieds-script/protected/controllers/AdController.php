@@ -376,7 +376,7 @@ class AdController extends Controller
 			}
 			
 			$adModel->attributes = $_POST['Ad'];
-			if($adModel->validate()){
+			if($adModel->validate() && !AdBanEmail::model()->isBanned($adModel->ad_email)){
 				
 				//fix tags if any
 				if(!empty($adModel->attributes->ad_tags)){
@@ -387,8 +387,10 @@ class AdController extends Controller
 				$one_day_in_seconds = 60 * 60 * 24;
 				$adModel->ad_valid_until = date('Y-m-d', time() + ($adValidModel->getDaysById($adModel->ad_valid_id) * $one_day_in_seconds));
 				
-				//add check if editor is enabled	
-				$adModel->ad_description 	= nl2br($adModel->ad_description);
+				//add check if editor is enabled
+				if(!ENABLE_VISUAL_EDITOR){	
+					$adModel->ad_description 	= nl2br($adModel->ad_description);
+				}
 				$adModel->ad_publish_date	= date('Y-m-d');
 				$adModel->ad_ip 			= $_SERVER['REMOTE_ADDR'];
 				$adModel->ad_title 			= DCUtil::ucfirst($adModel->ad_title);
@@ -447,7 +449,7 @@ class AdController extends Controller
 				}
 				
 				//send mail and control mail
-//				$this->sendMails();			
+//				$this->_sendMails();			
 
 				//clear the cache
 				Yii::app()->cache->flush();
