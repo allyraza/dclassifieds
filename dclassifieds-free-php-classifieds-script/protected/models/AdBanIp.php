@@ -82,4 +82,23 @@ class AdBanIp extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	/**
+	 * check if user ip is banned
+	 *
+	 * @param char $_ip
+	 * @return boolean
+	 */
+	public function isBanned( $_ip )
+	{
+		$ret = 0;
+		$criteria = new CDbCriteria();
+		$criteria->condition = "ban_ip = :ip";
+		$criteria->params = array(':ip' => $_ip);
+		$res = $this->find($criteria);
+		if(!empty($res)){
+			$ret = 1;
+		}
+		return $ret;
+	}
 }

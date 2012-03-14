@@ -82,4 +82,23 @@ class AdBanEmail extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	/**
+	 * check if email is banned
+	 *
+	 * @param char $_mail
+	 * @return boolean
+	 */
+	public function isBanned( $_mail )
+	{
+		$ret = 0;
+		$criteria = new CDbCriteria();
+		$criteria->condition = "ban_email = :mail";
+		$criteria->params = array(':mail' => $_mail);
+		$res = $this->find($criteria);
+		if(!empty($res)){
+			$ret = 1;
+		}
+		return $ret;
+	}
 }
