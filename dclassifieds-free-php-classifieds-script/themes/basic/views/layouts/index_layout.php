@@ -1,7 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?=$this->view->pageTitle?></title>
 <meta name="description" content="<?=$this->view->pageDescription?>" />
 <meta name="keywords" content="<?=$this->view->pageKeywords?>" />
@@ -15,6 +14,10 @@
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->theme->baseUrl; ?>/front/style/style.css" media="screen, projection" />
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->theme->baseUrl; ?>/front/style/droplinebar.css" media="screen, projection" />
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->theme->baseUrl; ?>/front/js/lightbox/css/jquery.lightbox-0.5.css"" media="screen, projection" />
+<link href='http://fonts.googleapis.com/css?family=Cuprum&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+<!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 <?
 //Yii::app()->clientscript->scriptMap['jquery-ui.min.js'] = false;
 Yii::app()->clientscript->scriptMap['jquery.js'] = false;
@@ -22,6 +25,7 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="<?=DOMAIN_URL . Yii::app()->theme->baseUrl; ?>/front/js/droplinemenu.js" type="text/javascript"></script>
 <script type="text/javascript">
+	droplinemenu.arrowimage = {classname: 'downarrowclass', src: '<?=Yii::app()->theme->baseUrl; ?>/front/i/down.gif', leftpadding: 5};
 	droplinemenu.buildmenu("main_menu")
 </script>
 
@@ -31,7 +35,7 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
 </head>
 <body>
 	<div id="wrapper">
-    	<div id="header">
+    	<header id="header">
         	<div id="logo">
         		<a href="<?=Yii::app()->baseUrl?>" title="<?=APP_NAME?>" class="logo"><?=APP_NAME?></a>
         		<?php $this->widget('application.components.Widgets.LocationWidget'); ?>
@@ -43,8 +47,8 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
                 </form>
             </div>
             <div class="clear"></div>
-        </div>
-        <div id="main_menu" class="droplinebar">
+        </header>
+        <nav id="main_menu" class="droplinebar">
         	<ul>
             	<li><a href=""><?=Yii::t('common', 'Categories');?></a>
                 	<ul>
@@ -62,7 +66,7 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
                 <?php $this->endCache(); } ?>
                 <li><a href="<?=Yii::app()->createUrl('site/contact')?>"><?=Yii::t('contact_page', 'Contact');?></a></li>
             </ul>
-        </div>
+        </nav>
         
         <div id="top_google_classifieds">
         	<div style="float:left; width:728px; height:90px;">
@@ -84,11 +88,11 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
         </div>
         
         <div id="content_container">
-        	<div id="left_panel">
+        	<section id="left_panel">
             	<?php echo $content; ?>
-            </div>
-            <div id="right_panel">
-                <div class="box">
+            </section>
+            <aside id="right_panel">
+                <div class="box" id="location_box">
                 	<div class="box_title"><?=Yii::t('common', 'Locations');?></div>
                     <div class="box_content">
                     	<?php if($this->beginCache('LocationBoxWidget')) { ?>
@@ -103,12 +107,13 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
                     	<?php if($this->beginCache('TagsBoxWidget')) { ?>
                     	<?php $this->widget('application.components.Widgets.TagsBoxWidget'); ?>
                     	<?php $this->endCache(); } ?>
+                    	<div class="clear"></div>
                     </div>
                 </div>
-            </div>
+            </aside>
             <div class="clear"></div>
         </div>
-        <div id="footer">
+        <footer id="footer">
         	<div style="float:left;">
         	Copyright (c) <?=date('Y')?> <?=APP_NAME?> v2.0
         	</div>
@@ -117,7 +122,7 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
         		<a href="http://www.bitak.net" title="Обяви" target="_blank">Обяви</a>
         	</div>
         	<div class="clear"></div>
-        </div>
+        </footer>
     </div>	
 </body>
 </html>

@@ -8,7 +8,8 @@ body, html			{
 					font-family: Tahoma;
 					font-size: 12px;
 					color: #1f5d94;
-					
+					background-image:url(../i/body_back.jpg);
+					background-repeat:repeat-x;
 					}
 					
 .clear				{
@@ -32,16 +33,24 @@ a:hover				{
 					background-color: #fff;
 					background-image:url(../i/body_back.jpg);
 					background-repeat:repeat-x;
+					
+					-moz-box-shadow: 0 0 5px #343b61;
+					-webkit-box-shadow: 0 0 5px #343b61;
+					box-shadow: 0 0 5px #343b61;
+					
+					border-radius: 0px 0px 5px 5px; 
+					-moz-border-radius: 0px 0px 5px 5px; 
+					-webkit-border-radius: 0px 0px 5px 5px;
 					}
 					
-#header				{
+header				{
 					height: 41px;
 					margin-bottom: 3px;
 					}
 					
 #logo				{
 					float: left;
-					margin-top: 10px;
+					margin-top: 8px;
 					color: #fff;
 					}
 					
@@ -62,7 +71,7 @@ a:hover				{
 					
 #search				{
 					float: right;
-					margin-top: 10px;
+					margin-top: 8px;
 					}
 					
 #main_menu			{
@@ -95,47 +104,51 @@ a:hover				{
 					}
 					
 h1, h2				{
+					font-family: 'Cuprum', Tahoma, Geneva, sans-serif;
+					font-size: 28px;
 					margin-bottom: 10px;
-					font-size: 18px;
 					}
 					
 .classified_list_container{
-					padding: 10px;
-					padding-left: 0px;
-					border: 3px solid #659dcc;
-					margin-bottom:5px;
+					padding: 10px 10px 20px 0px;
+					margin-bottom: 20px;
+					border-bottom: 1px solid #e5e5e5;
 					background-color:#fff;
-					
-					-moz-border-radius: 8px;
-				    -webkit-border-radius: 8px;
-				    -khtml-border-radius: 8px;
-				    border-radius: 8px;
 					}
 					
 .classified_list_container:hover{
-					border: 3px solid #42d50a;
-					
-					-moz-border-radius: 8px;
-				    -webkit-border-radius: 8px;
-				    -khtml-border-radius: 8px;
-				    border-radius: 8px;
-}					
+					background-color: #ffffd5;
+					}					
 
 .classified_list_pic{
 					float: left;
 					width: 120px;
+					margin:5px 0px 0px 10px;
+					padding:5px;
+					background-color: #fff;
+					
+					-moz-border-radius: 5px;
+				    -webkit-border-radius: 5px;
+				    -khtml-border-radius: 5px;
+				    border-radius: 5px;
+				    
+					-moz-box-shadow: 0 0 5px #888;
+					-webkit-box-shadow: 0 0 5px#888;
+					box-shadow: 0 0 5px #888;
 					}
 
 .classified_list_description{
+					width: 570px;
 					float: left;
-					margin-left: 10px;
-					width: 474px;
+					margin: 0px 0px 10px 10px;
 					}
 					
 .classified_list_description a{
-					font-weight: bold;
-					color: #2c4272;
-					font-size: 14px;
+					font-family: 'Cuprum', Tahoma, Geneva, sans-serif;
+					font-size: 28px;
+					color: #000000;
+					display:block;
+					margin-bottom:10px;
 					}
 
 .classified_list_description a:hover, .classified_list_description a:visited{
@@ -143,11 +156,10 @@ h1, h2				{
 					}
 
 .classified_list_description p{
-					margin-bottom: 5px;
+					margin-bottom: 10px;
 					}
 
 .info				{
-					margin-bottom: 5px;
 					color: #2c4272;
 					font-size: 11px;
 					}
@@ -193,33 +205,49 @@ h1, h2				{
 
 .box				{
 					margin-bottom: 10px;
-					border: 3px solid #659dcc;
 					background-color: #fff;
-					
-					-moz-border-radius: 8px;
-				    -webkit-border-radius: 8px;
-				    -khtml-border-radius: 8px;
-				    border-radius: 8px;
 					}
 
 .box_title			{
 					padding: 5px;
-					background-color: #659dcc;
-					font-weight: bold;
-					color: #fff;
+					font-family: 'Cuprum', Tahoma, Geneva, sans-serif;
+					font-size: 22px;
+					border-bottom: 1px solid #e5e5e5;
 					}
 
 .box_content		{
 					padding: 5px;
 					}
-
-.location_list_container{
-					float: left;
-					width: 135px;
-					margin-bottom: 5px;
-					margin-right: 5px;
+					
+#location_box a, #location_box a:visited{
+					display:block;
+					padding: 5px 0px;
+					text-decoration:none;
+					}					
+					
+#location_box a:hover{
+					background-color: #ffffd5;
 					}
 					
+a.tag_link, a.tag_link:visited{
+					display:block;
+					float:left;
+					background-color: #659dcc;
+					color: #fff;
+					padding: 5px 12px;
+					margin: 0px 5px 5px 0px;
+					
+					-moz-border-radius: 5px;
+				    -webkit-border-radius: 5px;
+				    -khtml-border-radius: 5px;
+				    border-radius: 5px;
+					}
+					
+a.tag_link:hover	{
+					text-decoration:none;
+					background-color: #464e7f;
+					}					
+
 /*publish form*/					
 					
 .input, .textarea	{
