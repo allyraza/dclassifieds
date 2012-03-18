@@ -25,7 +25,7 @@ class LocationBoxWidget extends CWidget
 		if(!empty($activeLocations)){
 			foreach ($activeLocations as $k){
 				$locationUrl = Yii::app()->createUrl('ad/location', array('location_name' => DCUtil::getSeoTitle($k->location_name), 'lid' => $k->location_id));
-				echo '<div class="location_list_container"><a href="' . $locationUrl . '">' . $k->location_name . '</a></div>';
+				echo '<a href="' . $locationUrl . '">' . $k->location_name . '</a>';
 			}
 		}
     }

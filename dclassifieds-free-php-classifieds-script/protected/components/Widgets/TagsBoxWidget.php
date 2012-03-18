@@ -30,11 +30,12 @@ class TagsBoxWidget extends CWidget
 			$tagsArrayReady = array();
 			foreach ($tagsArray as $k){
 				$tagsUrl = Yii::app()->createUrl('ad/search', array('search_string' => stripslashes($k->tag_text)));
-				$tagsArrayReady[] = '<a href="' . $tagsUrl . '">' . stripslashes($k->tag_text) . '</a>';
+//				$tagsArrayReady[] = '<a href="' . $tagsUrl . '" class="tag_link">' . stripslashes($k->tag_text) . '</a>';
+				echo '<a href="' . $tagsUrl . '" class="tag_link">' . stripslashes($k->tag_text) . '</a>';
 			}
-			if(!empty($tagsArrayReady)){
-				echo join(' , ', $tagsArrayReady);
-			}
+//			if(!empty($tagsArrayReady)){
+//				echo join(' , ', $tagsArrayReady);
+//			}
 		}
     }
 }
