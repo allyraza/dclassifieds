@@ -200,7 +200,7 @@ class AdController extends Controller
 		if(empty($adId) || (int)$adId == 0){
 			$this->redirect(Yii::app()->createUrl('site/index'));
 		}
-		
+
 		if(!empty( $adId ) && is_numeric( $adId )){
 			//get classified info
 			if(!$adInfo = Yii::app()->cache->get( 'ad_info_' . $adId )) {
@@ -397,6 +397,11 @@ class AdController extends Controller
 				
 				//@todo check for settings title lenght
 				$adModel->ad_title 			= mb_substr($adModel->ad_title, 0, 90, 'utf-8');
+				
+				//normalize coordinates
+				if(!empty($adModel->ad_lat)){
+					$adModel->ad_lat = preg_replace('/\(|\)/', '', $adModel->ad_lat);
+				}
 				
 				//generate delete code
 				do{
