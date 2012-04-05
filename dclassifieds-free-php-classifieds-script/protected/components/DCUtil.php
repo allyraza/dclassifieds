@@ -229,4 +229,28 @@ class DCUtil
 		}
 		return $ret;
 	}
+	
+	static function getVideoReady( $_video_link )
+	{
+		//youtube video template
+		$youtube_video_template = '<iframe width="245" height="245" src="http://www.youtube.com/embed/%s" frameborder="0" allowfullscreen></iframe>';
+		
+		//vimeo video template
+		$vimeo_video_template = '<iframe src="http://player.vimeo.com/video/%s?title=0&amp;byline=0&amp;portrait=0" width="245" height="245" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+		
+		//container
+		$video = '';
+		
+		//is youtube video
+		if(preg_match('/http:\/\/(www.)?youtube.com\/watch\?v=([a-zA-Z0-9_]+[^&])/', $_video_link, $matches)){
+			$video = sprintf($youtube_video_template, $matches[2]);
+		}
+		
+		//is vimeo video
+		if(preg_match('/http:\/\/vimeo.com\/([\d]+)/', $_video_link, $matches)){
+			$video = sprintf($vimeo_video_template, $matches[1]);	
+		}
+		
+		return $video;
+	}
 }
