@@ -2,25 +2,82 @@
 	Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/front/js/lightbox/jquery.lightbox-0.5.pack.js', CClientScript::POS_END);
 	$ad = $this->view->adInfo;
 	?>
-	<div class="box">
-		<div class="box_title" style="font-weight:normal;">
-			<h1 style="margin-bottom:0px;"><?=stripslashes($ad->ad_title)?></h1>
+	<section id="classified_container">
+		<h1><?=stripslashes($ad->ad_title)?></h1>
+		<div id="social_buttons">
+			<?
+				$thisPageUrl = DOMAIN_URL . Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle(stripslashes($ad->ad_title)), 'id' => $ad->ad_id));
+			?>
+    		<div style="float:left;">
+				<script type="text/javascript" src="http://apis.google.com/js/plusone.js">
+	              {lang: 'bg'}
+	            </script>
+	            <g:plusone size="medium"></g:plusone>
+	        </div>
+	        <div style="float:left;">
+	        	<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=178542095533379&amp;xfbml=1"></script><fb:like href="<?=$thisPageUrl?>" send="false" layout="button_count" width="200" show_faces="true" font=""></fb:like>
+	        </div>
+	        <div style="clear:both;"></div>	
 		</div>
-		<div class="box_content">
-			<div style="margin-bottom: 10px;">
-				<?=stripslashes($ad->ad_description)?>
+		
+		<div id="classified_text">
+			<?=stripslashes($ad->ad_description)?>
+		</div>
+		
+		<div id="classified_info_container">
+			<div class="info_box" style="line-height:18px; font-size:12px;">
+				<?=Yii::t('publish_page_v2', 'Contact Name')?> : <b><?=$ad->ad_puslisher_name?></b><br />
+				<?=Yii::t('publish_page_v2', 'Ad Type')?> : <b><?=Yii::t('publish_page_nom', $ad->type->ad_type_name)?></b><br />
+				<?=Yii::t('common', 'Location')?> : <b><?=$ad->location->location_name?></b><br />
+				<?=Yii::t('detail_page_v2', 'Adress')?> : <b><?=$ad->ad_address?></b><br />
+				<?=Yii::t('common', 'Category')?> : <b><?=$ad->category->category_title?></b><br />
+				<?=Yii::t('common', 'Publish date')?> : <b><?=$ad->ad_publish_date?></b><br />
+				<?=Yii::t('publish_page_v2', 'Classifieds Validity Period')?> : <b><?=$ad->ad_valid_until?></b><br />
+				<?=Yii::t('detail_page', 'Phone')?>: <b><?=stripslashes($ad->ad_phone)?></b><br />
+				Skype: <a href="skype:<?=$ad->ad_skype?>?chat"><?=stripslashes($ad->ad_skype)?></a><br />
+				<?if(!empty($ad->ad_price)){?>
+					<?=Yii::t('detail_page', 'Price')?>: <b><?=$ad->ad_price?> <?=Yii::t('detail_page', 'price_sign')?></b><br />
+				<?}?>
+				<?if(!empty($ad->ad_link)){?>
+					<?=Yii::t('publish_page_v2', 'Web Site')?>: <a href="<?=$ad->ad_link?>" target="_blank" rel="nofollow"><?=$ad->ad_link?></a>
+				<?}?>
 			</div>
-			<div style="margin-bottom: 10px;" class="info">
-				 <?=Yii::t('common', 'Location')?> : <b><?=$ad->location->location_name?></b> | <?=Yii::t('common', 'Category')?> : <b><?=$ad->category->category_title?></b> | <?=Yii::t('common', 'Publish date')?> : <b><?=$ad->ad_publish_date?></b> | <?=Yii::t('detail_page', 'Phone')?>: <b><?=stripslashes($ad->ad_phone)?></b>
-				 <?
-				 if(!empty($ad->ad_price)){?>
-				 	| <?=Yii::t('detail_page', 'Price')?>: <b><?=$ad->ad_price?> <?=Yii::t('detail_page', 'price_sign')?></b>
-				 <?}?>
-			</div>
-			<div style="margin-bottom: 10px;" id="gallery">
-				<?
-				$pic = $ad->pics;
-				if(!empty($pic)){
+			
+			<?if(ENABLE_VIDEO_LINK_PUBLISH && !empty($ad->ad_video) && $video = DCUtil::getVideoReady($ad->ad_video)){?>
+				<div class="info_box">
+					<?
+					echo $video;
+					?>
+				</div>
+			<?}?>
+			
+			<?if(ENABLE_GOOGLE_MAP && !empty($ad->ad_lat)){?>
+				<div class="info_box">
+					<div id="gmap_detail" style="width: 245px; height:245px;"></div>
+					<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true&language=<?=APP_LANG?>"></script>
+					<script type="text/javascript">
+						var latlng = new google.maps.LatLng(<?=$ad->ad_lat?>);
+						var myOptions = {
+						  zoom: 16,
+						  center: latlng,
+						  mapTypeId: google.maps.MapTypeId.ROADMAP
+						};
+						map = new google.maps.Map(document.getElementById("gmap_detail"), myOptions);
+						marker = new google.maps.Marker({
+						  map: map,
+						  draggable:true,
+						  position: latlng
+						});
+					</script>
+				</div>	
+			<?}?>
+			
+			<?
+			$pic = $ad->pics;
+			if(!empty($pic)){
+			?>		
+			<div class="info_box" id="gallery">
+					<?
 					foreach ($pic as $k){?>
 						<a href="<?=SITE_UF_CLASSIFIEDS . $k->ad_pic_path;?>"><img src="<?=SITE_UF_CLASSIFIEDS . 'small-' . $k->ad_pic_path;?>" width="120" height="90" /></a>
 					<?}?>
@@ -37,22 +94,28 @@
 							});
 						});
 					</script>
-				<?}//end of if?>
+				
 			</div>
-			<div style="margin-bottom: 10px;">
-				<?
-				$tags = Ad::model()->normalizeTags($ad->ad_tags);
-				if(!empty($tags)){
-					foreach ($tags as $k){
-						$link = Yii::app()->createUrl('ad/search', array('search_string' => stripslashes($k)));
-						$tagsArray[] = '<a href="' . $link . '">' . stripslashes($k) . '</a>';
-					}
-					echo join(', ', $tagsArray);
-				}
-				?>
-			</div>
+			<?}//end of if?>
+			
 		</div>	
-	</div>	
+		<div class="clear"></div>
+		
+		<div style="margin-bottom: 10px;">
+			<?
+			$tags = Ad::model()->normalizeTags($ad->ad_tags);
+			if(!empty($tags)){
+				foreach ($tags as $k){
+					$link = Yii::app()->createUrl('ad/search', array('search_string' => stripslashes($k)));
+					$tagsArray[] = '<a href="' . $link . '" class="tag_link">' . stripslashes($k) . '</a>';
+				}
+				echo join(' ', $tagsArray);
+			}
+			?>
+			<div class="clear"></div>
+		</div>
+		
+	</section>	
 	<?if(!empty($this->view->similarAds)){?>
 		<h2><?=Yii::t('detail_page', 'Similar Classifieds')?></h2>
 		<div style="margin-bottom: 10px;">

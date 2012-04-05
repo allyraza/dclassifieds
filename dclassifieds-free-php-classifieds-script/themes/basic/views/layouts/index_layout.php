@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+<meta charset="utf-8">
 <title><?=$this->view->pageTitle?></title>
 <meta name="description" content="<?=$this->view->pageDescription?>" />
 <meta name="keywords" content="<?=$this->view->pageKeywords?>" />
@@ -103,7 +104,7 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
                 </div>
                 <div class="box">
                 	<div class="box_title"><?=Yii::t('common', 'Latest Tags');?></div>
-                    <div class="box_content">
+                    <div class="box_content" style="padding-top:10px;">
                     	<?php if($this->beginCache('TagsBoxWidget')) { ?>
                     	<?php $this->widget('application.components.Widgets.TagsBoxWidget'); ?>
                     	<?php $this->endCache(); } ?>
