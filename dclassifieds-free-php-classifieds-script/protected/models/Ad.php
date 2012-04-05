@@ -74,7 +74,8 @@ class Ad extends CActiveRecord
 			array('category_id, location_id', 'length', 'max'=>10),
 			array('ad_email, ad_price, ad_phone, ad_title, ad_puslisher_name, code, ad_address', 'length', 'max'=>255),
 			array('ad_ip', 'length', 'max'=>20),
-			array('ad_publish_date, ad_description, ad_tags, ad_video, ad_skype', 'safe'),
+			array('ad_publish_date, ad_description, ad_tags, ad_skype, ad_lat', 'safe'),
+			array('ad_video', 'match', 'pattern' => '/(http:\/\/vimeo.com\/[\d]+)|(http:\/\/(www.)?youtube.com\/watch\?v=[a-zA-Z0-9_]+[^&])/', 'allowEmpty' => 'true', 'message' => Yii::t('publish_page_v2', 'Please insert link to youtube or vimeo video.')),
 			array('ad_email', 'email', 'message' => Yii::t('publish_page', 'Please fill in valid e-mail')),
 			array('ad_price', 'numerical', 'message' => Yii::t('publish_page', 'Please fill in only digits')),
 			array('ad_link', 'url', 'message' => Yii::t('publish_page_2', 'Please fill in valid url')),
@@ -97,9 +98,10 @@ class Ad extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'location'	=>array(self::BELONGS_TO, 'Location', 'location_id'),
-			'category'	=>array(self::BELONGS_TO, 'Category', 'category_id'),
-			'pics'		=>array(self::HAS_MANY, 'AdPic', 'ad_id'),
+			'location'	=>	array(self::BELONGS_TO, 'Location', 'location_id'),
+			'category'	=>	array(self::BELONGS_TO, 'Category', 'category_id'),
+			'type'		=>	array(self::BELONGS_TO, 'AdType', 'ad_type_id'),
+			'pics'		=>	array(self::HAS_MANY, 'AdPic', 'ad_id'),
 		);
 	}
 
