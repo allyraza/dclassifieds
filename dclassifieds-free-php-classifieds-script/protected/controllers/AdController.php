@@ -25,7 +25,6 @@ class AdController extends Controller
 	public function actions()
 	{
 		return array(
-			// captcha action renders the CAPTCHA image displayed on the contact page
 			'captcha'=>array(
 				'class'=>'CCaptchaAction',
 				'backColor'=>0xFFFFFF,
@@ -225,39 +224,14 @@ class AdController extends Controller
 			/**
 			 * handle classified contact
 			 */
-			//set default values
-			$defaultFormArray = array(	'email'		=> '',
-										'message'	=> '');
-										
-			//set required fields							
-			$requiredFieldsArray = array(	'email', 
-											'message');
+			$adContactModel = new AdContactForm();
+			$this->view->adContactModel = $adContactModel;
+			$this->view->showContactForm = 1;
 								
-			//define error array
-			$errorArray = array();
-			
-			if(!empty($_POST)){
-				$postParams 		= $_POST;
-				$defaultFormArray 	= array_merge($defaultFormArray, $postParams);
-				
-				foreach($requiredFieldsArray as $k){
-					if(!isset($defaultFormArray[$k]) || empty($defaultFormArray[$k])){
-						$errorArray[$k] = Yii::t('publish_page', 'Please fill in this field.');
-					}
-				}
-				
-				if (!preg_match("/^[A-Z0-9._%-]+@[A-Z0-9-]+\.[A-Z]{2,4}$/i", $defaultFormArray['email'])){
-					$errorArray['email'] = Yii::t('publish_page', 'Please fill in valid e-mail');
-				}
-				
-				if(!isset($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $defaultFormArray['keystring']){
-					$errorArray['keystring'] = Yii::t('publish_page', 'Please fill in correct numbers');
-				}
-				
-				if(empty($errorArray)){
-					foreach ($defaultFormArray as $k => $v){
-						$defaultFormArray[$k] = DCUtil::sanitize($v);
-					}
+			if(isset($_POST['AdContactForm'])){
+				$adContactModel->attributes = $_POST['AdContactForm'];
+				if($adContactModel->validate()){
+					$adContactModel->message = nl2br(DCUtil::sanitize($adContactModel->message));
 					
 					//send email
 					Yii::import('ext.Swift.lib.*');
@@ -281,12 +255,13 @@ class AdController extends Controller
 					$mailer = Swift_Mailer::newInstance($transport);
 					
 					$viewPath = Yii::app()->theme->basePath . '/views/mail/ad_contact_mail_tpl.php';
-					$content = $this->renderInternal($viewPath , array('adModel' => $adInfo, 'message' => $defaultFormArray['message']), true);
+					$content = $this->renderInternal($viewPath , array('adModel' => $adInfo, 'message' => $adContactModel->message), true);
 			
 					//Create a message
 					$message = Swift_Message::newInstance()
 					  ->setSubject(Yii::t('detail_page', 'Ad Contact'))
-					  ->setFrom(array($defaultFormArray['email']))
+					  ->setFrom(array(CONTACT_EMAIL))
+					  ->setReplyTo($adContactModel->email)
 					  ->setTo(array($adInfo->ad_email))
 					  ->setBody($content, 'text/html');
 					  
@@ -297,12 +272,12 @@ class AdController extends Controller
 					//send control mail
 					if(SEND_CONTROL_MAIL){
 						$viewPath = Yii::app()->theme->basePath . '/views/mail/control_ad_contact_mail_tpl.php';
-						$content = $this->renderInternal($viewPath , array('adModel' => $adInfo, 'message' => $defaultFormArray['message']), true);
+						$content = $this->renderInternal($viewPath , array('adModel' => $adInfo, 'message' => $adContactModel->message), true);
 				
 						//Create a message
 						$message = Swift_Message::newInstance()
 						  ->setSubject(Yii::t('detail_page', 'Control Ad Contact'))
-						  ->setFrom(array(CONTACT_EMAIL))
+						  ->setFrom(array($adContactModel->email))
 						  ->setTo(array(CONTACT_EMAIL))
 						  ->setBody($content, 'text/html');
 						  
@@ -310,12 +285,11 @@ class AdController extends Controller
 						$result = $mailer->send($message);	
 					}
 					//end of control mail
-	
-					$defaultFormArray = array();
-				}//end of error check if
-			}//end of check $_POST if	
-			$this->view->defaultFormArray 	= $defaultFormArray;	
-			$this->view->errorArray 		= $errorArray;
+					
+					//do not show form in the view
+					$this->view->showContactForm = 0;
+				}//check if form is valid
+			}//check if form is submitted
 			/**
 			 * end of classified contact 
 			 */
@@ -454,7 +428,7 @@ class AdController extends Controller
 				}
 				
 				//send mail and control mail
-//				$this->_sendMails();			
+				$this->_sendMails($adModel);			
 
 				//clear the cache
 				Yii::app()->cache->flush();
@@ -561,9 +535,9 @@ class AdController extends Controller
 	{
 		$lid = isset($_GET['lid']) ? $_GET['lid'] : null;
 		if(!empty($lid) && is_numeric($lid)){
-			$_SESSION['lid'] = $lid;
+			Yii::app()->session['lid'] = $lid;
 		} else {
-			$_SESSION['lid'] = '';
+			Yii::app()->session['lid'] = '';
 		}
 		
 		Yii::app()->cache->flush();		
@@ -590,7 +564,7 @@ class AdController extends Controller
 	    $this->render('publishinfo_tpl');	
 	}
 	
-	private function _sendMails()
+	private function _sendMails($adModel)
 	{
 		//send email
 		Yii::import('ext.Swift.lib.*');
@@ -614,14 +588,14 @@ class AdController extends Controller
 		$mailer = Swift_Mailer::newInstance($transport);
 		
 		$viewPath = Yii::app()->theme->basePath . '/views/mail/publish_mail_tpl.php';
-		$content = $this->renderInternal($viewPath , array('adModel' => $adModel, 'code' => $code), true);
+		$content = $this->renderInternal($viewPath , array('adModel' => $adModel, 'code' => $adModel->code), true);
 
 		//Create a message
 		$message = Swift_Message::newInstance()
 		  ->setCharset('utf-8')
 		  ->setSubject(Yii::t('publish_page', 'Your Classified is published') . ' ' . DOMAIN_URL)
 		  ->setFrom(array(CONTACT_EMAIL))
-		  ->setTo(array($defaultFormArray['ad_email']))
+		  ->setTo(array($adModel->ad_email))
 		  ->setBody($content, 'text/html');
 		  
 		//Send the message
@@ -631,7 +605,7 @@ class AdController extends Controller
 		//control mail
 		if(SEND_CONTROL_MAIL){
 			$viewPath = Yii::app()->theme->basePath . '/views/mail/control_publish_mail_tpl.php';
-			$content = $this->renderInternal($viewPath , array('adModel' => $adModel, 'code' => $code), true);
+			$content = $this->renderInternal($viewPath , array('adModel' => $adModel, 'code' => $adModel->code), true);
 	
 			//Create a message
 			$message = Swift_Message::newInstance()
@@ -639,6 +613,7 @@ class AdController extends Controller
 			  ->setSubject(Yii::t('publish_page', 'Control Your Classified is published') . ' ' . DOMAIN_URL)
 			  ->setFrom(array(CONTACT_EMAIL))
 			  ->setTo(array(CONTACT_EMAIL))
+			  ->setReplyTo($adModel->ad_email)
 			  ->setBody($content, 'text/html');
 			  
 			//Send the message

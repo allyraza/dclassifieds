@@ -25,9 +25,9 @@ class SiteController extends Controller
 		$cache_key_name = 'home_adlist_';
 		//define criteria
 		$criteria=new CDbCriteria;
-		if(isset($_SESSION['lid']) && !empty($_SESSION['lid']) && is_numeric($_SESSION['lid'])){
+		if(isset(Yii::app()->session['lid']) && is_numeric(Yii::app()->session['lid'])){
 			$criteria->condition = 't.location_id = :lid';
-			$criteria->params = array(':lid' => $_SESSION['lid']);
+			$criteria->params = array(':lid' => Yii::app()->session['lid']);
 			$cache_key_name .= $_SESSION['lid'] . '_';
 		}
 
