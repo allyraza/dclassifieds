@@ -18,16 +18,4 @@
 	<?}?>
 	</div>
 	<div style="clear:both;"></div>
-</div>	
-
-<script type="text/javascript">
-$(document).ready( function() {
-    $('#filetree').fileTree({ root: '/',
-    						  script: '<?=Yii::app()->createUrl('admin/theme/jqueryfiletree')?>',
-    						  multiFolder:false
-    						  }, 
-    						  function(file) {
-        					  	window.location = '<?=Yii::app()->createUrl('admin/theme/admin')?>?file=' + file;
-    						  });
-});
-</script>
+</div>

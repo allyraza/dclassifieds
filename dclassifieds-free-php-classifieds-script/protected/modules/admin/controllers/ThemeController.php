@@ -21,7 +21,7 @@ class ThemeController extends Controller
 {
 	public function actionAdmin()
 	{
-		$_SESSION['dclassifieds'] = 1;
+		Yii::app()->session['dclassifieds'] = 1;
 		$error_message = '';
 		if(isset($_POST['filearea']) && !empty($_POST['filearea'])){
 			if(isset($_GET['file'])){
@@ -55,10 +55,21 @@ class ThemeController extends Controller
 //		}
 		
 		$cs=Yii::app()->clientScript;  
-		$cs->registerScriptFile($script_path . 'js/jquery.easing.1.3.js', CClientScript::POS_HEAD);  
-		$cs->registerScriptFile($script_path . 'js/jquery.easing.compatibility.js', CClientScript::POS_HEAD);  
-		$cs->registerScriptFile($script_path . 'js/jqueryFileTree/jqueryFileTree.js', CClientScript::POS_HEAD);  
+		$cs->registerScriptFile($script_path . 'js/jquery.easing.1.3.js', CClientScript::POS_END);  
+		$cs->registerScriptFile($script_path . 'js/jquery.easing.compatibility.js', CClientScript::POS_END);  
+		$cs->registerScriptFile($script_path . 'js/jqueryFileTree/jqueryFileTree.js', CClientScript::POS_END);  
 		
+		
+		//this stupid thing is because yii style of including javascripts
+		$js = '$("#filetree").fileTree({ root: "/",';
+    	$js .=					  'script: "' . Yii::app()->createUrl('admin/theme/jqueryfiletree') .'",';
+    	$js .=					  'multiFolder:false';
+    	$js .=					  '},';
+    	$js .=					  'function(file) {';
+        $js .=					  	'window.location = "' . Yii::app()->createUrl('admin/theme/admin') . '?file=" + file;';
+    	$js .=					  '});';
+
+		$cs->registerScript('__file_browser__', $js, CClientScript::POS_READY);  
 		$cs->registerCssFile($script_path . 'js/jqueryFileTree/jqueryFileTree.css');
 
 		$this->layout = 'index_admin_wide_layout'; 
