@@ -21,14 +21,14 @@ class LocationWidget extends CWidget
 {
     public function run()
     {
-		if(isset($_SESSION['lid']) && is_numeric($_SESSION['lid'])){
+		if(isset(Yii::app()->session['lid']) && is_numeric(Yii::app()->session['lid'])){
 			if(!$location_info = Yii::app()->cache->get( 'location_widget' )) {
-				$location_info = Location::model()->findByPk( $_SESSION['lid'] );
+				$location_info = Location::model()->findByPk( Yii::app()->session['lid'] );
 				Yii::app()->cache->set('location_widget' , $location_info);
 			}
 			$link = Yii::app()->createUrl('ad/location');
 			$remove_link = '<a href="' . $link  . '">(' . Yii::t('common', 'clear') . ')</a>';
-			echo $location_info->location_name . ' ' .$remove_link;
+			echo $location_info->location_name . ' ' . $remove_link;
 		}
     }
 }
