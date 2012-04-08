@@ -136,50 +136,89 @@
 		</div> 
 	<?}//end of if?>
 	
+	<a name="contact_form_anchor" id="contact_form_anchor"></a>
 	<div class="box">
 		<div class="box_title" style="font-weight:normal;">
 			<h2 style="margin-bottom:0px;"><?=Yii::t('detail_page', 'Contact')?></h2>
 		</div>	
-		<div class="box_content">
-			<div style="margin-bottom: 10px;">
-			    <?if(!empty($this->view->defaultFormArray)){?>
-					<form name="contactForm" id="contactForm" method="POST">
-						<div style="margin-bottom:5px;"><b><?=Yii::t('detail_page', 'Your E-Mail')?></b> (<span style="color:red;">*</span>)</div>
-						<div style="margin-bottom:5px;">
-							<input type="text" name="email" id="email" class="publish_input" value="<?=$this->view->defaultFormArray['email']?>" />
-						</div>
-						<?if(isset($this->view->errorArray['email'])){?>
-						<div class="publish_error"><?=$this->view->errorArray['email']?></div>
-						<?}?>
+		<div class="box_content" style="padding-top:15px;">
+			<div style="margin-bottom:10px;">
+				<?if($this->view->showContactForm){?>
+					<?php $form=$this->beginWidget('CActiveForm', array(
+						'id'=>'ad-contact-form',
+						'enableAjaxValidation'=>false,
+						'enableClientValidation'=>true,
+						'clientOptions'=>array(
+							'validateOnSubmit'=>true,
+						),
 						
-						<div style="margin-bottom:5px;"><b><?=Yii::t('detail_page', 'Your Message')?></b> (<span style="color:red;">*</span>)</div>
-						<div style="margin-bottom:5px;">
-							<textarea name="message" id="message" class="publish_area" rows="5"><?=$this->view->defaultFormArray['message']?></textarea>
+						'htmlOptions'=>array(
+							'name'=>'ad-contact-form',
+						),
+					)); ?>
+					
+					<div>
+						<div class="row" style="float:left; width:350px;">
+							<div class="publish_label_conatiner">
+							<?php echo $form->labelEx($this->view->adContactModel,'message'); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('detail_page_v2', 'Enter your question here')?>">[?]</a><?}?>
+							</div>
+							<?php echo $form->textArea($this->view->adContactModel,'message',array('rows'=>13, 'cols'=>30, 'class' => 'publish_input', 'style' => 'width:338px;', 'tabindex' => 1)); ?>
+							<?php echo $form->error($this->view->adContactModel,'message'); ?>
 						</div>
-						<?if(isset($this->view->errorArray['message'])){?>
-						<div class="publish_error"><?=$this->view->errorArray['message']?></div>
-						<?}?>
+					
+					
+						<div class="publish_left_row" style="width:350px; margin-left:20px;">
+							<div style="margin-bottom:12px;">
+								<div class="publish_label_conatiner">
+								<?php echo $form->labelEx($this->view->adContactModel,'email');?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('detail_page_v2', 'Enter your mail here')?>">[?]</a><?}?>
+								</div>
+								<?php echo $form->textField($this->view->adContactModel,'email',array('maxlength'=>255, 'class' => 'publish_input', 'style' => 'width:338px;', 'tabindex' => 2)); ?>
+								<?php echo $form->error($this->view->adContactModel,'email'); ?>
+							</div>	
+							<div>
+								<div style="margin-bottom:10px;">
+									<?php if(CCaptcha::checkRequirements()): ?>
+									<div class="publish_left_row">
+										<div>
+											<?php $this->widget('CCaptcha', array('showRefreshButton' => false, 'clickableImage' => true, 'imageOptions' => array('style' => 'cursor:pointer;'))); ?>
+										</div>
+										<div>
+											<?php echo $form->textField($this->view->adContactModel,'verifyCode', array('class' => 'publish_input', 'style' => 'width:150px;', 'tabindex' => 3)); ?>
+										</div>
+										<?php echo $form->error($this->view->adContactModel,'verifyCode'); ?>
+									</div>
+									<div class="publish_left_row">
+										<?=Yii::t('publish_page_v2', 'Please enter the letters')?>	
+									</div>
+									<div class="clear"></div>
+									<?php endif; ?>
+								</div>
+							</div>
+							<div class="row buttons">
+								<?php echo CHtml::submitButton(Yii::t('detail_page', 'Send'), array('tabindex' => 4)); ?>
+							</div>
+						</div>
 						
-						<div style="margin-bottom:5px;">
-							<img src="<?=Yii::app()->baseUrl . '/kcaptcha/index.php?' . Yii::app()->session->sessionName . '=' . Yii::app()->session->sessionId?>" />
-						</div style="margin-bottom:5px;">
-						<div style="margin-bottom:5px;"><b><?=Yii::t('detail_page', 'Enter the code above')?></b> (<span style="color:red;">*</span>)</div>
-						<div style="margin-bottom:5px;">
-							<input type="text" name="keystring" id="keystring" class="publish_input" />
-						</div>
-						<?if(isset($this->view->errorArray['keystring'])){?>
-						<div class="publish_error"><?=$this->view->errorArray['keystring']?></div>
-						<?}?>
-						<div>
-							<input type="submit" name="submit" id="submit" value="<?=Yii::t('detail_page', 'Send')?>" />
-						</div>
-					</form>
+						
+						<div class="clear"></div>
+					</div>
+					<?php $this->endWidget();?>
 				<?} else {?>
-				<div class="publish_info">
-					<b><?=Yii::t('detail_page', 'Your Message was send.')?></b>
-					<?=DCUtil::genRefresh(3, Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle(stripslashes($ad->ad_title)), 'id' => $ad->ad_id)))?>
-				</div>	
-				<?}?>	
+					<div class="publish_info">
+						<b><?=Yii::t('detail_page', 'Your Message was send.')?></b>
+						<?=DCUtil::genRefresh(3, Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle(stripslashes($ad->ad_title)), 'id' => $ad->ad_id)))?>
+						<script type="text/javascript">
+							$(document).ready(function(){
+							   var $target = $('#contact_form_anchor');
+							   $target = $target.length && $target;
+							   if ($target.length) {
+							  		var targetOffset = $target.offset().top;
+							  		$('html,body').animate({scrollTop: targetOffset}, 2000);
+							   }
+							});
+						</script>
+					</div>	
+				<?}?>
 			</div>
 		</div>
 	</div>		

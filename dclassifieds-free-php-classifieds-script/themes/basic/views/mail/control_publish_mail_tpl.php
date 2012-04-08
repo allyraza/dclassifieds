@@ -21,6 +21,7 @@ body {
 $adUrl = DOMAIN_URL . Yii::app()->createUrl('ad/detail' , array('title' => DCUtil::getSeoTitle( $adModel->ad_title ), 'id' => $adModel->ad_id));
 $deleteUrl = DOMAIN_URL . Yii::app()->createUrl('ad/delete', array('id' => $adModel->ad_id));
 ?>
+IP: <?=$adModel->ad_ip?><br /><br />
 <?=Yii::t('publish_page', 'You can view your classified ad here')?> : <br /><a href="<?=$adUrl?>"><?=$adUrl?></a><br /><br />
 <b><?=$adModel->ad_title?></b><br />
 <?=$adModel->ad_description?><br /><br />

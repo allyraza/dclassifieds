@@ -314,11 +314,11 @@ a.tag_link:hover	{
 					font-family: Tahoma;
 					font-size: 12px;
 					padding: 3px;
-					border: 2px solid #c0c0c0;
+					border: 1px solid #c0c0c0;
 					}
 					
 .input:focus, .textarea:focus{
-					border: 2px solid #6e89ff;
+					border: 1px solid #6e89ff;
 					}
 					
 
@@ -326,7 +326,7 @@ a.tag_link:hover	{
 					padding: 5px;
 					font-family:Tahoma;
 					font-size: 12px;
-					border: 2px solid #c0c0c0;
+					border: 1px solid #c0c0c0;
 					}
 					
 .publish_area		{
@@ -334,7 +334,7 @@ a.tag_link:hover	{
 					font-family:Tahoma;
 					font-size: 12px;
 					width:600px;
-					border: 2px solid #c0c0c0;
+					border: 1px solid #c0c0c0;
 					}
 					
 
@@ -342,17 +342,18 @@ a.tag_link:hover	{
 					padding: 5px;
 					font-family:Tahoma;
 					font-size: 12px;
-					border: 2px solid #c0c0c0;
+					border: 1px solid #c0c0c0;
 					}
 					
 .publish_input:focus, .publish_area:focus, .publish_select:focus{
-					border: 2px solid #6e89ff;
+					border: 1px solid #6e89ff;
 					}
 
 
 .publish_info		{
-					padding: 5px;
+					padding: 15px 5px 15px 5px;
 					margin-bottom:10px;
+					background-color: #ffffd5;
 					}
 
 .publish_error		{
