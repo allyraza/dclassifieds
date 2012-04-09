@@ -203,7 +203,6 @@ class Ad extends CActiveRecord
 		if(!empty($res)){
 			$ret = 1;
 		}
-		
 		return $ret;
 	}
 	
@@ -221,7 +220,6 @@ class Ad extends CActiveRecord
 		if(!empty($res)){
 			$ret = 1;
 		}
-		
 		return $ret;
 	}
 	
@@ -231,33 +229,35 @@ class Ad extends CActiveRecord
 		
 		$whereArray = array();
 		$where = '';
+		$params = array();
 		
 		if(isset($_options['location_id'])){
-			$whereArray[] = ' CA.location_id = ' . $_options['location_id'];
+			$whereArray[] = ' location_id = :lid ';
+			$params[':lid'] = $_options['location_id'];
 		}
 		
 		if(isset($_options['search_string'])){
-			$whereArray[] = " MATCH(ad_title, ad_description, ad_tags) AGAINST ('{$_options['search_string']}') ";
+			$whereArray[] = ' MATCH(ad_title, ad_description, ad_tags) AGAINST (:search_string) ';
+			$params[':search_string'] = $_options['search_string'];
 		}
 		
 		if(!empty($whereArray)){
-			$where = 'WHERE ' . join(' AND ', $whereArray);
+			$where = join(' AND ', $whereArray);
 		}
 		
 		if(!$ret = Yii::app()->cache->get( 'getSearchCount_' . md5($where) )) {
-			$sql = "SELECT count(ad_id) AS ad_count
-				
-					FROM ad AS CA
-						
-					{$where}
-						
-					LIMIT 0,1";
+			$criteria = new CDbCriteria();
 			
-			$res = Yii::app()->db->createCommand($sql)->queryAll();
+			if(!empty($where)){
+				$criteria->condition = $where;
+				$criteria->params = $params;
+			}
+			$res = $this->count($criteria);
+			
 			if(!empty($res)){
-				$ret = $res[0]['ad_count'];
-				Yii::app()->cache->set('getSearchCount_' . md5($where) , $ret);	
-			}		
+				$ret = $res;
+				Yii::app()->cache->set('getSearchCount_' . md5($where) , $ret);
+			}
 		}
 		return $ret;
 	}
@@ -268,13 +268,16 @@ class Ad extends CActiveRecord
 		
 		$whereArray = array();
 		$where = '';
+		$params = array();
 		
 		if(isset($_options['location_id'])){
-			$whereArray[] = ' CA.location_id = ' . $_options['location_id'];
+			$whereArray[] = ' location_id = :lid ';
+			$params[':lid'] = $_options['location_id'];
 		}
 		
 		if(isset($_options['search_string'])){
-			$whereArray[] = " MATCH(ad_title, ad_description, ad_tags) AGAINST ('{$_options['search_string']}') ";
+			$whereArray[] = ' MATCH(ad_title, ad_description, ad_tags) AGAINST (:search_string) ';
+			$params[':search_string'] = $_options['search_string'];
 		}
 		
 		if(isset($_options['where'])){
@@ -282,31 +285,28 @@ class Ad extends CActiveRecord
 		}
 		
 		if(!empty($whereArray)){
-			$where = 'WHERE ' . join(' AND ', $whereArray);
+			$where = join(' AND ', $whereArray);
 		}
 		
 		$limit = '';
 		if(isset($_options['offset']) && isset($_options['limit'])){
-			$limit = 'LIMIT ' . $_options['offset'] . ', ' . $_options['limit'];
+			$limit = $_options['offset'] . ', ' . $_options['limit'];
 		}
 		
 		$cache_key_name = 'getSearchList_' . md5($where) . '_' . md5($limit);
 		if(!$ret = Yii::app()->cache->get( $cache_key_name )) {
-			$sql = "SELECT CA.*, L.location_name, C.category_title
-				
-					FROM ad AS CA
-					
-					LEFT JOIN location AS L
-					ON L.location_id = CA.location_id
-					
-					LEFT JOIN category AS C
-					ON C.category_id = CA.category_id
-						
-					{$where}
-					
-					{$limit}";
+			$criteria = new CDbCriteria();
+			if(!empty($where)){
+				$criteria->condition = $where;
+				$criteria->params = $params;
+			}
 			
-			$res = Yii::app()->db->createCommand($sql)->queryAll();
+			if(!empty($limit)){
+				$criteria->offset = $_options['offset'];
+				$criteria->limit = $_options['limit'];
+			}
+			
+			$res = $this->findAll($criteria);
 			if(!empty($res)){
 				$ret = $res;
 				Yii::app()->cache->set($cache_key_name , $ret);	

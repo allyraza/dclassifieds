@@ -283,6 +283,7 @@ class Category extends CActiveRecord
 				if(!isset($k['level'])){
 					$_container .= '<div class="home_category_block">';
     					$_container .= '<div class="home_category_block_title"><a href="' . $category_url . '">' . $k['category_title'] . '</a></div>';
+    					$_container .= '<div class="home_category_block_content">';
 				} else {
 					if( $k['level'] <= 1){
 						$_container .= '<div class="home_category_block_item">&raquo; <a href="' . $category_url . '">' . $k['category_title'] . '</a> (' . $k['count'] . ')</div>';
@@ -294,6 +295,7 @@ class Category extends CActiveRecord
 				}
 				
 				if(!isset($k['level'])){
+					$_container .= '</div>';
 					$_container .= '</div>';
 					$i++;
 					if($i == 3){
