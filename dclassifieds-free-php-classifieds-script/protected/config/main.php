@@ -74,20 +74,23 @@ return array(
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
-				array(
+				/*array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
-				),
+				),*/
 				// uncomment the following to show log messages on web pages
 				
-				/*array(
+				array(
 					'class'=>'CWebLogRoute',
-				),*/
+				),
 			),
 		),
 		'DCInit'=>array(
 			'class' => 'DCInit'
 		),
+		'request'=>array(
+	    	'enableCsrfValidation'=>true,
+	    ),
 		'clientScript' => array(
 			'coreScriptPosition' => CClientScript::POS_END,
 			'packages'=>array(
