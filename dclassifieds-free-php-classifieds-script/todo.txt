@@ -1,32 +1,32 @@
 1. make location hierarchy
 2. fix category and make it yii style
 
-3. forms yii style rewrite (with models)
-4. integrate several type of capcha
-5. add geolocation from google
-6. add edit ad module
+3. forms yii style rewrite (with models) [done]
+4. integrate several type of capcha [removed]
+5. add geolocation from google [done]
+6. add edit ad module [removed]
 
-7. add optional link field with options setting nofollow
-8. add configurable required fields
-9. add publisher name field
+7. add optional link field with options setting nofollow [done]
+8. add configurable required fields [removed]
+9. add publisher name field [done]
 9. make all activation fields with checkbox
 
-10. html5 theme rewrite
-11. theme resize as topwelpen.net
-12. make the theme far better
+10. html5 theme rewrite [done]
+11. theme resize as topwelpen.net [done]
+12. make the theme far better [done]
 13. add microdata
-14. add rss channel
-15. create notepad function
-16. create advanced search
-17. create sorting on list
-18. add social buttons
-19. category ads count
+14. add rss channel [done]
+15. create notepad function [removed]
+16. create advanced search [removed]
+17. create sorting on list [removed]
+18. add social buttons [done]
+19. category ads count [done]
 20. regions ads count
 
 21. admin stats
-22. ban users by mail, by ip
+22. ban users by mail, by ip [done]
 23. add fck to admin
-24. add conf smilies, bold, italic and etc from (pitam.net)
+24. add conf smilies, bold, italic and etc from (pitam.net) [removed]
 
 25. create install script
 26. create update script
