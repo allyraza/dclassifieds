@@ -166,27 +166,27 @@ h1, h2				{
 
 .home_category_block{
 					float: left;
-					width: 198px;
-					margin-right: 6px;
-					margin-bottom: 10px;
-					border: 3px solid #659dcc;
-					background-color: #fff;
-					
-					-moz-border-radius: 8px;
-				    -webkit-border-radius: 8px;
-				    -khtml-border-radius: 8px;
-				    border-radius: 8px;
+					width: 228px;
+					margin-right: 15px;
+					margin-bottom: 15px;
 					}
 
 .home_category_block_title{
-					background-color: #659dcc;
 					padding: 5px;
-					color: #fff;
+					font-family: 'Cuprum', Tahoma, Geneva, sans-serif;
+					font-size: 22px;
+					}
+					
+.home_category_block_content{
+					padding: 5px;
+					border-top: 1px solid #e5e5e5;
 					}
 
+.home_category_block_content:hover{
+					border-top: 1px solid #ff0000;
+					}									
+
 .home_category_block_title a{
-					font-weight: bold;
-					color: #fff;
 					}
 
 .home_category_block_title a:hover, .home_category_block_title a:visited{
@@ -194,12 +194,19 @@ h1, h2				{
 					}
 
 .home_category_block_item{
-					padding: 2px;
-					padding-left: 10px;
+					padding: 5px;
+					}
+					
+.home_category_block_item:hover{
+					background-color: #ffffd5;
 					}
 
+.home_category_block_item a:hover{
+					text-decoration:none;
+					}									
+
 #footer				{
-					padding: 10px;
+					padding: 10px 0px;
 					margin-bottom: 20px;
 					}
 
@@ -211,7 +218,6 @@ h1, h2				{
 					padding: 5px;
 					font-family: 'Cuprum', Tahoma, Geneva, sans-serif;
 					font-size: 22px;
-					
 					}
 
 .box_content		{

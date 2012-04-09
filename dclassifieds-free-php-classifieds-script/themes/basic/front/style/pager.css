@@ -11,7 +11,7 @@
 
 ul.yiiPager
 {
-	font-size:11px;
+	font-size:12px;
 	border:0;
 	margin:0;
 	padding:0;
@@ -30,8 +30,12 @@ ul.yiiPager a:visited
 	border:solid 2px #659dcc;
 	font-weight:bold;
 	color:#0e509e;
-	padding:1px 6px;
+	padding: 5px 12px;
 	text-decoration:none;
+	
+	-webkit-border-radius: 5px; 
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 ul.yiiPager .page a
@@ -62,7 +66,7 @@ ul.yiiPager .hidden a
 {
 	border:0px;
 	color:#888888;
-	background-color: #d8e7e9;
+	background-color: #fff;
 }
 
 

@@ -1,7 +1,7 @@
 <h1><?=$this->view->category_title?></h1>
-<div style="margin-bottom: 10px;">
+<div style="margin-bottom: 20px;">
 	<?if(!empty($this->view->childs)){?>
-		<div class="publish_info" style="width:620px;">
+		<div class="publish_info" style="width:720px;">
 		<?=Yii::t('common', 'Subcategories')?>&nbsp;:&nbsp; 
 		<?foreach ($this->view->childs as $k){?>
 			<?$url = Yii::app()->createUrl('ad/index', array('category_title' => DCUtil::getSeoTitle($k->category_title), 'cid' => $k->category_id));?>
@@ -24,9 +24,11 @@
 		    </div>
 		<?}//end of foreach?>	    
     <?} else {?>
-    	<div class="publish_info" style="width:620px;">
+    	<div class="publish_info">
 		<?=Yii::t('common', 'Ups... No Classifieds Here')?>
 		</div>
     <?}//end of if?>
 </div>
+<div style="margin-bottom:10px; font-size:12px;">
 <?php $this->widget('CLinkPager', array('pages' => $pages, 'cssFile' => Yii::app()->theme->baseUrl . '/front/style/pager.css')) ?>
+</div>

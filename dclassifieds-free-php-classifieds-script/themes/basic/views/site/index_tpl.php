@@ -1,3 +1,11 @@
+<h1><?=Yii::t('home_page', 'Classifieds by Category')?></h1>
+<div>
+	<?php if($this->beginCache('CategoryHomeBlocksWidget')) { ?>
+	<?php $this->widget('application.components.Widgets.CategoryHomeBlocksWidget'); ?>
+	<?php $this->endCache(); } ?>
+	<div class="clear"></div>
+</div>
+
 <h1><?=Yii::t('home_page', 'Latest Classifieds')?></h1>
 <div style="margin-bottom: 10px;">
 	<?if(!empty($this->view->adList)){?>
@@ -16,10 +24,3 @@
 		<?}//end of foreach?>	    
     <?}//end of if?>
 </div>    
-<h1><?=Yii::t('home_page', 'Classifieds by Category')?></h1>
-<div>
-	<?php if($this->beginCache('CategoryHomeBlocksWidget')) { ?>
-	<?php $this->widget('application.components.Widgets.CategoryHomeBlocksWidget'); ?>
-	<?php $this->endCache(); } ?>
-	<div class="clear"></div>
-</div>
