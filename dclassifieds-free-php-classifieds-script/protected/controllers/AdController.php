@@ -36,10 +36,11 @@ class AdController extends Controller
 	{
 		//get incoming params
 		$cid = isset($_GET['cid']) ? $_GET['cid'] : null;
-		$lid = isset($_SESSION['lid']) ? $_SESSION['lid'] : null;
+		$lid = isset(Yii::app()->session['lid']) ? Yii::app()->session['lid'] : null;
 		
 		//create criteria object
 		$criteria = new CDbCriteria();
+		$criteriaParams = array();
 		
 		//init vars
 		$whereArray 	= array();
@@ -52,24 +53,17 @@ class AdController extends Controller
 			
 			//check for category childs
 			$childs = $categoryInfo->childs;
+			$inWhereArray = array($cid);
 			
-			//if childs create where
+			//if there are childs add them to criteria
 			if(!empty($childs)){
 				$this->view->childs = $childs;
-				
-				$inWhereArray = array();
 				foreach ($childs as $k){
 					$inWhereArray[] = $k->category_id;
 				}
 			}
 			
-			//generate where
-			if(!empty($inWhereArray)){
-				$inWhereArray[] = $cid;
-				$whereArray[] = 't.category_id IN (' . join(' , ', $inWhereArray) . ')';
-			} else {
-				$whereArray[] = 't.category_id = ' . $cid;
-			}
+			$criteria->addInCondition('category_id', $inWhereArray);
 			
 			//set params to pager
 			$pagerParams['cid'] = $cid;
@@ -83,17 +77,17 @@ class AdController extends Controller
 		
 		//check incoming params
 		if(!empty($lid) && is_numeric($lid)){
-			$whereArray[] = 't.location_id = ' . $lid;
+			$criteria->addCondition('t.location_id = :lid');
+			$criteriaParams[':lid'] = $lid;
 			$pagerParams['lid'] = $lid;
-		}
-		
-		//if valid incoming params generate where
-		if(!empty($whereArray)){
-			$criteria->condition = join(' AND ', $whereArray);
 		}
 		
 		//set order
 		$criteria->order = 't.ad_vip DESC, t.ad_id DESC';
+		
+		if(!empty($criteriaParams)){
+			$criteria->params = array_merge($criteria->params, $criteriaParams);
+		}
 		
 		//get ad count that match criteria
 		$cache_key_name = md5(json_encode($criteria->toArray()));
@@ -101,7 +95,7 @@ class AdController extends Controller
 	    	$count=Ad::model()->count($criteria);
 	    	Yii::app()->cache->set($cache_key_name , $count);
 		}
-	    
+		
 	    //create pagination object
 	    $pages=new CPagination($count);
 	
@@ -115,7 +109,7 @@ class AdController extends Controller
 	    //get classifieds
 	    $cache_key_name = md5(json_encode($criteria->toArray()));
 		if(!$adList = Yii::app()->cache->get( $cache_key_name )) {
-	    	$adList = Ad::model()->with('location', 'category')->findAll($criteria);
+	    	$adList = Ad::model()->findAll($criteria);
 	    	Yii::app()->cache->set($cache_key_name , $adList);
 		}	
 	    
@@ -140,7 +134,7 @@ class AdController extends Controller
 	{
 		//get params
 		$search_string 	= isset($_GET['search_string']) ? $_GET['search_string'] : null;
-		$location_id 	= isset($_SESSION['lid']) ? $_SESSION['lid'] : null;
+		$location_id 	= isset(Yii::app()->session['lid']) ? Yii::app()->session['lid'] : null;
 		
 		//init vars
 		$whereArray 	= array();
@@ -211,7 +205,7 @@ class AdController extends Controller
 			//get similar classifieds info
 			$similarAdsOptions = array('location_id' 	=> $adInfo->location_id, 
 									   'search_string'	=> $adInfo->ad_title,
-									   'where'			=> 'CA.ad_id <> ' . $adId,
+									   'where'			=> 't.ad_id <> ' . $adId,
 									   'offset' 		=> 0,
 									   'limit' 			=> NUM_SIMILAR_CLASSIFIEDS);
 			$cache_key_name = 'similarAds_' . md5(json_encode($similarAdsOptions));
