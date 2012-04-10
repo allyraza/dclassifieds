@@ -21,12 +21,31 @@ class LocationBoxWidget extends CWidget
 {
     public function run()
     {
-		$activeLocations = Location::model()->findAll('location_active = 1');
+		//location box title
+		$title = Yii::t('common', 'Locations');
+		
+    	$condition = 'location_active = 1 AND location_parent_id IS NULL';
+		$params = array();
+    	if(isset(Yii::app()->session['lid']) && !empty(Yii::app()->session['lid'])){
+			$condition = 'location_active = 1 AND location_parent_id = :lid';
+			$params[':lid'] = Yii::app()->session['lid'];
+			$title = Yii::t('common_v2', 'cities');
+		}
+    	$activeLocations = Location::model()->findAll($condition, $params);
+		//locations placeholder
+    	$location_array = array();
+    	
+    	
+		
 		if(!empty($activeLocations)){
 			foreach ($activeLocations as $k){
 				$locationUrl = Yii::app()->createUrl('ad/location', array('location_name' => DCUtil::getSeoTitle($k->location_name), 'lid' => $k->location_id));
-				echo '<a href="' . $locationUrl . '">' . $k->location_name . '</a>';
+				$location_array[] = CHtml::link($k->location_name, $locationUrl, array('title' => $k->location_name));
 			}
+		}
+		
+		if(!empty($location_array)){
+			$this->render('location_box_widget_tpl', array('title' => $title, 'location_array' => $location_array));
 		}
     }
 }
