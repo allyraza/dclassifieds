@@ -51,11 +51,10 @@ class AdController extends Controller
 		if(!empty($cid) && is_numeric($cid)){
 			$categoryInfo = Category::model()->findByPk( $cid );
 			
+			$inWhereArray = array($cid);
+
 			//check for category childs
 			$childs = $categoryInfo->childs;
-			$inWhereArray = array($cid);
-			
-			//if there are childs add them to criteria
 			if(!empty($childs)){
 				$this->view->childs = $childs;
 				foreach ($childs as $k){
@@ -69,6 +68,12 @@ class AdController extends Controller
 			$pagerParams['cid'] = $cid;
 			
 			//set breadcrump
+			if($parents_array = Category::model()->getParentRecursive($cid)){
+				$parents_array = array_reverse($parents_array, true);
+				foreach ($parents_array as $k => $v){
+					$breadcrump[] = CHtml::link($v, array('ad/index', 'category_title' => DCUtil::getSeoTitle($v), 'cid' => $k));
+				}
+			} 
 			$breadcrump[] = $categoryInfo->category_title;
 			
 			//set category title in to the view
@@ -289,7 +294,22 @@ class AdController extends Controller
 			 */
 		}
 		
-		$this->view->breadcrump 		= array(stripslashes($adInfo->ad_title));
+		//set breadcrump category
+		if($parents_array = Category::model()->getParentRecursive($adInfo->category_id)){
+			$parents_array = array_reverse($parents_array, true);
+			foreach ($parents_array as $k => $v){
+				$breadcrump[] = CHtml::link($v, array('ad/index', 'category_title' => DCUtil::getSeoTitle($v), 'cid' => $k));
+			}
+		}
+		
+		//set category location
+		$location_name = stripslashes($adInfo->location->location_name);
+		$breadcrump[] = CHtml::link($location_name, array('ad/location', 'location_name' => DCUtil::getSeoTitle($location_name), 'lid' => $adInfo->location_id));
+		
+		//set classified title
+		$breadcrump[] = stripslashes($adInfo->ad_title);
+		
+		$this->view->breadcrump 		= $breadcrump;
 		$this->view->pageTitle 			= stripslashes($adInfo->ad_title);
 		$this->view->pageDescription 	= stripslashes(DCUtil::getShortDescription(stripslashes($adInfo->ad_title)));
 		$this->view->pageKeywords 		= stripslashes($adInfo->ad_title);
