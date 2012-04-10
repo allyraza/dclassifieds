@@ -93,15 +93,9 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
             	<?php echo $content; ?>
             </section>
             <aside id="right_panel">
-                <div class="box" id="location_box">
-                	<div class="box_title"><?=Yii::t('common', 'Locations');?></div>
-                    <div class="box_content">
-                    	<?php if($this->beginCache('LocationBoxWidget')) { ?>
-                    	<?php $this->widget('application.components.Widgets.LocationBoxWidget'); ?>
-                    	<?php $this->endCache(); } ?>
-                    	<div class="clear"></div>
-                    </div>
-                </div>
+                <?php if($this->beginCache('LocationBoxWidget')) { ?>
+    			<?php $this->widget('application.components.Widgets.LocationBoxWidget'); ?>
+    			<?php $this->endCache(); } ?>
                 <div class="box">
                 	<div class="box_title"><?=Yii::t('common', 'Latest Tags');?></div>
                     <div class="box_content" style="padding-top:10px;">
