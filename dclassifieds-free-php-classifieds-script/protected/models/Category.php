@@ -200,17 +200,71 @@ class Category extends CActiveRecord
 	    $ret = array();
 	    $level++;
 	    
-		if( $this->childs ){ 
+		if( $this->childs ){
+			$condition = 'category_id = :cid';
+			$params = array();
+			
+			//check if there is location selected for ads count
+			if(isset(Yii::app()->session['lid']) && !empty(Yii::app()->session['lid'])){
+				$condition = 'category_id = :cid AND location_id = :lid';
+				$params[':lid'] = Yii::app()->session['lid']; 
+			}
+			
 	    	foreach($this->childs as $child) {
+	    		$params[':cid'] = $child->category_id;
 	    		$ret[] = array(	'category_id' 		=> $child->category_id, 
 	    						'category_title' 	=> $child->category_title,
 	    						'level'				=> $level,
 	    						'childs' 			=> $child->getChilds( $level ),
-	    						'count'				=> Ad::model('Ad')->count('category_id = ' . $child->category_id ));
+	    						'count'				=> Ad::model('Ad')->count($condition, $params));
 	    	}
 	    }
 	    
 	    return $ret;
+	}
+	
+	/**
+	 * get category childs recursive as one dimension array
+	 * used mainly for in condition generation
+	 *
+	 * @param integer $_parent_category_id
+	 * @return array
+	 */
+	public function getChildIdsRecursive( $_parent_category_id )
+	{
+		$ret = array();
+		$this->setAttribute('category_id', $_parent_category_id);
+		$this->refresh();
+		if($childs = $this->childs){
+			foreach ($childs as $child){
+				$ret[] = $child->category_id;
+				if($child->childs){
+					$ret = array_merge($ret, $child->getChildIdsRecursive($child->category_id));
+				}
+			}
+		}
+		return $ret;
+	}
+	
+	/**
+	 * get all parent id and names recursive in one dimensional array
+	 * user mainly for breadcrump generation
+	 *
+	 * @param integer $_category_id
+	 * @return array
+	 */
+	public function getParentRecursive( $_category_id )
+	{
+		$ret = array();
+		$this->setAttribute('category_id', $_category_id);
+		$this->refresh();
+		if($parent = $this->category_parent){
+			$ret[$parent->category_id] = $parent->category_title;
+			if ($parent->category_parent){
+				$ret += $this->getParentRecursive($parent->category_id);
+			}
+		}
+		return $ret;
 	}
 	
 	/**
