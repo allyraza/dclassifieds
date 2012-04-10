@@ -1,4 +1,5 @@
 <?php
 return array(
-	'you are banned' => 'Ти си банан', 
+	'you are banned' => 'Ти си банан',
+	'cities' => 'Градове'
 );
