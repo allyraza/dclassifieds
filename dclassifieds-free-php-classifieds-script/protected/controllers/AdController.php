@@ -3,7 +3,7 @@
 * DClassifieds                                                                    *
 * Open-Source Project Inspired by Dinko Georgiev (webmaster@dclassifieds.eu)      *
 * =============================================================================== *
-* Software Version:           0.1b                                           	  *
+* Software Version:           2.0                                           	  *
 * Software by:                Dinko Georgiev     								  *
 * Support, News, Updates at:  http://www.dclassifieds.eu                       	  *
 ***********************************************************************************
@@ -313,6 +313,21 @@ class AdController extends Controller
 		$this->view->pageTitle 			= stripslashes($adInfo->ad_title);
 		$this->view->pageDescription 	= stripslashes(DCUtil::getShortDescription(stripslashes($adInfo->ad_title)));
 		$this->view->pageKeywords 		= stripslashes($adInfo->ad_title);
+		
+		//save history
+		if(!isset(Yii::app()->session['history'])){
+			Yii::app()->session['history'] = array();
+		}
+		$history = Yii::app()->session['history'];
+		if (count($history) >= NUM_HISTORY_ITEMS){
+			array_shift($history);
+		}
+		$history[] = array(
+			'title' => stripslashes($adInfo->ad_title),
+			'url' => Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle($adInfo->ad_title), 'id' => $adInfo->ad_id))
+		);
+		Yii::app()->session['history'] = $history;
+		//end of history
 		
 		$this->render('detail_tpl');	
 	}

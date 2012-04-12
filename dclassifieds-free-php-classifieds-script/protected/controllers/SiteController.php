@@ -3,7 +3,7 @@
 * DClassifieds                                                                    *
 * Open-Source Project Inspired by Dinko Georgiev (webmaster@dclassifieds.eu)      *
 * =============================================================================== *
-* Software Version:           0.1b                                           	  *
+* Software Version:           2.0                                           	  *
 * Software by:                Dinko Georgiev     								  *
 * Support, News, Updates at:  http://www.dclassifieds.eu                       	  *
 ***********************************************************************************
@@ -19,6 +19,19 @@
 **********************************************************************************/
 class SiteController extends Controller
 {
+	/**
+	 * Declares class-based actions.
+	 */
+	public function actions()
+	{
+		return array(
+			'captcha'=>array(
+				'class'=>'CCaptchaAction',
+				'backColor'=>0xFFFFFF,
+			),
+		);
+	}
+	
 	public function actionIndex()
 	{
 		//define cache key name
@@ -74,39 +87,17 @@ class SiteController extends Controller
 	
 	public function actionContact()
 	{
-		//set default values
-		$defaultFormArray = array(	'email'		=> '',
-									'message'	=> '');
-									
-		//set required fields							
-		$requiredFieldsArray = array(	'email', 
-										'message');
+		/**
+		 * handle classified contact
+		 */
+		$adContactModel = new AdContactForm();
+		$this->view->adContactModel = $adContactModel;
+		$this->view->showContactForm = 1;
 							
-		//define error array
-		$errorArray = array();
-		
-		if(!empty($_POST)){
-			$postParams 		= $_POST;
-			$defaultFormArray 	= array_merge($defaultFormArray, $postParams);
-			
-			foreach($requiredFieldsArray as $k){
-				if(!isset($defaultFormArray[$k]) || empty($defaultFormArray[$k])){
-					$errorArray[$k] = Yii::t('publish_page', 'Please fill in this field.');
-				}
-			}
-			
-			if (!preg_match("/^[A-Z0-9._%-]+@[A-Z0-9-]+\.[A-Z]{2,4}$/i", $defaultFormArray['email'])){
-				$errorArray['email'] = Yii::t('publish_page', 'Please fill in valid e-mail');
-			}
-			
-			if(!isset($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $defaultFormArray['keystring']){
-				$errorArray['keystring'] = Yii::t('publish_page', 'Please fill in correct numbers');
-			}
-			
-			if(empty($errorArray)){
-				foreach ($defaultFormArray as $k => $v){
-					$defaultFormArray[$k] = DCUtil::sanitize($v);
-				}
+		if(isset($_POST['AdContactForm'])){
+			$adContactModel->attributes = $_POST['AdContactForm'];
+			if($adContactModel->validate()){
+				$adContactModel->message = nl2br(DCUtil::sanitize($adContactModel->message));
 				
 				//send email
 				Yii::import('ext.Swift.lib.*');
@@ -130,25 +121,28 @@ class SiteController extends Controller
 				$mailer = Swift_Mailer::newInstance($transport);
 				
 				$viewPath = Yii::app()->theme->basePath . '/views/mail/contact_mail_tpl.php';
-				$content = $this->renderInternal($viewPath , array('message' => $defaultFormArray['message']), true);
+				$content = $this->renderInternal($viewPath , array('message' => $adContactModel->message), true);
 		
 				//Create a message
 				$message = Swift_Message::newInstance()
 				  ->setSubject(Yii::t('contact_page', 'Contact'))
-				  ->setFrom(array($defaultFormArray['email']))
+				  ->setFrom(array(CONTACT_EMAIL))
+				  ->setReplyTo($adContactModel->email)
 				  ->setTo(array(CONTACT_EMAIL))
 				  ->setBody($content, 'text/html');
 				  
 				//Send the message
 				$result = $mailer->send($message);
 				//end of send email				
-
-				$defaultFormArray = array();
-			}//end of error check if
-		}//end of check $_POST if	
-		
-		$this->view->defaultFormArray 	= $defaultFormArray;	
-		$this->view->errorArray 		= $errorArray;
+				
+				
+				//do not show form in the view
+				$this->view->showContactForm = 0;
+			}//check if form is valid
+		}//check if form is submitted
+		/**
+		 * end of classified contact 
+		 */
 
 		$this->view->breadcrump 		= array(Yii::t('contact_page', 'Contact'));
 		$this->view->pageTitle 			= Yii::t('contact_page', 'Contact');
