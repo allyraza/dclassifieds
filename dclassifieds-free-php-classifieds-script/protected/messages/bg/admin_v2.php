@@ -40,5 +40,7 @@ return array(
 	'Enable link publish' => 'Покажи линк при публикуване',
 	'Maximum upload image size' => 'Максимален размер на снимка при публикуване в bytes',
 	'Num upload pics publish' => 'Брой снимки при публикуване на обява',
-	'Num classifieds in history box' => 'Брой обяви показвани в кутия "Последно разгледани"'
+	'Num classifieds in history box' => 'Брой обяви показвани в кутия "Последно разгледани"',
+	'Num items in rss feed' => 'Брой обяви в rss feed',
+	'Site currency name' => 'Валута на сайта'
 );

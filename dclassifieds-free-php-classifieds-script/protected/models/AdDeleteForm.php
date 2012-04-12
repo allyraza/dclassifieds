@@ -1,4 +1,4 @@
-<?php
+<?
 /**********************************************************************************
 * DClassifieds                                                                    *
 * Open-Source Project Inspired by Dinko Georgiev (webmaster@dclassifieds.eu)      *
@@ -17,40 +17,24 @@
 * See the "license.txt" file for details of the license.                          *
 * The latest version can always be found at http://www.gnu.org/licenses/gpl.txt   *
 **********************************************************************************/
-class RssController extends Controller
+class AdDeleteForm extends CFormModel
 {
-	public function actionIndex()
+	public $code;
+	public $verifyCode;
+	
+	public function rules()
 	{
-		$xml  = '<?xml version="1.0"?>
-					<rss version="2.0">
-					   <channel>
-					      <title>' . Yii::t('home_page', 'pageTitle') . '</title>
-					      <description>' . Yii::t('home_page', 'pageDescription') . '</description>
-					      <link>' . SITE_URL . '</link>
-				';
-		
-		$criteria = new CDbCriteria();
-		$criteria->limit = NUM_ITEMS_IN_RSS;
-		$criteria->order = 'ad_id DESC';
-		$res = Ad::model('Ad')->findAll( $criteria );
-			
-		if(!empty($res)){
-			foreach ($res as $k){
-				$link = DOMAIN_URL . Yii::app()->createUrl('ad/detail' , array('title' => DCUtil::getSeoTitle( stripslashes($k['ad_title']) ), 'id' => $k['ad_id']));
-				$xml .= '<item>';
-				$xml .= '<title>' . htmlspecialchars(stripslashes($k['ad_title'])) . '</title>';
-				$xml .= '<link>' . $link . '</link>';
-				$xml .= '<description>' . htmlspecialchars(stripslashes(DCUtil::getShortDescription($k['ad_description']))) . '</description>';
-				$xml .= '<guid>' . $link . '</guid>';
-				$xml .= '</item>';
-			}
-			
-		}
-				
-		$xml .= '</channel>
-				</rss>';
-		
-		echo $xml;
-		Yii::app()->end();
+		return array(
+			array('code', 'required', 'message' => Yii::t('publish_page', 'Please fill in this field.')),
+			array('verifyCode', 'captcha', 'allowEmpty' => !CCaptcha::checkRequirements()),
+		);
+	}
+
+	public function attributeLabels()
+	{
+		return array(
+			'code' => Yii::t('delete_page', 'Delete code that you have recived by e-mail'),
+			'verifyCode' => Yii::t('admin', 'password'),
+		);
 	}
 }

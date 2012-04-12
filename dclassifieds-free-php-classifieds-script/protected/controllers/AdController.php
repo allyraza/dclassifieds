@@ -276,7 +276,8 @@ class AdController extends Controller
 						//Create a message
 						$message = Swift_Message::newInstance()
 						  ->setSubject(Yii::t('detail_page', 'Control Ad Contact'))
-						  ->setFrom(array($adContactModel->email))
+						  ->setFrom(array(CONTACT_EMAIL))
+						  ->setReplyTo($adContactModel->email)
 						  ->setTo(array(CONTACT_EMAIL))
 						  ->setBody($content, 'text/html');
 						  
@@ -371,7 +372,7 @@ class AdController extends Controller
 		if(isset($_POST['Ad'])){
 			foreach ($_POST['Ad'] as $k => $v){
 				//enable visual editor tags if editor is enabled
-				if($k == 'ad_description' && ENABLE_VISUAL_EDITOR == 1){
+				if(ENABLE_VISUAL_EDITOR == 1 && $k == 'ad_description'){
 					$_POST['Ad'][$k] = DCUtil::sanitize($v, '<strong><em><u><ol><li><ul><br />');
 				} else {
 					$_POST['Ad'][$k] = DCUtil::sanitize($v);
@@ -398,7 +399,6 @@ class AdController extends Controller
 				$adModel->ad_ip 			= $_SERVER['REMOTE_ADDR'];
 				$adModel->ad_title 			= DCUtil::ucfirst($adModel->ad_title);
 				
-				//@todo check for settings title lenght
 				$adModel->ad_title 			= mb_substr($adModel->ad_title, 0, 90, 'utf-8');
 				
 				//normalize coordinates
@@ -485,79 +485,285 @@ class AdController extends Controller
 	
 	public function actionDelete()
 	{
-		$adModel = new Ad;
+		//init ad model
+		$adModel = new Ad();
 		
+		//is there ad parameter
 		$adId = isset($_GET['id']) ? $_GET['id']: null;
-		if(empty($adId) || (int)$adId == 0){
+		if(empty($adId) || !is_numeric($adId) ||(int)$adId == 0){
 			$this->redirect(Yii::app()->createUrl('site/index'));
 		}
 		
+		//is there ad with this id
 		if(!$adModel->getAdById($adId)){
 			$this->redirect(Yii::app()->createUrl('site/index'));
 		}
 		
-		$this->view->id = $adId;
-		
-		$defaultFormArray 		= array('code');
-		$requiredFieldsArray 	= array('code');
+		//create delete form model
+		$adDeleteModel = new AdDeleteForm();
+		$this->view->showDeleteForm = 1;
 							
-		$errorArray = array();
-		
-		//form is submitted
-		if(!empty($_POST)){
-			$postParams 		= $_POST;
-			$defaultFormArray 	= array_merge($defaultFormArray, $postParams);
+		//is the form submitted
+		if(isset($_POST['AdDeleteForm'])){
+			$adDeleteModel->attributes = $_POST['AdDeleteForm'];
 			
-			foreach($requiredFieldsArray as $k){
-				if(!isset($defaultFormArray[$k]) || empty($defaultFormArray[$k])){
-					$errorArray[$k] = Yii::t('publish_page', 'Please fill in this field.');
-				}
-			}
-			
-			if(!isset($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $defaultFormArray['keystring']){
-				$errorArray['keystring'] = Yii::t('publish_page', 'Please fill in correct numbers');
-			}
-			
-			if(empty($errorArray)){
-				
-				$defaultFormArray['code'] = DCUtil::sanitize($defaultFormArray['code']);
-				
-				if($adModel->getAdByIdAndCode( $adId, $defaultFormArray['code'])){
-					
+			//validate form and delete code
+			if($adDeleteModel->validate() && $code_valid = $adModel->getAdByIdAndCode( $adId, $adDeleteModel->code)){
 					try{
-						$adTagModel = new AdTag;
+						//delete all tags for this ad
+						$adTagModel = new AdTag();
 						$adData = $adModel->findByPk( $adId );
 						$adTagModel->removeTags( $adTagModel->string2array( $adData->ad_tags) );
 						
+						//delete all pics for this ad
 						$adPicModel = new AdPic;
-						$adPicArray = $adPicModel->findAll("ad_id = {$adId}");
+						$adPicArray = $adPicModel->findAll('ad_id = :ad_id', array(':ad_id' => $adId));
 						if(!empty($adPicArray)){
 							foreach ($adPicArray as $k => $v){
 								@unlink(PATH_UF_CLASSIFIEDS . $v['ad_pic_path']);
 								@unlink(PATH_UF_CLASSIFIEDS . 'small-' . $v['ad_pic_path']);
 							}
-							$adPicModel->deleteAll( "ad_id = {$adId}" );
+							$adPicModel->deleteAll('ad_id = :ad_id', array(':ad_id' => $adId));
 						}
 						
 						$adModel->ad_id = $adId;
 						$adModel->setIsNewRecord( false );
 						$adModel->delete();
 						
+						Yii::app()->cache->flush();
 					} catch (Exception $e){}
-				}
 				
-				$defaultFormArray = array();
-				Yii::app()->cache->flush();
+				//do not show form in the view
+				$this->view->showDeleteForm = 0;
+			} else {
+				if (!$code_valid){
+					$adDeleteModel->addError('code', Yii::t('delete_page_v2', 'Delete code is invalid'));
+				}
 			}
-		}
+		}//check if form is submitted
+		
+		
+		//set data to view
+		$this->view->adDeleteModel = $adDeleteModel;
 
-		$this->view->defaultFormArray 	= $defaultFormArray;	
-		$this->view->errorArray 		= $errorArray;
+		$this->view->breadcrump 		= array(Yii::t('delete_page', 'pageTitle'));
 		$this->view->pageTitle 			= Yii::t('delete_page', 'pageTitle');
 		$this->view->pageDescription 	= Yii::t('delete_page', 'pageDescription');
 		$this->view->pageKeywords 		= Yii::t('delete_page', 'pageKeywords');
 
 		$this->render('delete_tpl');	
+	}
+	
+	public function actionEditstep1()
+	{
+		//init ad model
+		$adModel = new Ad();
+		
+		//is there ad parameter
+		$adId = isset($_GET['id']) ? $_GET['id']: null;
+		if(empty($adId) || !is_numeric($adId) ||(int)$adId == 0){
+			$this->redirect(Yii::app()->createUrl('site/index'));
+		}
+		
+		//is there ad with this id
+		if(!$adModel->getAdById($adId)){
+			$this->redirect(Yii::app()->createUrl('site/index'));
+		}
+		
+		//create delete form model
+		$adDeleteModel = new AdDeleteForm();
+		$this->view->showDeleteForm = 1;
+							
+		//is the form submitted
+		if(isset($_POST['AdDeleteForm'])){
+			$adDeleteModel->attributes = $_POST['AdDeleteForm'];
+			
+			//validate form and delete code
+			if($adDeleteModel->validate() && $code_valid = $adModel->getAdByIdAndCode( $adId, $adDeleteModel->code)){
+				$adData = array('user_is_logged' => 1, 'ad_id' => $adId, 'code' => $adDeleteModel->code);
+				Yii::app()->session['user_is_logged'] = 1;
+				$this->redirect(Yii::app()->createUrl('ad/editstep2', array('id' => $adId)));
+			} else {
+				if (!$code_valid){
+					$adDeleteModel->addError('code', Yii::t('delete_page_v2', 'Delete code is invalid'));
+				}
+			}
+		}//check if form is submitted
+		
+		//set data to view
+		$this->view->adDeleteModel = $adDeleteModel;
+
+		$this->view->breadcrump 		= array(Yii::t('edit_page', 'pageTitle'));
+		$this->view->pageTitle 			= Yii::t('edit_page', 'pageTitle');
+		$this->view->pageDescription 	= Yii::t('edit_page', 'pageDescription');
+		$this->view->pageKeywords 		= Yii::t('edit_page', 'pageKeywords');
+
+		$this->render('editstep1_tpl');	
+	}
+	
+	public function actionEditstep2()
+	{
+		//is there ad parameter
+		$adId = isset($_GET['id']) ? $_GET['id']: null;
+		if(empty($adId) || !is_numeric($adId) ||(int)$adId == 0){
+			$this->redirect(Yii::app()->createUrl('site/index'));
+		}
+		
+		//is there ad with this id
+		if(!$adModel = Ad::model()->findByPk($adId)){
+			$this->redirect(Yii::app()->createUrl('site/index'));
+		}
+		
+		$adValidModel 	= new AdValid();
+		
+		//get city list
+		if(!$cityList = Yii::app()->cache->get( 'cityList' )) {
+			$cityList = Location::model()->getLocationHtmlListReadyForUse();
+			Yii::app()->cache->set('cityList' , $cityList);	
+		}
+		$this->view->cityList = $cityList;
+		
+		//get category list
+		if(!$category_html_list = Yii::app()->cache->get( 'category_html_list' )) {
+			$category_list = Category::model()->getCategoryList();
+			$category_html_list = array();
+			Category::model()->getCategoryHtmlList( $category_html_list , $category_list );
+			Yii::app()->cache->set('category_html_list' , $category_html_list);	
+		}
+		$this->view->categoryList = $category_html_list;
+		
+		//get ad type
+		if(!$adTypeList = Yii::app()->cache->get( 'adTypeList' )) {
+			$adTypeList = AdType::model()->getHtmlList();
+			Yii::app()->cache->set('adTypeList' , $adTypeList);	
+		}
+		$this->view->adTypeList = $adTypeList;
+		
+		//get valid list
+		if(!$adValidList = Yii::app()->cache->get( 'adValidList' )) {
+			$adValidList = $adValidModel->getHtmlList();
+			Yii::app()->cache->set('adValidList' , $adValidList);	
+		}
+		$this->view->adValidList = $adValidList;
+		
+		
+		if(isset($_POST['Ad'])){
+			foreach ($_POST['Ad'] as $k => $v){
+				//enable visual editor tags if editor is enabled
+				if(ENABLE_VISUAL_EDITOR == 1 && $k == 'ad_description'){
+					$_POST['Ad'][$k] = DCUtil::sanitize($v, '<strong><em><u><ol><li><ul><br /><br>');
+				} else {
+					$_POST['Ad'][$k] = DCUtil::sanitize($v);
+				}
+			}
+			
+			$adModel->attributes = $_POST['Ad'];
+			if($adModel->validate() && !AdBanEmail::model()->isBanned($adModel->ad_email)){
+				
+				//fix tags if any
+				if(!empty($adModel->attributes->ad_tags)){
+					$adModel->attributes->ad_tags = AdTag::array2string(array_unique(AdTag::string2array($adModel->attributes->ad_tags)));
+				}
+				
+				//calculate ad valid until date
+				$one_day_in_seconds = 60 * 60 * 24;
+				$adModel->ad_valid_until = date('Y-m-d', time() + ($adValidModel->getDaysById($adModel->ad_valid_id) * $one_day_in_seconds));
+				
+				//add check if editor is enabled
+				if(!ENABLE_VISUAL_EDITOR){	
+					$adModel->ad_description 	= nl2br($adModel->ad_description);
+				}
+				$adModel->ad_publish_date	= date('Y-m-d');
+				$adModel->ad_ip 			= $_SERVER['REMOTE_ADDR'];
+				$adModel->ad_title 			= DCUtil::ucfirst($adModel->ad_title);
+				
+				$adModel->ad_title 			= mb_substr($adModel->ad_title, 0, 90, 'utf-8');
+				
+				//normalize coordinates
+				if(!empty($adModel->ad_lat)){
+					$adModel->ad_lat = preg_replace('/\(|\)/', '', $adModel->ad_lat);
+				}
+				
+				//save the data
+				$adModel->save();
+				
+				//delete all tags for this ad
+				$adTagModel = new AdTag();
+				$adTagModel->removeTags( $adTagModel->string2array($adModel->ad_tags) );
+				unset($adTagModel);
+				
+				//save tags in tags table
+				$tagsArray = AdTag::string2array( $adModel->ad_tags );
+				if(!empty($tagsArray)){
+					AdTag::model()->addTags( $tagsArray );
+				}
+				
+				//resize and rename pics
+				$adId = $adModel->ad_id;
+				$uploadedFiles = CUploadedFile::getInstances($adModel, 'images');
+				if(!empty($uploadedFiles)){
+					
+					//delete all pics for this ad
+					$adPicModel = new AdPic;
+					$adPicArray = $adPicModel->findAll('ad_id = :ad_id', array(':ad_id' => $adId));
+					if(!empty($adPicArray)){
+						foreach ($adPicArray as $k => $v){
+							@unlink(PATH_UF_CLASSIFIEDS . $v['ad_pic_path']);
+							@unlink(PATH_UF_CLASSIFIEDS . 'small-' . $v['ad_pic_path']);
+						}
+						$adPicModel->deleteAll('ad_id = :ad_id', array(':ad_id' => $adId));
+					}
+					
+					
+					define('ASIDO_GD_JPEG_QUALITY', 100);
+					
+					foreach($uploadedFiles as $k => $v){
+						$adPicModel = new AdPic();
+						
+						$fileNameOnServer = $adId . '-classifieds-' . $v->getName();
+						$v->saveAs(PATH_UF_CLASSIFIEDS . $fileNameOnServer);
+						
+						$pic_variations = array('small' => array('name' => 'small-' . $fileNameOnServer, 'width' => 120, 'height' => 90));
+						
+						Yii::import('application.extensions.asido.*');
+						require_once('class.asido.php');
+						asido::driver('gd');
+						
+						//resize images
+						foreach ($pic_variations as $k => $v){
+							$img = asido::image(PATH_UF_CLASSIFIEDS . $fileNameOnServer , PATH_UF_CLASSIFIEDS . $v['name']);
+							asido::frame($img, $v['width'], $v['height'], Asido::color(255, 255, 255));
+							$img->save( ASIDO_OVERWRITE_ENABLED );
+						}//end of foreach
+						
+						//save image in image table
+						$adPicModel->ad_id = $adModel->ad_id;
+						$adPicModel->ad_pic_path = $fileNameOnServer;
+						$adPicModel->save();
+						
+						unset($adPicModel);
+					}	
+				}
+				
+				//send mail and control mail
+				//$this->_sendMails($adModel);			
+
+				//clear the cache
+				Yii::app()->cache->flush();
+				
+				//redirect to thank you page
+				$this->redirect(Yii::app()->createUrl('ad/publishinfo'));
+			
+			}//end of model validate
+		}//end of if $_POST
+		
+		
+		$this->view->breadcrump 		= array(Yii::t('edit_page', 'pageTitle'));
+		$this->view->pageTitle 			= Yii::t('edit_page', 'pageTitle');
+		$this->view->pageDescription 	= Yii::t('edit_page', 'pageDescription');
+		$this->view->pageKeywords 		= Yii::t('edit_page', 'pageKeywords');
+
+		$this->render('editstep2_tpl', array('model' => $adModel));	
 	}
 	
 	public function actionLocation()

@@ -41,7 +41,7 @@ class SiteController extends Controller
 		if(isset(Yii::app()->session['lid']) && is_numeric(Yii::app()->session['lid'])){
 			$criteria->condition = 't.location_id = :lid';
 			$criteria->params = array(':lid' => Yii::app()->session['lid']);
-			$cache_key_name .= $_SESSION['lid'] . '_';
+			$cache_key_name .= Yii::app()->session['lid'] . '_';
 		}
 
 		$criteria->order = 't.ad_id DESC';
@@ -170,7 +170,7 @@ class SiteController extends Controller
 		}
 		
 		$this->view->pageInfo			= $pageInfo;
-		$this->view->breadcrump 		= array($pageInfo->page_title);
+		$this->view->breadcrump 		= array(stripslashes($pageInfo->page_title));
 		$this->view->pageTitle 			= $pageInfo->page_title;
 		$this->view->pageDescription 	= $pageInfo->page_description;
 		$this->view->pageKeywords 		= $pageInfo->page_keywords;
