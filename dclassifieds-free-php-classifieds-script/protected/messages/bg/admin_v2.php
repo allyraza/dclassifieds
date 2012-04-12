@@ -39,5 +39,6 @@ return array(
 	'Enable video link publish' => 'Покажи линк за видео при публикуване',
 	'Enable link publish' => 'Покажи линк при публикуване',
 	'Maximum upload image size' => 'Максимален размер на снимка при публикуване в bytes',
-	'Num upload pics publish' => 'Брой снимки при публикуване на обява'
+	'Num upload pics publish' => 'Брой снимки при публикуване на обява',
+	'Num classifieds in history box' => 'Брой обяви показвани в кутия "Последно разгледани"'
 );
