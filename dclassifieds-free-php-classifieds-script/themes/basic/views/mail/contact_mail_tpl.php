@@ -17,6 +17,7 @@ body {
 </style>
 </head>
 <body>
+IP : <?=$_SERVER['REMOTE_ADDR']?><br />
 <b><?=Yii::t('detail_page', 'Message')?></b><br /><br />
 <?=$message?>
 <br /><br />

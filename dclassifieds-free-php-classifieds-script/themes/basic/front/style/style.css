@@ -231,13 +231,13 @@ h1, h2				{
 					
 					
 					
-#location_box a, #location_box a:visited{
+#location_box a, #location_box a:visited, #history_box a, #history_box a:visited{
 					display:block;
 					padding: 5px 0px;
 					text-decoration:none;
 					}					
 					
-#location_box a:hover{
+#location_box a:hover, #history_box a:hover{
 					background-color: #ffffd5;
 					}
 					
