@@ -33,10 +33,14 @@
 				<?=Yii::t('common', 'Category')?> : <b><?=$ad->category->category_title?></b><br />
 				<?=Yii::t('common', 'Publish date')?> : <b><?=$ad->ad_publish_date?></b><br />
 				<?=Yii::t('publish_page_v2', 'Classifieds Validity Period')?> : <b><?=$ad->ad_valid_until?></b><br />
+				<?if($ad->ad_phone){?>
 				<?=Yii::t('detail_page', 'Phone')?>: <b><?=stripslashes($ad->ad_phone)?></b><br />
+				<?}?>
+				<?if($ad->ad_skype){?>
 				Skype: <a href="skype:<?=$ad->ad_skype?>?chat"><?=stripslashes($ad->ad_skype)?></a><br />
+				<?}?>
 				<?if(!empty($ad->ad_price)){?>
-					<?=Yii::t('detail_page', 'Price')?>: <b><?=$ad->ad_price?> <?=Yii::t('detail_page', 'price_sign')?></b><br />
+					<?=Yii::t('detail_page', 'Price')?>: <b><?=$ad->ad_price?> <?=PRICE_CURRENCY_NAME?></b><br />
 				<?}?>
 				<?if(!empty($ad->ad_link)){?>
 					<?=Yii::t('publish_page_v2', 'Web Site')?>: <a href="<?=$ad->ad_link?>" target="_blank" rel="nofollow"><?=$ad->ad_link?></a>

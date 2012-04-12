@@ -1,33 +1,57 @@
-<?if(!empty($this->view->defaultFormArray)){?>
-<form name="publishForm" id="publishForm" method="POST" enctype="multipart/form-data">
-	
-	<div style="margin-bottom:5px;"><b><?=Yii::t('delete_page', 'Delete code that you have recived by e-mail')?></b></div>
-	<div style="margin-bottom:5px;">
-		<input type="text" name="code" id="code" class="publish_input" />
-	</div>
-	<?if(isset($this->view->errorArray['code'])){?>
-	<div class="publish_error"><?=$this->view->errorArray['code']?></div>
-	<?}?>
-	
-	<div style="margin-bottom:5px;">
-		<img src="<?=Yii::app()->baseUrl . '/kcaptcha/index.php?' . Yii::app()->session->sessionName . '=' . Yii::app()->session->sessionId?>" />
-	</div>
-	<div style="margin-bottom:5px;"><b><?=Yii::t('detail_page', 'Enter the code above')?></b></div>
-	<div style="margin-bottom:5px;">
-		<input type="text" name="keystring" id="keystring" class="publish_input" />
-	</div>
-	<?if(isset($this->view->errorArray['keystring'])){?>
-	<div class="publish_error"><?=$this->view->errorArray['keystring']?></div>
-	<?}?>
+<div style="margin-bottom: 10px;">
+<?if($this->view->showDeleteForm){?>
+	<?php $form=$this->beginWidget('CActiveForm', array(
+		'id'=>'ad-delete-form',
+		'enableAjaxValidation'=>false,
+		'enableClientValidation'=>true,
+		'clientOptions'=>array(
+			'validateOnSubmit'=>true,
+		),
+		'htmlOptions'=>array(
+			'name'=>'ad-delete-form',
+		),
+	)); ?>
 	
 	<div>
-		<input type="submit" name="submit" id="submit" value="<?=Yii::t('delete_page', 'Delete')?>" />
+		<div class="row">
+			<div class="publish_label_conatiner">
+			<?php echo $form->labelEx($this->view->adDeleteModel,'code'); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('delete_page', 'Delete code that you have recived by e-mail')?>">[?]</a><?}?>
+			</div>
+			<?php echo $form->textField($this->view->adDeleteModel,'code',array('size'=>60,'maxlength'=>255, 'class' => 'publish_input', 'style' => 'width:336px;', 'tabindex' => 1)); ?>
+			<?php echo $form->error($this->view->adDeleteModel,'code'); ?>
+		</div>
+	
+	
+		<div class="row">
+			<div>
+				<div style="margin-bottom:10px;">
+					<?php if(CCaptcha::checkRequirements()){ ?>
+					<div style="margin-bottom:10px;">
+						<div>
+							<?php $this->widget('CCaptcha', array('showRefreshButton' => false, 'clickableImage' => true, 'imageOptions' => array('style' => 'cursor:pointer;'))); ?>
+						</div>
+						<div>
+							<?php echo $form->textField($this->view->adDeleteModel,'verifyCode', array('class' => 'publish_input', 'style' => 'width:150px;', 'tabindex' => 2)); ?>
+						</div>
+						<?php echo $form->error($this->view->adDeleteModel,'verifyCode'); ?>
+					</div>
+					<div>
+						<?=Yii::t('publish_page_v2', 'Please enter the letters')?>	
+					</div>
+					<?}//end of if?>
+				</div>
+			</div>
+			<div class="row buttons">
+				<?php echo CHtml::submitButton(Yii::t('delete_page', 'Delete'), array('tabindex' => 3)); ?>
+			</div>
+		</div>
+		<div class="clear"></div>
 	</div>
-
-</form>
+	<?php $this->endWidget();?>
 <?} else {?>
-<div class="publish_info">
-	<b>Your classified is deleted!</b>
-	<?=DCUtil::genRefresh(3, Yii::app()->createUrl('site/index'))?>
-</div>	
+	<div class="publish_info">
+		<b><?=Yii::t('delete_page_v2', 'Your classified was deleted!')?></b>
+		<?=DCUtil::genRefresh(3, Yii::app()->createUrl('site/index'))?>	
+	</div>	
 <?}?>
+</div>

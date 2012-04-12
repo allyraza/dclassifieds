@@ -72,7 +72,7 @@
 	<div class="last_row_in_publish_section">
 		<div class="publish_left_row">
 			<div class="publish_label_conatiner">
-			<?php echo $form->labelEx($model,'ad_price', array('label' => Yii::t('publish_page', 'Price'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter price for your classified.')?>">[?]</a><?}?>
+			<?php echo $form->labelEx($model,'ad_price', array('label' => Yii::t('publish_page', 'Price'))); ?> (<?=PRICE_CURRENCY_NAME?>) <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter price for your classified.')?>">[?]</a><?}?> 
 			</div>
 			<?php echo $form->textField($model,'ad_price',array('size'=>60,'maxlength'=>255, 'class' => 'publish_input', 'style' => 'width:336px;', 'tabindex' => 6)); ?>
 			<?php echo $form->error($model,'ad_price'); ?>
@@ -286,7 +286,11 @@ $(document).ready(function(){
 	
 	function updateCKEditor( editor ){
 		editor.updateElement();
-	}	
+	}
+
+	$('#ad-form').submit(function(){
+		editor.updateElement();
+	});
 });
 </script>
 <?}?>

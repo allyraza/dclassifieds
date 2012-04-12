@@ -20,6 +20,7 @@ body {
 <?
 $adUrl = DOMAIN_URL . Yii::app()->createUrl('ad/detail' , array('title' => DCUtil::getSeoTitle( $adModel->ad_title ), 'id' => $adModel->ad_id));
 ?>
+IP: <?=$_SERVER['REMOTE_ADDR']?><br /><br />
 <b><?=Yii::t('detail_page', 'Message')?></b><br /><br />
 <?=$message?>
 <br /><br />

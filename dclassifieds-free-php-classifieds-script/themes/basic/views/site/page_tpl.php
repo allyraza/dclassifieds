@@ -1,3 +1,3 @@
 <div style="margin-bottom: 10px;">
-	<?=$this->view->pageInfo->page_content?>
+	<?=stripslashes($this->view->pageInfo->page_content)?>
 </div>
