@@ -581,7 +581,7 @@ class AdController extends Controller
 			//validate form and delete code
 			if($adDeleteModel->validate() && $code_valid = $adModel->getAdByIdAndCode( $adId, $adDeleteModel->code)){
 				$adData = array('user_is_logged' => 1, 'ad_id' => $adId, 'code' => $adDeleteModel->code);
-				Yii::app()->session['user_is_logged'] = 1;
+				Yii::app()->session['ad_edit'] = $adData;
 				$this->redirect(Yii::app()->createUrl('ad/editstep2', array('id' => $adId)));
 			} else {
 				if (!$code_valid){
@@ -614,7 +614,17 @@ class AdController extends Controller
 			$this->redirect(Yii::app()->createUrl('site/index'));
 		}
 		
-		$adValidModel 	= new AdValid();
+		//validate user
+		if(!isset(Yii::app()->session['ad_edit'])){
+			$this->redirect(Yii::app()->createUrl('site/index'));
+		} else {
+			$adSessionData = Yii::app()->session['ad_edit'];
+			if($adSessionData['user_is_logged'] != 1 || $adSessionData['ad_id'] != $adModel->ad_id || $adSessionData['code'] != $adModel->code){
+				$this->redirect(Yii::app()->createUrl('site/index'));
+			}
+		}
+		
+		$adValidModel = new AdValid();
 		
 		//get city list
 		if(!$cityList = Yii::app()->cache->get( 'cityList' )) {
@@ -747,6 +757,9 @@ class AdController extends Controller
 				
 				//send mail and control mail
 				//$this->_sendMails($adModel);			
+				
+				//unlog user
+				unset(Yii::app()->session['ad_edit']);
 
 				//clear the cache
 				Yii::app()->cache->flush();
