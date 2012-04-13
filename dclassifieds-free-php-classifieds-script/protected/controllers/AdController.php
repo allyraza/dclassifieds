@@ -373,7 +373,7 @@ class AdController extends Controller
 			foreach ($_POST['Ad'] as $k => $v){
 				//enable visual editor tags if editor is enabled
 				if(ENABLE_VISUAL_EDITOR == 1 && $k == 'ad_description'){
-					$_POST['Ad'][$k] = DCUtil::sanitize($v, '<strong><em><u><ol><li><ul><br />');
+					$_POST['Ad'][$k] = DCUtil::sanitize($v, '<strong><em><u><ol><li><ul><br /><br>');
 				} else {
 					$_POST['Ad'][$k] = DCUtil::sanitize($v);
 				}
@@ -463,11 +463,11 @@ class AdController extends Controller
 				Yii::app()->cache->flush();
 				
 				//redirect to thank you page
-				$this->redirect(Yii::app()->createUrl('ad/publishinfo'));
+				$this->redirect(Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle( stripslashes($adModel->ad_title) ), 'id' => $adModel->ad_id)));
 			
 			}//end of model validate
 		}//end of if $_POST
-										
+		
 		
 		//publish vars to view
 		$this->view->breadcrump			= array(Yii::t('publish_page', 'pageTitle'));
@@ -752,7 +752,7 @@ class AdController extends Controller
 				Yii::app()->cache->flush();
 				
 				//redirect to thank you page
-				$this->redirect(Yii::app()->createUrl('ad/publishinfo'));
+				$this->redirect(Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle( stripslashes($adModel->ad_title) ), 'id' => $adModel->ad_id)));
 			
 			}//end of model validate
 		}//end of if $_POST
@@ -763,7 +763,7 @@ class AdController extends Controller
 		$this->view->pageDescription 	= Yii::t('edit_page', 'pageDescription');
 		$this->view->pageKeywords 		= Yii::t('edit_page', 'pageKeywords');
 
-		$this->render('editstep2_tpl', array('model' => $adModel));	
+		$this->render('publish_tpl', array('model' => $adModel));	
 	}
 	
 	public function actionLocation()
@@ -786,17 +786,6 @@ class AdController extends Controller
 		$this->view->pageDescription 	= Yii::t('delete_page', 'pageDescription');
 		$this->view->pageKeywords 		= Yii::t('delete_page', 'pageKeywords');
 		$this->render('gmap_tpl');
-	}
-	
-	public function actionPublishinfo()
-	{
-		$this->view->breadcrump			= array(Yii::t('publish_page', 'pageTitle'));
-		$this->view->pageTitle 			= Yii::t('publish_page', 'pageTitle');
-		$this->view->pageDescription 	= Yii::t('publish_page', 'pageDescription');
-		$this->view->pageKeywords 		= Yii::t('publish_page', 'pageKeywords');
-		
-		//render view
-	    $this->render('publishinfo_tpl');	
 	}
 	
 	private function _sendMails($adModel)
