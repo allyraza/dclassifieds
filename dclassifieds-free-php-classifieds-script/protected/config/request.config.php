@@ -3,7 +3,7 @@
 * DClassifieds                                                                    *
 * Open-Source Project Inspired by Dinko Georgiev (webmaster@dclassifieds.eu)      *
 * =============================================================================== *
-* Software Version:           0.1b                                           	  *
+* Software Version:           2.0                                           	  *
 * Software by:                Dinko Georgiev     								  *
 * Support, News, Updates at:  http://www.dclassifieds.eu                       	  *
 ***********************************************************************************
