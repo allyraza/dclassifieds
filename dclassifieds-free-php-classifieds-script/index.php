@@ -17,7 +17,9 @@
 * See the "license.txt" file for details of the license.                          *
 * The latest version can always be found at http://www.gnu.org/licenses/gpl.txt   *
 **********************************************************************************/
-//session_start();
+if(!ini_get('short_open_tag')){
+	ini_set('short_open_tag', 1);
+}
 
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/yii/framework/yii.php';

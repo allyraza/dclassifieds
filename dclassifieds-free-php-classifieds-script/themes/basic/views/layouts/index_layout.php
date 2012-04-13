@@ -107,7 +107,7 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
         </div>
         <footer id="footer">
         	<div style="float:left;">
-        	Copyright (c) <?=date('Y')?> <?=APP_NAME?> v2.0
+        	Copyright (c) <?=date('Y')?> <?=APP_NAME?> v2.0 alpha
         	</div>
         	<div style="float:right;">
         		Powered by <a href="http://www.dclassifieds.eu" title="free classifieds script" target="_blank">DClassifieds</a>&nbsp;
