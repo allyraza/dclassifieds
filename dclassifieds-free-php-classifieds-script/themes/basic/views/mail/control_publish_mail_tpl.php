@@ -20,6 +20,7 @@ body {
 <?
 $adUrl = DOMAIN_URL . Yii::app()->createUrl('ad/detail' , array('title' => DCUtil::getSeoTitle( $adModel->ad_title ), 'id' => $adModel->ad_id));
 $deleteUrl = DOMAIN_URL . Yii::app()->createUrl('ad/delete', array('id' => $adModel->ad_id));
+$editUrl = DOMAIN_URL . Yii::app()->createUrl('ad/editstep1', array('id' => $adModel->ad_id));
 ?>
 IP: <?=$adModel->ad_ip?><br /><br />
 <?=Yii::t('publish_page', 'You can view your classified ad here')?> : <br /><a href="<?=$adUrl?>"><?=$adUrl?></a><br /><br />
@@ -27,6 +28,12 @@ IP: <?=$adModel->ad_ip?><br /><br />
 <?=$adModel->ad_description?><br /><br />
 
 <h1><?=Yii::t('publish_page', 'Important!')?></h1>
+<?=Yii::t('publish_page_v2', 'You can edit your classified ad by clicking on the following link')?> :
+<a href="<?=$editUrl?>"><?=$editUrl?></a><br />
+<?=Yii::t('publish_page', 'and enter this code')?> : <b><?=$code?></b>
+
+<br/><br/>
+
 <?=Yii::t('publish_page', 'You can delete your classified ad by clicking on the following link')?> :
 <a href="<?=$deleteUrl?>"><?=$deleteUrl?></a><br />
 <?=Yii::t('publish_page', 'and enter this code')?> : <b><?=$code?></b>
