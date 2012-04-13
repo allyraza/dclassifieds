@@ -25,57 +25,6 @@
 		</div>
 		
 		<div id="classified_info_container">
-			<div class="info_box" style="line-height:18px; font-size:12px;">
-				<?=Yii::t('publish_page_v2', 'Contact Name')?> : <b><?=$ad->ad_puslisher_name?></b><br />
-				<?=Yii::t('publish_page_v2', 'Ad Type')?> : <b><?=Yii::t('publish_page_nom', $ad->type->ad_type_name)?></b><br />
-				<?=Yii::t('common', 'Location')?> : <b><?=$ad->location->location_name?></b><br />
-				<?=Yii::t('detail_page_v2', 'Adress')?> : <b><?=$ad->ad_address?></b><br />
-				<?=Yii::t('common', 'Category')?> : <b><?=$ad->category->category_title?></b><br />
-				<?=Yii::t('common', 'Publish date')?> : <b><?=$ad->ad_publish_date?></b><br />
-				<?=Yii::t('publish_page_v2', 'Classifieds Validity Period')?> : <b><?=$ad->ad_valid_until?></b><br />
-				<?if($ad->ad_phone){?>
-				<?=Yii::t('detail_page', 'Phone')?>: <b><?=stripslashes($ad->ad_phone)?></b><br />
-				<?}?>
-				<?if($ad->ad_skype){?>
-				Skype: <a href="skype:<?=$ad->ad_skype?>?chat"><?=stripslashes($ad->ad_skype)?></a><br />
-				<?}?>
-				<?if(!empty($ad->ad_price)){?>
-					<?=Yii::t('detail_page', 'Price')?>: <b><?=$ad->ad_price?> <?=PRICE_CURRENCY_NAME?></b><br />
-				<?}?>
-				<?if(!empty($ad->ad_link)){?>
-					<?=Yii::t('publish_page_v2', 'Web Site')?>: <a href="<?=$ad->ad_link?>" target="_blank" rel="nofollow"><?=$ad->ad_link?></a>
-				<?}?>
-			</div>
-			
-			<?if(ENABLE_VIDEO_LINK_PUBLISH && !empty($ad->ad_video) && $video = DCUtil::getVideoReady($ad->ad_video)){?>
-				<div class="info_box">
-					<?
-					echo $video;
-					?>
-				</div>
-			<?}?>
-			
-			<?if(ENABLE_GOOGLE_MAP && !empty($ad->ad_lat)){?>
-				<div class="info_box">
-					<div id="gmap_detail" style="width: 245px; height:245px;"></div>
-					<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true&language=<?=APP_LANG?>"></script>
-					<script type="text/javascript">
-						var latlng = new google.maps.LatLng(<?=$ad->ad_lat?>);
-						var myOptions = {
-						  zoom: 16,
-						  center: latlng,
-						  mapTypeId: google.maps.MapTypeId.ROADMAP
-						};
-						map = new google.maps.Map(document.getElementById("gmap_detail"), myOptions);
-						marker = new google.maps.Marker({
-						  map: map,
-						  draggable:true,
-						  position: latlng
-						});
-					</script>
-				</div>	
-			<?}?>
-			
 			<?
 			$pic = $ad->pics;
 			if(!empty($pic)){
@@ -101,6 +50,69 @@
 				
 			</div>
 			<?}//end of if?>
+			
+			<?if(ENABLE_VIDEO_LINK_PUBLISH && !empty($ad->ad_video) && $video = DCUtil::getVideoReady($ad->ad_video)){?>
+				<div class="info_box">
+					<?
+					echo $video;
+					?>
+				</div>
+			<?}?>		
+		
+			<div class="info_box" style="line-height:18px; font-size:12px;">
+				<?if($ad->type->ad_type_name){?>
+					<?=Yii::t('publish_page_v2', 'Ad Type')?> : <b><?=Yii::t('publish_page_nom', $ad->type->ad_type_name)?></b><br />
+				<?}?>	
+				<?=Yii::t('common', 'Category')?> : <b><?=$ad->category->category_title?></b><br />
+				<?=Yii::t('common', 'Publish date')?> : <b><?=$ad->ad_publish_date?></b><br />
+				<?if($ad->ad_valid_until){?>
+					<?=Yii::t('publish_page_v2', 'Classifieds Validity Period')?> : <b><?=$ad->ad_valid_until?></b><br />
+				<?}?>
+				<?if(!empty($ad->ad_price)){?>
+					<?=Yii::t('detail_page', 'Price')?>: <b><?=$ad->ad_price?> <?=PRICE_CURRENCY_NAME?></b><br />
+				<?}?>
+				<?if(!empty($ad->ad_link)){?>
+					<?=Yii::t('publish_page_v2', 'Web Site')?>: <a href="<?=$ad->ad_link?>" target="_blank" rel="nofollow"><?=$ad->ad_link?></a><br />
+				<?}?>
+				<?if($ad->ad_puslisher_name){?>
+					<?=Yii::t('publish_page_v2', 'Contact Name')?> : <b><?=$ad->ad_puslisher_name?></b><br />
+				<?}?>	
+				<?if($ad->ad_phone){?>
+					<?=Yii::t('detail_page', 'Phone')?>: <b><?=stripslashes($ad->ad_phone)?></b><br />
+				<?}?>
+				<?if($ad->ad_skype){?>
+					Skype: <a href="skype:<?=$ad->ad_skype?>?chat"><?=stripslashes($ad->ad_skype)?></a><br />
+				<?}?>
+				<?if($ad->location->location_name){?>
+					<?=Yii::t('common', 'Location')?> : <b><?=$ad->location->location_name?></b><br />
+				<?}?>	
+				<?if($ad->ad_address){?>
+					<?=Yii::t('detail_page_v2', 'Adress')?> : <b><?=$ad->ad_address?></b><br />
+				<?}?>
+			</div>
+			
+			<?if(ENABLE_GOOGLE_MAP && !empty($ad->ad_lat)){?>
+				<div class="info_box">
+					<div id="gmap_detail" style="width: 245px; height:245px;"></div>
+					<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true&language=<?=APP_LANG?>"></script>
+					<script type="text/javascript">
+						var latlng = new google.maps.LatLng(<?=$ad->ad_lat?>);
+						var myOptions = {
+						  zoom: 16,
+						  center: latlng,
+						  mapTypeId: google.maps.MapTypeId.ROADMAP
+						};
+						map = new google.maps.Map(document.getElementById("gmap_detail"), myOptions);
+						marker = new google.maps.Marker({
+						  map: map,
+						  draggable:true,
+						  position: latlng
+						});
+					</script>
+				</div>	
+			<?}?>
+			
+			
 			
 		</div>	
 		<div class="clear"></div>

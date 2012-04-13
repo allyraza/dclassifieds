@@ -12,11 +12,14 @@
 <base href="<?=SITE_URL?>" />
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->theme->baseUrl; ?>/front/style/reset.css" media="screen, projection" />
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->theme->baseUrl; ?>/front/style/style.css" media="screen, projection" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <?
 Yii::app()->clientScript->registerScriptFile('http://maps.googleapis.com/maps/api/js?sensor=true&language=' . APP_LANG, CClientScript::POS_END);  
 Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/front/js/google.map.js', CClientScript::POS_END);
 ?>
+<style>
+html, body{background-image:none;}
+</style>
 </head>
 <body>
 <?php echo $content;?>
