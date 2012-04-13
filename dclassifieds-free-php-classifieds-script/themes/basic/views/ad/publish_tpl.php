@@ -1,5 +1,14 @@
 <?if(isset($model)){?>
-<?php $form=$this->beginWidget('CActiveForm', array(
+<?php 
+	$htmlOptions = array(
+		'name'=>'ad-form',
+		'enctype'=>'multipart/form-data');
+
+	if(ENABLE_VISUAL_EDITOR){
+		$htmlOptions['beforeValidate'] = 'js:editor.updateElement();';
+	}
+	
+	$form=$this->beginWidget('CActiveForm', array(
 		'id'=>'ad-form',
 		'enableAjaxValidation'=>false,
 		'enableClientValidation'=>true,
@@ -7,11 +16,7 @@
 			'validateOnSubmit'=>true,
 		),
 		
-		'htmlOptions'=>array(
-			'name'=>'ad-form',
-			'enctype'=>'multipart/form-data',
-			'beforeValidate'=>'js:populate_ckeditor();',
-		),
+		'htmlOptions'=>$htmlOptions
 	)); ?>
 
 	<div class="publish_section_header"><h1><?=Yii::t('publish_page_v2', 'Your Classified Ad')?></h1></div>
@@ -247,12 +252,6 @@
 	<?=DCUtil::genRefresh(3, Yii::app()->createUrl('site/index'))?>
 </div>	
 <?}?>
-<?
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/front/js/tipsy/jquery.tipsy.js', CClientScript::POS_END);  
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/front/js/ckeditor/ckeditor.js', CClientScript::POS_END);  
-Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/front/js/tipsy/tipsy.css', 'screen'); 
-?>
-
 <script type="text/javascript">
 $(document).ready(function(){
 	$('#location_find_window').click(function(){
@@ -263,34 +262,15 @@ $(document).ready(function(){
     $('a.thelp').tipsy({trigger: 'hover', gravity: 's', fade: true, html: true, title: 'title'});
 });
 </script>
-<?if(ENABLE_VISUAL_EDITOR == 1){?>
-<script type="text/javascript">
-$(document).ready(function(){
-	$('#Ad_ad_title').focus();
-	
-	var editor = CKEDITOR.replace('Ad_ad_description', {
-			toolbar :
-        	[
-            	['Cut','Copy','Paste','-','Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-        		['Bold', 'Italic', 'Underline', '-', 'NumberedList', 'BulletedList', '-', 'Source']
-        	],
-        	enterMode : CKEDITOR.ENTER_BR,
-        	language : '<?=APP_LANG?>',
-        	skin : 'v2'
-	});
-	
-	editor.on('blur', function(){
-		editor.updateElement();
-		$('#Ad_ad_description').blur();
-	});
-	
-	function updateCKEditor( editor ){
-		editor.updateElement();
-	}
-
-	$('#ad-form').submit(function(){
-		editor.updateElement();
-	});
-});
-</script>
-<?}?>
+<?
+if(ENABLE_VISUAL_EDITOR == 1){
+	Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/front/js/ckeditor/ckeditor.js', CClientScript::POS_END);
+	Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/front/js/publish.js', CClientScript::POS_END);
+}
+?>
+<?
+if(ENABLE_TIPSY_PUBLISH == 1){
+	Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/front/js/tipsy/jquery.tipsy.js', CClientScript::POS_END);  
+	Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/front/js/tipsy/tipsy.css', 'screen'); 
+}	
+?>

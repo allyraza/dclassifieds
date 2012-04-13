@@ -311,7 +311,12 @@ a.tag_link:hover	{
 					-moz-border-radius: 5px;
 					border-radius: 5px;
 					
-					}					
+					}
+
+#classified_text ul, ol{
+					margin:5px 5px;
+					}
+					
 /*end of ad detail*/
 
 /*publish form*/					
@@ -385,7 +390,7 @@ select.error
 					}
 					
 .publish_section_header{
-					border-bottom:2px solid #c0c0c0; 
+					border-bottom:1px solid #e5e5e5; 
 					margin-bottom:20px;
 					}
 					
