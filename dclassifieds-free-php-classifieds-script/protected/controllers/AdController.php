@@ -756,7 +756,7 @@ class AdController extends Controller
 				}
 				
 				//send mail and control mail
-				//$this->_sendMails($adModel);			
+				$this->_sendMails($adModel, Yii::t('publish_page_v2', 'Your Classified was edited') . ' ' . DOMAIN_URL);
 				
 				//unlog user
 				unset(Yii::app()->session['ad_edit']);
@@ -801,7 +801,7 @@ class AdController extends Controller
 		$this->render('gmap_tpl');
 	}
 	
-	private function _sendMails($adModel)
+	private function _sendMails($adModel, $subject = '')
 	{
 		//send email
 		Yii::import('ext.Swift.lib.*');
@@ -826,11 +826,15 @@ class AdController extends Controller
 		
 		$viewPath = Yii::app()->theme->basePath . '/views/mail/publish_mail_tpl.php';
 		$content = $this->renderInternal($viewPath , array('adModel' => $adModel, 'code' => $adModel->code), true);
+		
+		if(empty($subject)){
+			$subject = Yii::t('publish_page', 'Your Classified is published') . ' ' . DOMAIN_URL;	
+		}
 
 		//Create a message
 		$message = Swift_Message::newInstance()
 		  ->setCharset('utf-8')
-		  ->setSubject(Yii::t('publish_page', 'Your Classified is published') . ' ' . DOMAIN_URL)
+		  ->setSubject($subject)
 		  ->setFrom(array(CONTACT_EMAIL))
 		  ->setTo(array($adModel->ad_email))
 		  ->setBody($content, 'text/html');
@@ -847,7 +851,7 @@ class AdController extends Controller
 			//Create a message
 			$message = Swift_Message::newInstance()
 			  ->setCharset('utf-8')
-			  ->setSubject(Yii::t('publish_page', 'Control Your Classified is published') . ' ' . DOMAIN_URL)
+			  ->setSubject($subject)
 			  ->setFrom(array(CONTACT_EMAIL))
 			  ->setTo(array(CONTACT_EMAIL))
 			  ->setReplyTo($adModel->ad_email)
