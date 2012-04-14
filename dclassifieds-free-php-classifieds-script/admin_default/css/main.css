@@ -9,7 +9,6 @@ body
 
 #page
 {
-	margin-top: 5px;
 	margin-bottom: 5px;
 	background: white;
 	border: 1px solid #C9E0ED;
@@ -19,7 +18,6 @@ body
 {
 	margin: 0;
 	padding: 0;
-	border-top: 3px solid #C9E0ED;
 }
 
 #content
@@ -45,6 +43,8 @@ body
 {
 	padding: 10px 20px;
 	font-size: 200%;
+	background-color:#464e7f;
+	color: #fff;
 }
 
 #mainmenu
