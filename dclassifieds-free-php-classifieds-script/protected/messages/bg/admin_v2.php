@@ -42,5 +42,10 @@ return array(
 	'Num upload pics publish' => 'Брой снимки при публикуване на обява',
 	'Num classifieds in history box' => 'Брой обяви показвани в кутия "Последно разгледани"',
 	'Num items in rss feed' => 'Брой обяви в rss feed',
-	'Site currency name' => 'Валута на сайта'
+	'Site currency name' => 'Валута на сайта',
+	'Published Ads By Date' => 'Публикувани обяви по дни',
+	'Date' => 'Дата',
+	'Ads Count' => 'Брой Обяви',
+	'Published Ads By Month' => 'Публикувани обяви по месеци',
+	'Published Ads By Year' => 'Публикувани обяви по години'
 );
