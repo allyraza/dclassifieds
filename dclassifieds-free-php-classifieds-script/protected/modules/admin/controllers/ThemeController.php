@@ -50,21 +50,17 @@ class ThemeController extends Controller
 		Yii::app()->clientScript->registerCoreScript('jquery'); 
 		
 		$script_path = Yii::app()->baseUrl . '/admin_default/';
-//		if(isset(Yii::app()->theme)){
-//			$script_path = Yii::app()->theme->baseUrl . '/admin/';
-//		}
 		
 		$cs=Yii::app()->clientScript;  
 		$cs->registerScriptFile($script_path . 'js/jquery.easing.1.3.js', CClientScript::POS_END);  
 		$cs->registerScriptFile($script_path . 'js/jquery.easing.compatibility.js', CClientScript::POS_END);  
 		$cs->registerScriptFile($script_path . 'js/jqueryFileTree/jqueryFileTree.js', CClientScript::POS_END);  
 		
-		
-		//this stupid thing is because yii style of including javascripts
 		$js = '$("#filetree").fileTree({ root: "/",';
-    	$js .=					  'script: "' . Yii::app()->createUrl('admin/theme/jqueryfiletree') .'",';
-    	$js .=					  'multiFolder:false';
-    	$js .=					  '},';
+    	$js .=					  'script: "' . Yii::app()->createUrl('admin/theme/jqueryfiletree') . '",';
+    	$js .=					  'multiFolder:false,';
+    	$js .=					  'token_value:"' . Yii::app()->request->getCsrfToken() . '",';
+		$js .= 					  '},';
     	$js .=					  'function(file) {';
         $js .=					  	'window.location = "' . Yii::app()->createUrl('admin/theme/admin') . '?file=" + file;';
     	$js .=					  '});';
