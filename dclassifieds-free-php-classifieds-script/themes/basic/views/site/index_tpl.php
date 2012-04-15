@@ -6,6 +6,10 @@
 	<div class="clear"></div>
 </div>
 
+<div style="width:728px; height:90px; margin:20px 0px;">
+	<?=$this->renderPartial('/banners/banner_728x90_tpl');?>
+</div>
+
 <h1><?=Yii::t('home_page', 'Latest Classifieds')?></h1>
 <div style="margin-bottom: 10px;">
 	<?if(!empty($this->view->adList)){?>
@@ -23,4 +27,8 @@
 		    </div>
 		<?}//end of foreach?>	    
     <?}//end of if?>
-</div>    
+</div>
+
+<div style="width:728px; height:90px; margin:20px 0px;">
+	<?=$this->renderPartial('/banners/banner_728x90_tpl');?>
+</div>

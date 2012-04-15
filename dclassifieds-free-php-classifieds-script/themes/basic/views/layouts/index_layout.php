@@ -20,7 +20,6 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <?
-//Yii::app()->clientscript->scriptMap['jquery-ui.min.js'] = false;
 Yii::app()->clientscript->scriptMap['jquery.js'] = false;
 ?>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -31,10 +30,8 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
 </script>
 
 <link rel="alternate"  type="application/rss+xml" title="Най - новите продукти" href="<?=SITE_URL?>rss" />
-
-
 </head>
-<body>
+<body itemscope itemtype="http://schema.org/WebPage">
 	<div id="wrapper">
     	<header id="header">
         	<div id="logo">
@@ -80,7 +77,7 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
         	<div></div>
         </div>
         
-        <div id="breadcrump">
+        <div id="breadcrump" itemprop="breadcrumb">
         	<a href="<?=SITE_URL?>"><?=Yii::t('common', 'Home');?></a>
         	<?if(isset($this->view->breadcrump) && !empty($this->view->breadcrump)){
         		echo ' &raquo; ';

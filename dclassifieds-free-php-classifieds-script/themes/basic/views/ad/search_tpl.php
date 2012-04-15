@@ -1,6 +1,9 @@
 <h1><?=stripslashes($this->view->pageTitle)?></h1>
 <div style="margin-bottom: 10px;">
-	<?if(!empty($this->view->adList)){?>
+	<?if(!empty($this->view->adList)){
+		$google = ceil(NUM_CLASSIFIEDS_ON_PAGE / 2);
+		$i = 1;
+		?>
 		<?foreach ($this->view->adList as $k){
 			$adUrl = Yii::app()->createUrl('ad/detail' , array('title' => DCUtil::getSeoTitle( stripslashes($k['ad_title']) ), 'id' => $k->ad_id));
 			?>
@@ -13,7 +16,14 @@
 		        </div>
 		        <div class="clear"></div>
 		    </div>
-		<?}//end of foreach?>	    
+		    <?if($i == $google){?>
+		    	<div style="width:728px; height:90px; margin:20px 0px;">
+					<?=$this->renderPartial('/banners/banner_728x90_tpl');?>
+				</div>
+		    <?}//end of if?>
+		<?
+		$i++;
+		}//end of foreach?>	    
     <?} else {?>
     	<div class="publish_info">
 		<?=Yii::t('common', 'Ups... No Classifieds Here')?>
@@ -22,4 +32,7 @@
 </div>
 <div style="margin-bottom:10px; font-size:12px;">
 <?php $this->widget('CLinkPager', array('pages' => $pages, 'cssFile' => Yii::app()->theme->baseUrl . '/front/style/pager.css')) ?>
+</div>
+<div style="width:728px; height:90px; margin:20px 0px;">
+	<?=$this->renderPartial('/banners/banner_728x90_tpl');?>
 </div>
