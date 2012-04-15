@@ -31,7 +31,7 @@
 		
 		<div class="row" style="float:left; margin-left:30px; width:350px;">
 			<div class="publish_label_conatiner">
-			<?php echo $form->labelEx($model,'ad_type_id', array('label' => Yii::t('publish_page_v2', 'Ad Type'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Enter the title of your classified')?>">[?]</a><?}?>
+			<?php echo $form->labelEx($model,'ad_type_id', array('label' => Yii::t('publish_page_v2', 'Ad Type'))); ?> <?if(ENABLE_TIPSY_PUBLISH){?><a href="javascript:void;" class="thelp" title="<?=Yii::t('publish_page_v2', 'Select type for your classified')?>">[?]</a><?}?>
 			</div>
 			<div>
 				<?php echo $form->radioButtonList($model,'ad_type_id', $this->view->adTypeList, array('template' => '<div style="float:left; margin-right:20px;">{label}{input}</div>', 'separator' => '', 'tabindex' => 2)); ?>
