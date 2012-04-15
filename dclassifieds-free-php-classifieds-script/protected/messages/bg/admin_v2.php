@@ -47,5 +47,7 @@ return array(
 	'Date' => 'Дата',
 	'Ads Count' => 'Брой Обяви',
 	'Published Ads By Month' => 'Публикувани обяви по месеци',
-	'Published Ads By Year' => 'Публикувани обяви по години'
+	'Published Ads By Year' => 'Публикувани обяви по години',
+	'Ban by ip' => 'Бан по IP',
+	'Ban by email' => 'Бан по email'
 );

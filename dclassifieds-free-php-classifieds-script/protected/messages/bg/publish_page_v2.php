@@ -17,7 +17,7 @@ return array(
 	'Type address for your classified, or click on "Find on map" to select your address from map.' => 'Ако желаете въведете адрес за по - точно информация или кликнете на "Намери на картата"',
 	'Type address for your classified' => 'Ако желаете въведете адрес за по - точно информация.',
 	'Enter website url in this format : http://www.site.com' => 'Въведете Уеб Сайт в следният формат : http://www.site.com',
-	'Paste YouTube, Vimeo, etc. video embed code here.' => 'Сложете код за видео от YouTube.com или Vimeo.com',
+	'Paste YouTube, Vimeo, etc. video embed code here.' => 'Сложете линк към видео от YouTube.com или Vimeo.com',
 	'Select up to 5 photos to attach to your classified. The photos must be in gif, jpg or png format and no bigger than 200kb.' => 'Качете до {num_pics} снимки към Вашата обява. <br />Снимките трябва да са във формат gif, jpg, png и не по - големи от {bytes}kb.',
 	'Select Category' => 'Избери категория',
 	'Contact' => 'Контакт',
