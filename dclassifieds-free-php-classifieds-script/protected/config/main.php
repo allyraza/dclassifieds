@@ -34,7 +34,8 @@ return array(
 			'allowAutoLogin'=>true,
 		),
 		'session'=>array(
-			'autoStart' => true
+			'autoStart' => true,
+			'sessionName' => 'dclassifieds__' . md5(SITE_DOMAIN)
 		),
 		'cache' =>array(
 			//'class'=>'system.caching.CFileCache',
