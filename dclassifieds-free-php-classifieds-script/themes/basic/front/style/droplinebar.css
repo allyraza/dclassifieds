@@ -8,8 +8,7 @@ padding: 0;
 float: left;
 width: 100%;
 font: bold 13px Arial;
-/*background: #242c54 url(bluedefault.gif) center center repeat-x;*/
-background: #659dcc url(bluedefault.gif) center center repeat-x;
+background: #659dcc;
 }
 
 .droplinebar ul li{
