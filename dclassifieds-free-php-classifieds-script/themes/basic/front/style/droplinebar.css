@@ -28,7 +28,7 @@ color: white;
 
 .droplinebar ul li a:hover, .droplinebar ul li .current{ /*background of main menu bar links onMouseover*/
 color: white;
-background: #464e7f url(blueactive.gif) center center repeat-x;
+background: #464e7f;
 }
 
 /* Sub level menus*/
