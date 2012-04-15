@@ -196,7 +196,7 @@ class AdController extends Controller
 	{
 		$adId = isset($_GET['id']) ? $_GET['id']: null;
 		if(empty($adId) || (int)$adId == 0){
-			$this->redirect(Yii::app()->createUrl('site/index'));
+			$this->redirect(SITE_URL);
 		}
 
 		if(!empty( $adId ) && is_numeric( $adId )){
@@ -411,59 +411,62 @@ class AdController extends Controller
 				} while ($adModel->isFreeCode( $code ));
 				
 				$adModel->code = $code;
+				
+				//needed because sometimes the captha is not refreshed and validate() don't catch the error maybe yii bug
+				if(!$adModel->hasErrors()){
 			
-				//save the data
-				$adModel->save();
-				
-				//save tags in tags table
-				$tagsArray = AdTag::string2array( $adModel->ad_tags );
-				if(!empty($tagsArray)){
-					AdTag::model()->addTags( $tagsArray );
-				}
-				
-				//resize and rename pics
-				$adId = $adModel->ad_id;
-				$uploadedFiles = CUploadedFile::getInstances($adModel, 'images');
-				if(!empty($uploadedFiles)){
-					define('ASIDO_GD_JPEG_QUALITY', 100);
+					//save the data
+					$adModel->save();
 					
-					foreach($uploadedFiles as $k => $v){
-						$adPicModel = new AdPic();
+					//save tags in tags table
+					$tagsArray = AdTag::string2array( $adModel->ad_tags );
+					if(!empty($tagsArray)){
+						AdTag::model()->addTags( $tagsArray );
+					}
+					
+					//resize and rename pics
+					$adId = $adModel->ad_id;
+					$uploadedFiles = CUploadedFile::getInstances($adModel, 'images');
+					if(!empty($uploadedFiles)){
+						define('ASIDO_GD_JPEG_QUALITY', 100);
 						
-						$fileNameOnServer = $adId . '-classifieds-' . $v->getName();
-						$v->saveAs(PATH_UF_CLASSIFIEDS . $fileNameOnServer);
-						
-						$pic_variations = array('small' => array('name' => 'small-' . $fileNameOnServer, 'width' => 120, 'height' => 90));
-						
-						Yii::import('application.extensions.asido.*');
-						require_once('class.asido.php');
-						asido::driver('gd');
-						
-						//resize images
-						foreach ($pic_variations as $k => $v){
-							$img = asido::image(PATH_UF_CLASSIFIEDS . $fileNameOnServer , PATH_UF_CLASSIFIEDS . $v['name']);
-							asido::frame($img, $v['width'], $v['height'], Asido::color(255, 255, 255));
-							$img->save( ASIDO_OVERWRITE_ENABLED );
-						}//end of foreach
-						
-						//save image in image table
-						$adPicModel->ad_id = $adModel->ad_id;
-						$adPicModel->ad_pic_path = $fileNameOnServer;
-						$adPicModel->save();
-						
-						unset($adPicModel);
-					}	
-				}
-				
-				//send mail and control mail
-				$this->_sendMails($adModel);			
-
-				//clear the cache
-				Yii::app()->cache->flush();
-				
-				//redirect to thank you page
-				$this->redirect(Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle( stripslashes($adModel->ad_title) ), 'id' => $adModel->ad_id)));
-			
+						foreach($uploadedFiles as $k => $v){
+							$adPicModel = new AdPic();
+							
+							$fileNameOnServer = $adId . '-classifieds-' . $v->getName();
+							$v->saveAs(PATH_UF_CLASSIFIEDS . $fileNameOnServer);
+							
+							$pic_variations = array('small' => array('name' => 'small-' . $fileNameOnServer, 'width' => 120, 'height' => 90));
+							
+							Yii::import('application.extensions.asido.*');
+							require_once('class.asido.php');
+							asido::driver('gd');
+							
+							//resize images
+							foreach ($pic_variations as $k => $v){
+								$img = asido::image(PATH_UF_CLASSIFIEDS . $fileNameOnServer , PATH_UF_CLASSIFIEDS . $v['name']);
+								asido::frame($img, $v['width'], $v['height'], Asido::color(255, 255, 255));
+								$img->save( ASIDO_OVERWRITE_ENABLED );
+							}//end of foreach
+							
+							//save image in image table
+							$adPicModel->ad_id = $adModel->ad_id;
+							$adPicModel->ad_pic_path = $fileNameOnServer;
+							$adPicModel->save();
+							
+							unset($adPicModel);
+						}	
+					}
+					
+					//send mail and control mail
+					$this->_sendMails($adModel);			
+	
+					//clear the cache
+					Yii::app()->cache->flush();
+					
+					//redirect to thank you page
+					$this->redirect(Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle( stripslashes($adModel->ad_title) ), 'id' => $adModel->ad_id)));
+				}//end of has errors check	
 			}//end of model validate
 		}//end of if $_POST
 		
@@ -490,12 +493,12 @@ class AdController extends Controller
 		//is there ad parameter
 		$adId = isset($_GET['id']) ? $_GET['id']: null;
 		if(empty($adId) || !is_numeric($adId) ||(int)$adId == 0){
-			$this->redirect(Yii::app()->createUrl('site/index'));
+			$this->redirect(SITE_URL);
 		}
 		
 		//is there ad with this id
 		if(!$adModel->getAdById($adId)){
-			$this->redirect(Yii::app()->createUrl('site/index'));
+			$this->redirect(SITE_URL);
 		}
 		
 		//create delete form model
@@ -504,7 +507,7 @@ class AdController extends Controller
 							
 		//is the form submitted
 		if(isset($_POST['AdDeleteForm'])){
-			$adDeleteModel->attributes = $_POST['AdDeleteForm'];
+			$adDeleteModel->attributes = trim($_POST['AdDeleteForm']);
 			
 			//validate form and delete code
 			if($adDeleteModel->validate() && $code_valid = $adModel->getAdByIdAndCode( $adId, $adDeleteModel->code)){
@@ -561,12 +564,12 @@ class AdController extends Controller
 		//is there ad parameter
 		$adId = isset($_GET['id']) ? $_GET['id']: null;
 		if(empty($adId) || !is_numeric($adId) ||(int)$adId == 0){
-			$this->redirect(Yii::app()->createUrl('site/index'));
+			$this->redirect(SITE_URL);
 		}
 		
 		//is there ad with this id
 		if(!$adModel->getAdById($adId)){
-			$this->redirect(Yii::app()->createUrl('site/index'));
+			$this->redirect(SITE_URL);
 		}
 		
 		//create delete form model
@@ -605,21 +608,21 @@ class AdController extends Controller
 		//is there ad parameter
 		$adId = isset($_GET['id']) ? $_GET['id']: null;
 		if(empty($adId) || !is_numeric($adId) ||(int)$adId == 0){
-			$this->redirect(Yii::app()->createUrl('site/index'));
+			$this->redirect(SITE_URL);
 		}
 		
 		//is there ad with this id
 		if(!$adModel = Ad::model()->findByPk($adId)){
-			$this->redirect(Yii::app()->createUrl('site/index'));
+			$this->redirect(SITE_URL);
 		}
 		
 		//validate user
 		if(!isset(Yii::app()->session['ad_edit'])){
-			$this->redirect(Yii::app()->createUrl('site/index'));
+			$this->redirect(SITE_URL);
 		} else {
 			$adSessionData = Yii::app()->session['ad_edit'];
 			if($adSessionData['user_is_logged'] != 1 || $adSessionData['ad_id'] != $adModel->ad_id || trim($adSessionData['code']) != trim($adModel->code)){
-				$this->redirect(Yii::app()->createUrl('site/index'));
+				$this->redirect(SITE_URL);
 			}
 		}
 		
@@ -693,79 +696,82 @@ class AdController extends Controller
 					$adModel->ad_lat = preg_replace('/\(|\)/', '', $adModel->ad_lat);
 				}
 				
-				//save the data
-				$adModel->save();
-				
-				//delete all tags for this ad
-				$adTagModel = new AdTag();
-				$adTagModel->removeTags( $adTagModel->string2array($adModel->ad_tags) );
-				unset($adTagModel);
-				
-				//save tags in tags table
-				$tagsArray = AdTag::string2array( $adModel->ad_tags );
-				if(!empty($tagsArray)){
-					AdTag::model()->addTags( $tagsArray );
-				}
-				
-				//resize and rename pics
-				$adId = $adModel->ad_id;
-				$uploadedFiles = CUploadedFile::getInstances($adModel, 'images');
-				if(!empty($uploadedFiles)){
+				//needed because sometimes the captha is not refreshed and validate() don't catch the error maybe yii bug
+				if(!$adModel->hasErrors()){
 					
-					//delete all pics for this ad
-					$adPicModel = new AdPic;
-					$adPicArray = $adPicModel->findAll('ad_id = :ad_id', array(':ad_id' => $adId));
-					if(!empty($adPicArray)){
-						foreach ($adPicArray as $k => $v){
-							@unlink(PATH_UF_CLASSIFIEDS . $v['ad_pic_path']);
-							@unlink(PATH_UF_CLASSIFIEDS . 'small-' . $v['ad_pic_path']);
-						}
-						$adPicModel->deleteAll('ad_id = :ad_id', array(':ad_id' => $adId));
+					//save the data
+					$adModel->save();
+					
+					//delete all tags for this ad
+					$adTagModel = new AdTag();
+					$adTagModel->removeTags( $adTagModel->string2array($adModel->ad_tags) );
+					unset($adTagModel);
+					
+					//save tags in tags table
+					$tagsArray = AdTag::string2array( $adModel->ad_tags );
+					if(!empty($tagsArray)){
+						AdTag::model()->addTags( $tagsArray );
 					}
 					
+					//resize and rename pics
+					$adId = $adModel->ad_id;
+					$uploadedFiles = CUploadedFile::getInstances($adModel, 'images');
+					if(!empty($uploadedFiles)){
+						
+						//delete all pics for this ad
+						$adPicModel = new AdPic;
+						$adPicArray = $adPicModel->findAll('ad_id = :ad_id', array(':ad_id' => $adId));
+						if(!empty($adPicArray)){
+							foreach ($adPicArray as $k => $v){
+								@unlink(PATH_UF_CLASSIFIEDS . $v['ad_pic_path']);
+								@unlink(PATH_UF_CLASSIFIEDS . 'small-' . $v['ad_pic_path']);
+							}
+							$adPicModel->deleteAll('ad_id = :ad_id', array(':ad_id' => $adId));
+						}
+						
+						
+						define('ASIDO_GD_JPEG_QUALITY', 100);
+						
+						foreach($uploadedFiles as $k => $v){
+							$adPicModel = new AdPic();
+							
+							$fileNameOnServer = $adId . '-classifieds-' . $v->getName();
+							$v->saveAs(PATH_UF_CLASSIFIEDS . $fileNameOnServer);
+							
+							$pic_variations = array('small' => array('name' => 'small-' . $fileNameOnServer, 'width' => 120, 'height' => 90));
+							
+							Yii::import('application.extensions.asido.*');
+							require_once('class.asido.php');
+							asido::driver('gd');
+							
+							//resize images
+							foreach ($pic_variations as $k => $v){
+								$img = asido::image(PATH_UF_CLASSIFIEDS . $fileNameOnServer , PATH_UF_CLASSIFIEDS . $v['name']);
+								asido::frame($img, $v['width'], $v['height'], Asido::color(255, 255, 255));
+								$img->save( ASIDO_OVERWRITE_ENABLED );
+							}//end of foreach
+							
+							//save image in image table
+							$adPicModel->ad_id = $adModel->ad_id;
+							$adPicModel->ad_pic_path = $fileNameOnServer;
+							$adPicModel->save();
+							
+							unset($adPicModel);
+						}	
+					}
 					
-					define('ASIDO_GD_JPEG_QUALITY', 100);
+					//send mail and control mail
+					$this->_sendMails($adModel, Yii::t('publish_page_v2', 'Your Classified was edited') . ' ' . DOMAIN_URL);
 					
-					foreach($uploadedFiles as $k => $v){
-						$adPicModel = new AdPic();
-						
-						$fileNameOnServer = $adId . '-classifieds-' . $v->getName();
-						$v->saveAs(PATH_UF_CLASSIFIEDS . $fileNameOnServer);
-						
-						$pic_variations = array('small' => array('name' => 'small-' . $fileNameOnServer, 'width' => 120, 'height' => 90));
-						
-						Yii::import('application.extensions.asido.*');
-						require_once('class.asido.php');
-						asido::driver('gd');
-						
-						//resize images
-						foreach ($pic_variations as $k => $v){
-							$img = asido::image(PATH_UF_CLASSIFIEDS . $fileNameOnServer , PATH_UF_CLASSIFIEDS . $v['name']);
-							asido::frame($img, $v['width'], $v['height'], Asido::color(255, 255, 255));
-							$img->save( ASIDO_OVERWRITE_ENABLED );
-						}//end of foreach
-						
-						//save image in image table
-						$adPicModel->ad_id = $adModel->ad_id;
-						$adPicModel->ad_pic_path = $fileNameOnServer;
-						$adPicModel->save();
-						
-						unset($adPicModel);
-					}	
-				}
-				
-				//send mail and control mail
-				$this->_sendMails($adModel, Yii::t('publish_page_v2', 'Your Classified was edited') . ' ' . DOMAIN_URL);
-				
-				//unlog user
-				unset(Yii::app()->session['ad_edit']);
-
-				//clear the cache
-				Yii::app()->cache->flush();
-				
-				//redirect to thank you page
-				$this->redirect(Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle( stripslashes($adModel->ad_title) ), 'id' => $adModel->ad_id)));
-			
+					//unlog user
+					unset(Yii::app()->session['ad_edit']);
+	
+					//clear the cache
+					Yii::app()->cache->flush();
+					
+					//redirect to thank you page
+					$this->redirect(Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle( stripslashes($adModel->ad_title) ), 'id' => $adModel->ad_id)));
+				}//end of has errors
 			}//end of model validate
 		}//end of if $_POST
 		
@@ -850,7 +856,7 @@ class AdController extends Controller
 			//Create a message
 			$message = Swift_Message::newInstance()
 			  ->setCharset('utf-8')
-			  ->setSubject($subject)
+			  ->setSubject('[Control] ' . $subject)
 			  ->setFrom(array(CONTACT_EMAIL))
 			  ->setTo(array(CONTACT_EMAIL))
 			  ->setReplyTo($adModel->ad_email)
