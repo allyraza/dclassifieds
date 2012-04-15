@@ -103,7 +103,7 @@ class DCUtil
 		$video = '';
 		
 		//is youtube video
-		if(preg_match('/http:\/\/(www.)?youtube.com\/watch\?v=([a-zA-Z0-9_]+[^&])/', $_video_link, $matches)){
+		if(preg_match('/http:\/\/(www.)?youtube.com\/watch\?v=([a-zA-Z0-9_-]+[^&])/', $_video_link, $matches)){
 			$video = sprintf($youtube_video_template, $matches[2]);
 		}
 		
