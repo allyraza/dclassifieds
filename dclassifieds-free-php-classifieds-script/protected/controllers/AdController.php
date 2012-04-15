@@ -575,7 +575,7 @@ class AdController extends Controller
 							
 		//is the form submitted
 		if(isset($_POST['AdDeleteForm'])){
-			$adDeleteModel->attributes = $_POST['AdDeleteForm'];
+			$adDeleteModel->attributes = trim($_POST['AdDeleteForm']);
 			
 			//validate form and delete code
 			if($adDeleteModel->validate() && $code_valid = $adModel->getAdByIdAndCode( $adId, $adDeleteModel->code)){
