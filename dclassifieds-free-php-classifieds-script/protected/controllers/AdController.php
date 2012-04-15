@@ -618,7 +618,7 @@ class AdController extends Controller
 			$this->redirect(Yii::app()->createUrl('site/index'));
 		} else {
 			$adSessionData = Yii::app()->session['ad_edit'];
-			if($adSessionData['user_is_logged'] != 1 || $adSessionData['ad_id'] != $adModel->ad_id || $adSessionData['code'] != $adModel->code){
+			if($adSessionData['user_is_logged'] != 1 || $adSessionData['ad_id'] != $adModel->ad_id || trim($adSessionData['code']) != trim($adModel->code)){
 				$this->redirect(Yii::app()->createUrl('site/index'));
 			}
 		}
