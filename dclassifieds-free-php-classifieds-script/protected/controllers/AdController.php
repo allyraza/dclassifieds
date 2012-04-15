@@ -303,9 +303,8 @@ class AdController extends Controller
 			}
 		}
 		
-		//set category location
-		$location_name = stripslashes($adInfo->location->location_name);
-		$breadcrump[] = CHtml::link($location_name, array('ad/location', 'location_name' => DCUtil::getSeoTitle($location_name), 'lid' => $adInfo->location_id));
+		//set classifieds category in breadcrump
+		$breadcrump[] = CHtml::link($adInfo->category->category_title, array('ad/index', 'category_title' => DCUtil::getSeoTitle($adInfo->category->category_title), 'cid' => $adInfo->category->category_id));
 		
 		//set classified title
 		$breadcrump[] = stripslashes($adInfo->ad_title);
