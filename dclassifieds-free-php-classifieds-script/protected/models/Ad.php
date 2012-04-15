@@ -3,7 +3,7 @@
 * DClassifieds                                                                    *
 * Open-Source Project Inspired by Dinko Georgiev (webmaster@dclassifieds.eu)      *
 * =============================================================================== *
-* Software Version:           0.1b                                           	  *
+* Software Version:           2.0                                           	  *
 * Software by:                Dinko Georgiev     								  *
 * Support, News, Updates at:  http://www.dclassifieds.eu                       	  *
 ***********************************************************************************
@@ -183,7 +183,7 @@ class Ad extends CActiveRecord
 	public function isFreeCode( $code )
 	{
 		$ret = 0;
-		$res = $this->find("code = '{$code}'");
+		$res = $this->find('code = :code', array(':code' => $code));
 		if(!empty($res)){
 			$ret = 1;
 		}
@@ -216,7 +216,7 @@ class Ad extends CActiveRecord
 	public function getAdByIdAndCode( $ad_id, $code )
 	{
 		$ret = 0;
-		$res = $this->find("ad_id = {$ad_id} AND code = '{$code}'");
+		$res = $this->find('ad_id = :ad_id AND code = :code', array(':ad_id' => $ad_id, ':code' => $code));
 		if(!empty($res)){
 			$ret = 1;
 		}

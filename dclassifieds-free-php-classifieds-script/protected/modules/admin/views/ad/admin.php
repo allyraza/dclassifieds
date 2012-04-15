@@ -59,13 +59,13 @@ $('.search-form form').submit(function(){
 			'class'=>'CButtonColumn',
 			'buttons' => array(
 				'ban_by_ip' 	=> array(
-								'label' => 'ban by ip',
+								'label' => Yii::t('admin_v2', 'Ban by ip'),
 								'url' => 'Yii::app()->createUrl("/admin/ad/banbyip", array("id" => $data->ad_id))',
 								'imageUrl' => Yii::app()->baseUrl . '/admin_default/images/ban_by_ip.png',
 								'click' => 'function(){if(!confirm("Are you sure you want to ban this ip?")) return false;}'
 				),
 				'ban_by_email' 	=> array(
-								'label' => 'ban email',
+								'label' => Yii::t('admin_v2', 'Ban by email'),
 								'url' => 'Yii::app()->createUrl("/admin/ad/banbyemail", array("id" => $data->ad_id))',
 								'imageUrl' => Yii::app()->baseUrl . '/admin_default/images/ban_by_email.png',
 								'click' => 'function(){if(!confirm("Are you sure you want to ban this ip?")) return false;}'

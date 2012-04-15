@@ -50,3 +50,29 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+<?
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/front/js/ckeditor/ckeditor.js', CClientScript::POS_END);
+$script = "editor = CKEDITOR.replace('Page_page_content', {
+				toolbar :
+		    	[
+		        	['Cut','Copy','Paste','-','Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+		    		['Bold', 'Italic', 'Underline', '-', 'NumberedList', 'BulletedList', '-', 'Source']
+		    	],
+		    	enterMode : CKEDITOR.ENTER_BR,
+		    	language : '" . APP_LANG . "',
+		    	skin : 'v2'
+		});
+		
+		editor.on('blur', function(){
+			editor.updateElement();
+			$('#Page_page_content').blur();
+		});
+		
+		function updateCKEditor( editor ){
+			editor.updateElement();
+		}
+		
+		$('#page-form').submit(function(){
+			editor.updateElement();
+		});";
+Yii::app()->clientScript->registerScript('page_from', $script, CClientScript::POS_READY);	

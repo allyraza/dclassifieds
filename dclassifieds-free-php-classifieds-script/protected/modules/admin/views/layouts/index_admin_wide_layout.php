@@ -62,7 +62,7 @@
 		</div><!-- content -->
 	</div>
 	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> <?=APP_NAME?> All Rights Reserved.&nbsp;Powered by <a href="http://www.dclassifieds.eu" title="free classifieds script" target="_blank">DClassifieds</a><br/>
+		Copyright &copy; <?php echo date('Y'); ?> <?=APP_NAME?> All Rights Reserved.&nbsp;Powered by <a href="http://www.dclassifieds.eu" title="free classifieds script" target="_blank">DClassifieds</a> && <a href="http://www.yiiframework.com/" target="_blank">Yii Framework</a><br/>
 		<br/>
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 		<input type="hidden" name="cmd" value="_s-xclick">

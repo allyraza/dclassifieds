@@ -25,7 +25,6 @@ $this->breadcrumbs=array(
 		<?php echo $form->label($model,'rememberMe'); ?>
 		<?php echo $form->error($model,'rememberMe'); ?>
 	</div>
-	<div><b>Използвай : <?=ADMIN_USER?>/<?=ADMIN_PASS?></b></div>
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Login', array('value' => Yii::t('admin', 'Login'))); ?>
 	</div>
