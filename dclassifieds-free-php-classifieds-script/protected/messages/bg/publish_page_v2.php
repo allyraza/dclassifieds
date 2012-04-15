@@ -36,5 +36,6 @@ return array(
 	'Yes, this is my location' => 'Да, това е моят адрес',
 	'Please insert link to youtube or vimeo video.' => 'Моля, въведете линк към видео във youtube.com или vimeo.com',
 	'You can edit your classified ad by clicking on the following link' => 'Може да редактирате обявата си като кликнете на следният линк',
-	'Your Classified was edited' => 'Вашата обява е редактирана'
+	'Your Classified was edited' => 'Вашата обява е редактирана',
+	'Select type for your classified' => 'Избери тип на обявата'
 );
