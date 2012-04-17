@@ -412,11 +412,8 @@ class AdController extends Controller
 				
 				$adModel->code = $code;
 				
-				//needed because sometimes the captha is not refreshed and validate() don't catch the error maybe yii bug
-				if(!$adModel->hasErrors()){
-			
-					//save the data
-					$adModel->save();
+				//save the data
+				if($adModel->save()){
 					
 					//save tags in tags table
 					$tagsArray = AdTag::string2array( $adModel->ad_tags );
@@ -466,7 +463,7 @@ class AdController extends Controller
 					
 					//redirect to thank you page
 					$this->redirect(Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle( stripslashes($adModel->ad_title) ), 'id' => $adModel->ad_id)));
-				}//end of has errors check	
+				}//end of if save
 			}//end of model validate
 		}//end of if $_POST
 		
@@ -696,11 +693,8 @@ class AdController extends Controller
 					$adModel->ad_lat = preg_replace('/\(|\)/', '', $adModel->ad_lat);
 				}
 				
-				//needed because sometimes the captha is not refreshed and validate() don't catch the error maybe yii bug
-				if(!$adModel->hasErrors()){
-					
-					//save the data
-					$adModel->save();
+				//save the data
+				if($adModel->save()){
 					
 					//delete all tags for this ad
 					$adTagModel = new AdTag();
@@ -771,7 +765,7 @@ class AdController extends Controller
 					
 					//redirect to thank you page
 					$this->redirect(Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle( stripslashes($adModel->ad_title) ), 'id' => $adModel->ad_id)));
-				}//end of has errors
+				}//end if save
 			}//end of model validate
 		}//end of if $_POST
 		
