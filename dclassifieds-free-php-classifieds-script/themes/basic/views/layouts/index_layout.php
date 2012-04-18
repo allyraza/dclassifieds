@@ -9,6 +9,11 @@
 <meta name="robots" content="index , follow" />
 <meta name="googlebot" content="index , follow" />
 <meta name="rating" content="general" />
+<?if(isset($this->view->adInfo->pics)){?>
+<meta property="og:title" content="<?=stripslashes($this->view->adInfo->ad_title)?>"/>
+<meta property="og:site_name" content="<?=SITE_URL?>"/>
+<meta property="og:image" content="<?=SITE_UF_CLASSIFIEDS . 'small-' . $this->view->adInfo->pics[0]->ad_pic_path;?>"/>
+<?}?>
 
 <base href="<?=SITE_URL?>" />
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->theme->baseUrl; ?>/front/style/reset.css" media="screen, projection" />
@@ -29,7 +34,7 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
 	droplinemenu.buildmenu("main_menu")
 </script>
 
-<link rel="alternate"  type="application/rss+xml" title="Най - новите продукти" href="<?=SITE_URL?>rss" />
+<link rel="alternate"  type="application/rss+xml" title="<?=Yii::t('home_page', 'Latest Classifieds')?>" href="<?=SITE_URL?>rss" />
 </head>
 <body itemscope itemtype="http://schema.org/WebPage">
 	<div id="wrapper">

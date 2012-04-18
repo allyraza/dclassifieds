@@ -15,7 +15,7 @@
 	            <g:plusone size="medium"></g:plusone>
 	        </div>
 	        <div style="float:left;">
-	        	<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=178542095533379&amp;xfbml=1"></script><fb:like href="<?=$thisPageUrl?>" send="false" layout="button_count" width="200" show_faces="true" font=""></fb:like>
+	        	<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=178542095533379&amp;xfbml=1"></script><fb:like href="<?=$thisPageUrl?>" send="true" layout="button_count" width="200" show_faces="true" font=""></fb:like>
 	        </div>
 	        <div style="clear:both;"></div>	
 		</div>
