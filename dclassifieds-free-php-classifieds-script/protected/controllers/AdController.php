@@ -28,6 +28,7 @@ class AdController extends Controller
 			'captcha'=>array(
 				'class'=>'CCaptchaAction',
 				'backColor'=>0xFFFFFF,
+				'testLimit' => 1
 			),
 		);
 	}
@@ -413,7 +414,7 @@ class AdController extends Controller
 				$adModel->code = $code;
 				
 				//save the data
-				if($adModel->save()){
+				if($adModel->save(false)){
 					
 					//save tags in tags table
 					$tagsArray = AdTag::string2array( $adModel->ad_tags );
@@ -694,7 +695,7 @@ class AdController extends Controller
 				}
 				
 				//save the data
-				if($adModel->save()){
+				if($adModel->save(false)){
 					
 					//delete all tags for this ad
 					$adTagModel = new AdTag();
