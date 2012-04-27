@@ -9,7 +9,7 @@
 <meta name="robots" content="index , follow" />
 <meta name="googlebot" content="index , follow" />
 <meta name="rating" content="general" />
-<?if(isset($this->view->adInfo->pics)){?>
+<?if(isset($this->view->adInfo->pics) && !empty($this->view->adInfo->pics)){?>
 <meta property="og:title" content="<?=stripslashes($this->view->adInfo->ad_title)?>"/>
 <meta property="og:site_name" content="<?=SITE_URL?>"/>
 <meta property="og:image" content="<?=SITE_UF_CLASSIFIEDS . 'small-' . $this->view->adInfo->pics[0]->ad_pic_path;?>"/>
@@ -95,6 +95,7 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
             	<?php echo $content; ?>
             </section>
             <aside id="right_panel">
+            	<?php $this->widget('application.components.Widgets.FilterWidget', array('view' => $this->view)); ?>
     			<?php $this->widget('application.components.Widgets.HistoryWidget'); ?>
     			
                 <?php if($this->beginCache('LocationBoxWidget')) { ?>

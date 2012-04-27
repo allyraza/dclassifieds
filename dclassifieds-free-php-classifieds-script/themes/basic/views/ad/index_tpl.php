@@ -4,8 +4,8 @@
 		<div class="publish_info" style="width:720px;">
 		<?=Yii::t('common', 'Subcategories')?>&nbsp;:&nbsp; 
 		<?foreach ($this->view->childs as $k){?>
-			<?$url = Yii::app()->createUrl('ad/index', array('category_title' => DCUtil::getSeoTitle($k->category_title), 'cid' => $k->category_id));?>
-			&raquo; <a href="<?=$url?>" title="<?=$k->category_title?>"><?=$k->category_title?></a>&nbsp;
+			<?$url = Yii::app()->createUrl('ad/index', array('category_title' => DCUtil::getSeoTitle($k['category_title']), 'cid' => $k['category_id']));?>
+			&raquo; <a href="<?=$url?>" title="<?=stripslashes($k['category_title'])?>"><?=stripslashes($k['category_title'])?></a> (<?=$k['count']?>)&nbsp;
 		<?}//end of foreach?>	
 		</div>
 	<?}//end of if?>

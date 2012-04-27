@@ -4,6 +4,5 @@
     	<?foreach($history as $k){
     		echo CHtml::link($k['title'], $k['url'], array('title' => $k['title']));
     	}?>
-    	<div class="clear"></div>
     </div>
 </div>

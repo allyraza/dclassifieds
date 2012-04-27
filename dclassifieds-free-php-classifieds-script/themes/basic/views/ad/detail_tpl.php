@@ -9,13 +9,13 @@
 				$thisPageUrl = DOMAIN_URL . Yii::app()->createUrl('ad/detail', array('title' => DCUtil::getSeoTitle(stripslashes($ad->ad_title)), 'id' => $ad->ad_id));
 			?>
     		<div style="float:left;">
-				<script type="text/javascript" src="http://apis.google.com/js/plusone.js">
-	              {lang: 'bg'}
-	            </script>
-	            <g:plusone size="medium"></g:plusone>
+				<g:plusone></g:plusone>
 	        </div>
 	        <div style="float:left;">
-	        	<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=178542095533379&amp;xfbml=1"></script><fb:like href="<?=$thisPageUrl?>" send="true" layout="button_count" width="200" show_faces="true" font=""></fb:like>
+				<div class="fb-like" data-href="<?=$thisPageUrl?>" data-send="true" data-width="450" data-show-faces="true"></div>
+	        </div>
+	        <div style="float:left;">
+				<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
 	        </div>
 	        <div style="clear:both;"></div>	
 		</div>
@@ -252,3 +252,22 @@
 	<?=Yii::t('common', 'Ups... No Classifieds Here')?>
 </div>
 <?}?>
+
+<div id="fb-root" style="display:none;"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>

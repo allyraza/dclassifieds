@@ -231,13 +231,13 @@ h1, h2				{
 					
 					
 					
-#location_box a, #location_box a:visited, #history_box a, #history_box a:visited{
+#location_box a, #location_box a:visited, #history_box a, #history_box a:visited, #filter_box a, #filter_box a:visited{
 					display:block;
 					padding: 5px 0px;
 					text-decoration:none;
 					}					
 					
-#location_box a:hover, #history_box a:hover{
+#location_box a:hover, #history_box a:hover, #filter_box a:hover{
 					background-color: #ffffd5;
 					}
 					
@@ -287,7 +287,7 @@ a.tag_link:hover	{
 
 #social_buttons		{
 					margin-bottom:20px;
-					height:22px;
+					height:24px;
 					}
 					
 #classified_text	{
@@ -454,5 +454,12 @@ li.next a			{
 					
 .page_container p	{
 					margin:10px 0px;
-					}					
+					}
+
+/*filter box*/
+.filter_title		{
+					font-weight:bold;
+					margin-top:5px;
+					}
+/*end of filter box*/									
 					
