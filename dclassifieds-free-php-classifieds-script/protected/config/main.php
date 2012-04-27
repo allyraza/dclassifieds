@@ -46,15 +46,12 @@ return array(
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
-				/*'<controller:\w+>/<id:\d+>'=>'<controller>/view',
-				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
-				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',*/
 				'<title:(.*)>-ad<id:\d+>.html/*' => 'ad/detail',
 				'<category_title:(.*)>-cid<cid:\d+>.html/*' => 'ad/index',
 				'<location_name:(.*)>-lid<lid:\d+>.html/*' => 'ad/location',
-				/*'tags-<search_string:(.*)>.html/*' => 'ad/index',*/
-				'<search_string:(.*)>.html/*' => 'ad/index',
+				'tags-<search_string:(.*)>.html/*' => 'ad/search',
 				'<title:(.*)>-pid<pid:\d+>.html/*' => 'site/page',
+				'<search_string:(.*)>.html/*' => 'ad/index',
 			),
 			'showScriptName' => false
 		),
