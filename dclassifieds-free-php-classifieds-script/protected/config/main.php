@@ -52,7 +52,8 @@ return array(
 				'<title:(.*)>-ad<id:\d+>.html/*' => 'ad/detail',
 				'<category_title:(.*)>-cid<cid:\d+>.html/*' => 'ad/index',
 				'<location_name:(.*)>-lid<lid:\d+>.html/*' => 'ad/location',
-				'tags-<search_string:(.*)>.html/*' => 'ad/search',
+				/*'tags-<search_string:(.*)>.html/*' => 'ad/index',*/
+				'<search_string:(.*)>.html/*' => 'ad/index',
 				'<title:(.*)>-pid<pid:\d+>.html/*' => 'site/page',
 			),
 			'showScriptName' => false
