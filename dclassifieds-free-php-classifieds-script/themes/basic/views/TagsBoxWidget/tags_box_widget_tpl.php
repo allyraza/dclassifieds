@@ -4,7 +4,7 @@
     	<?
     	foreach ($tagsArray as $k){
 			$tag = stripslashes($k->tag_text);
-			echo CHtml::link($tag, array('ad/search', 'search_string' => stripslashes($k->tag_text)), array('title' => $tag, 'class' => 'tag_link'));
+			echo CHtml::link($tag, array('ad/index', 'search_string' => stripslashes($k->tag_text)), array('title' => $tag, 'class' => 'tag_link'));
 		}
     	?>
     	<div class="clear"></div>

@@ -2,7 +2,7 @@
 	<div class="box_title"><?=$title?></div>
     <div class="box_content">
     	<?$controller = $this->getController();?>
-		<?if(isset($filters['category_filter'])){?>
+		<?if(isset($filters['category_filter']) && isset($_GET['search_string'])){?>
 			<div class="filter_title"><?=Yii::t('publish_page', 'Category')?></div>
 			<?
 			$params = $_GET;

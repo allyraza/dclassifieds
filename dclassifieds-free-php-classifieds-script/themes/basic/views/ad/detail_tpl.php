@@ -111,9 +111,6 @@
 					</script>
 				</div>	
 			<?}?>
-			
-			
-			
 		</div>	
 		<div class="clear"></div>
 		
@@ -122,7 +119,7 @@
 			$tags = Ad::model()->normalizeTags($ad->ad_tags);
 			if(!empty($tags)){
 				foreach ($tags as $k){
-					$link = Yii::app()->createUrl('ad/search', array('search_string' => stripslashes($k)));
+					$link = Yii::app()->createUrl('ad/index', array('search_string' => stripslashes($k)));
 					$tagsArray[] = '<a href="' . $link . '" class="tag_link">' . stripslashes($k) . '</a>';
 				}
 				echo join(' ', $tagsArray);

@@ -44,7 +44,7 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
         		<?php $this->widget('application.components.Widgets.LocationWidget'); ?>
         	</div>
             <div id="search">
-            	<form action="<?=Yii::app()->createUrl('ad/search')?>" method="get">
+            	<form action="<?=Yii::app()->createUrl('ad/index')?>" method="get">
                 	<input type="text" id="search_string" name="search_string" />
                     <input type="submit" value="<?=Yii::t('common', 'Search');?>" />
                 </form>

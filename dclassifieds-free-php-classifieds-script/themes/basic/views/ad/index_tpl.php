@@ -1,4 +1,4 @@
-<h1><?=$this->view->category_title?></h1>
+<h1><?=$this->view->title?></h1>
 <div style="margin-bottom: 20px;">
 	<?if(!empty($this->view->childs)){?>
 		<div class="publish_info" style="width:720px;">
