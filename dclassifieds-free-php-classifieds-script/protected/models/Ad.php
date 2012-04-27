@@ -72,7 +72,7 @@ class Ad extends CActiveRecord
 		return array(
 			array('category_id, location_id, ad_email, ad_title, ad_description, ad_type_id, ad_valid_id', 'required', 'message' => Yii::t('publish_page', 'Please fill in this field.')),
 			array('category_id, location_id', 'length', 'max'=>10),
-			array('ad_email, ad_price, ad_phone, ad_title, ad_puslisher_name, code, ad_address', 'length', 'max'=>255),
+			array('ad_email, ad_price, ad_phone, ad_title, ad_puslisher_name, code, ad_address, ad_pic', 'length', 'max'=>255),
 			array('ad_ip', 'length', 'max'=>20),
 			array('ad_publish_date, ad_description, ad_tags, ad_skype, ad_lat', 'safe'),
 			array('ad_video', 'match', 'pattern' => '/(http:\/\/vimeo.com\/[\d]+)|(http:\/\/(www.)?youtube.com\/watch\?v=[a-zA-Z0-9_]+[^&])/', 'allowEmpty' => 'true', 'message' => Yii::t('publish_page_v2', 'Please insert link to youtube or vimeo video.')),
@@ -232,8 +232,47 @@ class Ad extends CActiveRecord
 		$params = array();
 		
 		if(isset($_options['location_id'])){
-			$whereArray[] = ' location_id = :lid ';
+			$whereArray[] = ' t.location_id = :lid ';
 			$params[':lid'] = $_options['location_id'];
+		}
+		
+		if(isset($_options['category_id'])){
+			$whereArray[] = ' t.category_id = :cid ';
+			$params[':cid'] = $_options['category_id'];
+		}
+		
+		if(isset($_options['ad_type_id'])){
+			$whereArray[] = ' t.ad_type_id = :ati ';
+			$params[':ati'] = $_options['ad_type_id'];
+		}
+		
+		if(isset($_options['show_with_pic'])){
+			$whereArray[] = "t.ad_pic <> '' AND t.ad_pic IS NOT NULL";
+		}
+		
+		if(isset($_options['show_with_video'])){
+			$whereArray[] = "t.ad_video <> '' AND t.ad_video IS NOT NULL";
+		}
+		
+		if(isset($_options['show_with_map'])){
+			$whereArray[] = "t.ad_lat <> '' AND t.ad_lat IS NOT NULL";
+		}
+		
+		if(isset($_options['show_active'])){
+			$whereArray[] = 't.ad_valid_until >= :today';
+			$params[':today'] = date('Y-m-d');
+		}
+		
+		if(isset($_options['show_with_skype'])){
+			$whereArray[] = "t.ad_skype <> '' AND t.ad_skype IS NOT NULL";
+		}
+		
+		if(isset($_options['price']) && isset($_options['price']['from']) && isset($_options['price']['to'])){
+			$from = (int)$_options['price']['from'];
+			$to = (int)$_options['price']['to'];
+			$whereArray[] = 'ad_price >= :from AND ad_price <= :to';
+			$params[':from'] = $from;
+			$params[':to'] = $to;
 		}
 		
 		if(isset($_options['search_string'])){
@@ -271,8 +310,47 @@ class Ad extends CActiveRecord
 		$params = array();
 		
 		if(isset($_options['location_id'])){
-			$whereArray[] = ' location_id = :lid ';
+			$whereArray[] = ' t.location_id = :lid ';
 			$params[':lid'] = $_options['location_id'];
+		}
+		
+		if(isset($_options['category_id'])){
+			$whereArray[] = ' t.category_id = :cid ';
+			$params[':cid'] = $_options['category_id'];
+		}
+		
+		if(isset($_options['ad_type_id'])){
+			$whereArray[] = ' t.ad_type_id = :ati ';
+			$params[':ati'] = $_options['ad_type_id'];
+		}
+		
+		if(isset($_options['show_with_pic'])){
+			$whereArray[] = "t.ad_pic <> '' AND t.ad_pic IS NOT NULL";
+		}
+		
+		if(isset($_options['show_with_video'])){
+			$whereArray[] = "t.ad_video <> '' AND t.ad_video IS NOT NULL";
+		}
+		
+		if(isset($_options['show_with_map'])){
+			$whereArray[] = "t.ad_lat <> '' AND t.ad_lat IS NOT NULL";
+		}
+		
+		if(isset($_options['show_active'])){
+			$whereArray[] = 't.ad_valid_until >= :today';
+			$params[':today'] = date('Y-m-d');
+		}
+		
+		if(isset($_options['show_with_skype'])){
+			$whereArray[] = "t.ad_skype <> '' AND t.ad_skype IS NOT NULL";
+		}
+		
+		if(isset($_options['price']) && isset($_options['price']['from']) && isset($_options['price']['to'])){
+			$from = (int)$_options['price']['from'];
+			$to = (int)$_options['price']['to'];
+			$whereArray[] = 'ad_price >= :from AND ad_price <= :to';
+			$params[':from'] = $from;
+			$params[':to'] = $to;
 		}
 		
 		if(isset($_options['search_string'])){
@@ -315,12 +393,216 @@ class Ad extends CActiveRecord
 		return $ret;
 	}
 	
+	public function getSearchFilters( $_options = array() )
+	{
+		$ret 		= array();
+		$whereArray = array();
+		$where 		= '';
+		$params 	= array();
+		
+		$generatedWhere = $this->getWhereArray($_options);
+		if(isset($generatedWhere['where']) && !empty($generatedWhere['where'])){
+			$whereArray = $generatedWhere['where'];
+		}
+		
+		if(isset($generatedWhere['params']) && !empty($generatedWhere['params'])){
+			$params = $generatedWhere['params'];
+		}
+		
+		if(!empty($whereArray)){
+			$where = join(' AND ', $whereArray);
+		}
+		
+		$originalCriteria = new CDbCriteria();
+		if(!empty($where)){
+			$originalCriteria->addCondition($where);
+			$originalCriteria->params = $params;
+		}
+		
+		//get the command builder
+		$commandBuilder = Yii::app()->db->getCommandBuilder();
+		
+		//get category filter
+		//need new original criteria for every filter
+		$criteria = clone $originalCriteria;
+		$criteria->select = 't.category_id, count(*) AS ad_count, t1.category_title';
+		$criteria->group = 't.category_id';
+		$criteria->join = 'LEFT JOIN category AS t1 ON t1.category_id = t.category_id';
+		$res = $commandBuilder->createFindCommand('ad', $criteria)->queryAll();
+		if(!empty($res)){
+			$ret['category_filter'] = $res;
+		}
+
+		//get type filter
+		//need new original criteria for every filter
+		$criteria = clone $originalCriteria;
+		$criteria->select = 't.ad_type_id, count(*) as ad_count, t1.ad_type_name';
+		$criteria->group = 't.ad_type_id';
+		$criteria->join = 'LEFT JOIN ad_type AS t1 ON t1.ad_type_id = t.ad_type_id';
+		$res = $commandBuilder->createFindCommand('ad', $criteria)->queryAll();
+		if(!empty($res)){
+			$ret['ad_type_filter'] = $res;
+		}
+		
+		//get price filter
+		//if selected price range
+		if(isset($params[':from']) && isset($params[':to'])){
+			$data[0] = array('from' => $params[':from'], 'to' => $params[':to']);
+			$data[0]['ad_count'] = $this->count($originalCriteria);
+			$ret['price_filter'] = $data;
+		} else {
+			//need new original criteria for every filter
+			$criteria = clone $originalCriteria;
+			$criteria->select = 'max(ad_price) AS max_price';
+			$res = $commandBuilder->createFindCommand('ad', $criteria)->queryAll();
+			if(!empty($res)){
+				$max = $res[0]['max_price'];
+				if($max > 0){
+					$criteria->select = '';
+					$criteria->group = '';
+					$criteria->join = '';
+					$step = ceil($max / 6);
+					$from = 0;
+					$to = $step;
+					$data = array();
+					$criteria->addCondition('ad_price >= :from AND ad_price <= :to');
+					for ($i = 0; $i < 6; $i++){
+						$data[$i] = array('from' => (int)$from, 'to' => (int)$to);
+						$criteria->params = array_merge($criteria->params, array(':from' => $from, ':to' => $to));
+						$data[$i]['ad_count'] = $this->count($criteria);
+						$from += $step;
+						$to += $step;
+					}//end of for
+					
+					if(!empty($data)){
+						$ret['price_filter'] = $data;
+					}
+				}
+			}
+		}
+		
+		//get with pic only
+		//need new original criteria for every filter
+		$criteria = clone $originalCriteria;
+		$criteria->addCondition("t.ad_pic <> '' AND t.ad_pic IS NOT NULL");
+		
+		$res = $commandBuilder->createFindCommand('ad', $criteria)->queryAll();
+		if(!empty($res)){
+			$ret['pic_filter'] = count($res);
+		}
+
+		//get only active
+		//need new original criteria for every filter
+		$criteria = clone $originalCriteria;
+		$criteria->addCondition('t.ad_valid_until >= :today');
+		$criteria->params = array_merge($criteria->params, array(':today' => date('Y-m-d')));
+		$res = $this->count($criteria);
+		if(!empty($res)){
+			$ret['active_filter'] = $res;	
+		}
+				
+		//get only with skype
+		//need new original criteria for every filter
+		$criteria = clone $originalCriteria;
+		$criteria->addCondition("t.ad_skype <> '' AND t.ad_skype IS NOT NULL");
+		$res = $this->count($criteria);
+		if(!empty($res)){
+			$ret['skype_filter'] = $res;	
+		}
+		
+		//get with video only if video is enabled
+		//need new original criteria for every filter
+		if (ENABLE_VIDEO_LINK_PUBLISH){
+			$criteria = clone $originalCriteria;
+			$criteria->addCondition("t.ad_video <> '' AND t.ad_video IS NOT NULL");
+			$res = $this->count($criteria);
+			if(!empty($res)){
+				$ret['video_filter'] = $res;	
+			}
+		}
+		
+		//get with map only if map is enabled
+		//need new original criteria for every filter
+		if(ENABLE_GOOGLE_MAP){
+			$criteria = clone $originalCriteria;
+			$criteria->addCondition("t.ad_lat <> '' AND t.ad_lat IS NOT NULL");
+			$res = $this->count($criteria);
+			if(!empty($res)){
+				$ret['map_filter'] = $res;	
+			}	
+		}
+		
+		return $ret;
+	}
+	
 	public function normalizeTags($tags = '')
 	{
 		$ret = '';
 		if(!empty($tags)){
 			$ret = AdTag::string2array($tags);
 		}
+		return $ret;
+	}
+	
+	private function getWhereArray($_options = array())
+	{
+		$ret = array();
+		$ret['where'] = array();
+		$ret['params'] = array();
+		
+		if(isset($_options['location_id'])){
+			$ret['where'][] = ' t.location_id = :lid ';
+			$ret['params'][':lid'] = $_options['location_id'];
+		}
+		
+		if(isset($_options['category_id'])){
+			$ret['where'][] = ' t.category_id = :cid ';
+			$ret['params'][':cid'] = $_options['category_id'];
+		}
+		
+		if(isset($_options['ad_type_id'])){
+			$ret['where'][] = ' t.ad_type_id = :ati ';
+			$ret['params'][':ati'] = $_options['ad_type_id'];
+		}
+		
+		if(isset($_options['show_with_pic'])){
+			$ret['where'][] = "t.ad_pic <> '' AND t.ad_pic IS NOT NULL";
+		}
+		
+		if(isset($_options['show_with_video'])){
+			$ret['where'][] = "t.ad_video <> '' AND t.ad_video IS NOT NULL";
+		}
+		
+		if(isset($_options['show_with_map'])){
+			$ret['where'][] = "t.ad_lat <> '' AND t.ad_lat IS NOT NULL";
+		}
+		
+		if(isset($_options['show_active'])){
+			$ret['where'][] = 't.ad_valid_until >= :today';
+			$ret['params'][':today'] = date('Y-m-d');
+		}
+		
+		if(isset($_options['show_with_skype'])){
+			$ret['where'][] = "t.ad_skype <> '' AND t.ad_skype IS NOT NULL";
+		}
+		
+		if(isset($_options['price']) && isset($_options['price']['from']) && isset($_options['price']['to'])){
+			$from = (int)$_options['price']['from'];
+			$to = (int)$_options['price']['to'];
+			$ret['where'][] = 'ad_price >= :from AND ad_price <= :to';
+			$ret['params'][':from'] = $from;
+			$ret['params'][':to'] = $to;
+		}
+		
+		if(isset($_options['search_string'])){
+			$ret['where'][] = ' MATCH(ad_title, ad_description, ad_tags) AGAINST (:search_string) ';
+			$ret['params'][':search_string'] = $_options['search_string'];
+		}
+		
+		if(isset($_options['where'])){
+			$ret['where'][] = $_options['where'];
+		}
+		
 		return $ret;
 	}
 }
