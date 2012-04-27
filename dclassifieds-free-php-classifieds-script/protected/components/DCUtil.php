@@ -114,4 +114,44 @@ class DCUtil
 		
 		return $video;
 	}
+	
+	/**
+	 * Check if integer variable is defined in $_GET, $_POST and etc.
+	 *
+	 * @param string $_array_name
+	 * @param string $_var_name
+	 * @return integer
+	 */
+	static function isValidInt($_array_name, $_var_name)
+	{
+		$ret = 0;
+		if(isset($_array_name[$_var_name]) && is_numeric($_array_name[$_var_name]) && $_array_name[$_var_name] > 0){
+			$ret = $_array_name[$_var_name];
+		} 
+		return $ret;
+	}
+	
+	/**
+	 * Check if string variable is defined in $_GET, $_POST and etc.
+	 * if optional lenght is given also check for var name
+	 *
+	 * @param string $_array_name
+	 * @param string $_var_name
+	 * @param string $_len
+	 * @return string|integer 0
+	 */
+	static function isValidString($_array_name, $_var_name, $_len = 0)
+	{
+		$ret = 0;
+		if(isset($_array_name[$_var_name]) && $var_len = mb_strlen(self::sanitize($_array_name[$_var_name]), 'utf-8')){
+			if($_len){
+				if($_len >= $var_len){
+					$ret = self::sanitize($_array_name[$_var_name]);
+				} 
+			} else {
+				$ret = self::sanitize($_array_name[$_var_name]);
+			}
+		} 
+		return $ret;
+	}
 }
