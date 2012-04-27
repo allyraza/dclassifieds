@@ -223,201 +223,100 @@ class Ad extends CActiveRecord
 		return $ret;
 	}
 	
-	public function getSearchCount( $_options = array() )
+	public function getAdCount(CDbCriteria $criteria)
 	{
-		$ret = 0;
-		
-		$whereArray = array();
-		$where = '';
-		$params = array();
-		
-		if(isset($_options['location_id'])){
-			$whereArray[] = ' t.location_id = :lid ';
-			$params[':lid'] = $_options['location_id'];
-		}
-		
-		if(isset($_options['category_id'])){
-			$whereArray[] = ' t.category_id = :cid ';
-			$params[':cid'] = $_options['category_id'];
-		}
-		
-		if(isset($_options['ad_type_id'])){
-			$whereArray[] = ' t.ad_type_id = :ati ';
-			$params[':ati'] = $_options['ad_type_id'];
-		}
-		
-		if(isset($_options['show_with_pic'])){
-			$whereArray[] = "t.ad_pic <> '' AND t.ad_pic IS NOT NULL";
-		}
-		
-		if(isset($_options['show_with_video'])){
-			$whereArray[] = "t.ad_video <> '' AND t.ad_video IS NOT NULL";
-		}
-		
-		if(isset($_options['show_with_map'])){
-			$whereArray[] = "t.ad_lat <> '' AND t.ad_lat IS NOT NULL";
-		}
-		
-		if(isset($_options['show_active'])){
-			$whereArray[] = 't.ad_valid_until >= :today';
-			$params[':today'] = date('Y-m-d');
-		}
-		
-		if(isset($_options['show_with_skype'])){
-			$whereArray[] = "t.ad_skype <> '' AND t.ad_skype IS NOT NULL";
-		}
-		
-		if(isset($_options['price']) && isset($_options['price']['from']) && isset($_options['price']['to'])){
-			$from = (int)$_options['price']['from'];
-			$to = (int)$_options['price']['to'];
-			$whereArray[] = 'ad_price >= :from AND ad_price <= :to';
-			$params[':from'] = $from;
-			$params[':to'] = $to;
-		}
-		
-		if(isset($_options['search_string'])){
-			$whereArray[] = ' MATCH(ad_title, ad_description, ad_tags) AGAINST (:search_string) ';
-			$params[':search_string'] = $_options['search_string'];
-		}
-		
-		if(!empty($whereArray)){
-			$where = join(' AND ', $whereArray);
-		}
-		
-		if(!$ret = Yii::app()->cache->get( 'getSearchCount_' . md5($where) )) {
-			$criteria = new CDbCriteria();
-			
-			if(!empty($where)){
-				$criteria->condition = $where;
-				$criteria->params = $params;
-			}
-			$res = $this->count($criteria);
-			
-			if(!empty($res)){
-				$ret = $res;
-				Yii::app()->cache->set('getSearchCount_' . md5($where) , $ret);
-			}
-		}
-		return $ret;
+		return $this->count($criteria);
 	}
 	
-	public function getSearchList( $_options = array() )
+	public function getAdList(CDbCriteria $criteria)
 	{
-		$ret = 0;
-		
-		$whereArray = array();
-		$where = '';
-		$params = array();
-		
-		if(isset($_options['location_id'])){
-			$whereArray[] = ' t.location_id = :lid ';
-			$params[':lid'] = $_options['location_id'];
-		}
-		
-		if(isset($_options['category_id'])){
-			$whereArray[] = ' t.category_id = :cid ';
-			$params[':cid'] = $_options['category_id'];
-		}
-		
-		if(isset($_options['ad_type_id'])){
-			$whereArray[] = ' t.ad_type_id = :ati ';
-			$params[':ati'] = $_options['ad_type_id'];
-		}
-		
-		if(isset($_options['show_with_pic'])){
-			$whereArray[] = "t.ad_pic <> '' AND t.ad_pic IS NOT NULL";
-		}
-		
-		if(isset($_options['show_with_video'])){
-			$whereArray[] = "t.ad_video <> '' AND t.ad_video IS NOT NULL";
-		}
-		
-		if(isset($_options['show_with_map'])){
-			$whereArray[] = "t.ad_lat <> '' AND t.ad_lat IS NOT NULL";
-		}
-		
-		if(isset($_options['show_active'])){
-			$whereArray[] = 't.ad_valid_until >= :today';
-			$params[':today'] = date('Y-m-d');
-		}
-		
-		if(isset($_options['show_with_skype'])){
-			$whereArray[] = "t.ad_skype <> '' AND t.ad_skype IS NOT NULL";
-		}
-		
-		if(isset($_options['price']) && isset($_options['price']['from']) && isset($_options['price']['to'])){
-			$from = (int)$_options['price']['from'];
-			$to = (int)$_options['price']['to'];
-			$whereArray[] = 'ad_price >= :from AND ad_price <= :to';
-			$params[':from'] = $from;
-			$params[':to'] = $to;
-		}
-		
-		if(isset($_options['search_string'])){
-			$whereArray[] = ' MATCH(ad_title, ad_description, ad_tags) AGAINST (:search_string) ';
-			$params[':search_string'] = $_options['search_string'];
-		}
-		
-		if(isset($_options['where'])){
-			$whereArray[] = $_options['where'];
-		}
-		
-		if(!empty($whereArray)){
-			$where = join(' AND ', $whereArray);
-		}
-		
-		$limit = '';
-		if(isset($_options['offset']) && isset($_options['limit'])){
-			$limit = $_options['offset'] . ', ' . $_options['limit'];
-		}
-		
-		$cache_key_name = 'getSearchList_' . md5($where) . '_' . md5($limit);
-		if(!$ret = Yii::app()->cache->get( $cache_key_name )) {
-			$criteria = new CDbCriteria();
-			if(!empty($where)){
-				$criteria->condition = $where;
-				$criteria->params = $params;
-			}
-			
-			if(!empty($limit)){
-				$criteria->offset = $_options['offset'];
-				$criteria->limit = $_options['limit'];
-			}
-			
-			$res = $this->findAll($criteria);
-			if(!empty($res)){
-				$ret = $res;
-				Yii::app()->cache->set($cache_key_name , $ret);	
-			}
-		}		
-		return $ret;
+		return $this->findAll($criteria);	
 	}
 	
-	public function getSearchFilters( $_options = array() )
+	public function createCriteria($_where_to_check = array())
+	{
+		$criteria = new CDbCriteria();
+		$params = array();
+		
+		//category check
+		if($cid = DCUtil::isValidInt($_where_to_check, 'cid')){
+			$categoryInfo = Category::model()->findByPk( $cid );
+			$inWhereArray = array($cid);
+
+			//check for category childs
+			$childs = $categoryInfo->getChilds();
+			if(!empty($childs)){
+				foreach ($childs as $k){
+					$inWhereArray[] = $k['category_id'];
+				}
+			}
+			$criteria->addInCondition('t.category_id', $inWhereArray);
+		}
+		
+		//location check
+		if($lid = DCUtil::isValidInt($_where_to_check, 'lid')){
+			$criteria->addCondition('t.location_id = :lid');
+			$params[':lid'] = $lid;
+		}
+		
+		//search check (keyword and tag)
+		if($search_string = DCUtil::isValidString($_where_to_check, 'search_string')){
+			$criteria->addCondition('MATCH(ad_title, ad_description, ad_tags) AGAINST (:search_string)');
+			$params[':search_string'] = urldecode($search_string);
+		}
+		
+		//ad type check
+		if($tid = DCUtil::isValidInt($_where_to_check, 'tid')){
+			$criteria->addCondition('t.ad_type_id = :ati');
+			$params[':ati'] = $tid;	
+		}
+		
+		//price check
+		if($price = DCUtil::isValidString($_where_to_check, 'price')){
+			if($price_serilizied = base64_decode($price)){
+				$price_array = unserialize($price_serilizied);
+				if(isset($price_array['price']['from']) && isset($price_array['price']['to'])){
+					$criteria->addCondition('ad_price >= :from AND ad_price <= :to');
+					$params[':from'] = $from;
+					$params[':to'] = $to;		
+				}	
+			}
+		}
+		
+		//show with pic only
+		if(DCUtil::isValidInt($_where_to_check, 'show_with_pic')){
+			$criteria->addCondition("t.ad_pic <> '' AND t.ad_pic IS NOT NULL");
+		}
+		
+		//show with video only
+		if(DCUtil::isValidInt($_where_to_check, 'show_with_video')){
+			$criteria->addCondition("t.ad_video <> '' AND t.ad_video IS NOT NULL");
+		}
+		
+		//show with map only
+		if(DCUtil::isValidInt($_where_to_check, 'show_with_map')){
+			$criteria->addCondition("t.ad_lat <> '' AND t.ad_lat IS NOT NULL");
+		}
+		
+		//show only active
+		if(DCUtil::isValidInt($_where_to_check, 'show_active')){
+			$criteria->addCondition('t.ad_valid_until >= :today');
+			$params[':today'] = date('Y-m-d');	
+		}
+		
+		//show only with skype
+		if(DCUtil::isValidInt($_where_to_check, 'show_with_skype')){
+			$criteria->addCondition("t.ad_skype <> '' AND t.ad_skype IS NOT NULL");
+		}
+		
+		$criteria->params = array_merge($criteria->params, $params);
+		
+		return $criteria;
+	}
+	
+	public function getFilters(CDbCriteria $originalCriteria)
 	{
 		$ret 		= array();
-		$whereArray = array();
-		$where 		= '';
-		$params 	= array();
-		
-		$generatedWhere = $this->getWhereArray($_options);
-		if(isset($generatedWhere['where']) && !empty($generatedWhere['where'])){
-			$whereArray = $generatedWhere['where'];
-		}
-		
-		if(isset($generatedWhere['params']) && !empty($generatedWhere['params'])){
-			$params = $generatedWhere['params'];
-		}
-		
-		if(!empty($whereArray)){
-			$where = join(' AND ', $whereArray);
-		}
-		
-		$originalCriteria = new CDbCriteria();
-		if(!empty($where)){
-			$originalCriteria->addCondition($where);
-			$originalCriteria->params = $params;
-		}
 		
 		//get the command builder
 		$commandBuilder = Yii::app()->db->getCommandBuilder();
@@ -541,68 +440,6 @@ class Ad extends CActiveRecord
 		if(!empty($tags)){
 			$ret = AdTag::string2array($tags);
 		}
-		return $ret;
-	}
-	
-	private function getWhereArray($_options = array())
-	{
-		$ret = array();
-		$ret['where'] = array();
-		$ret['params'] = array();
-		
-		if(isset($_options['location_id'])){
-			$ret['where'][] = ' t.location_id = :lid ';
-			$ret['params'][':lid'] = $_options['location_id'];
-		}
-		
-		if(isset($_options['category_id'])){
-			$ret['where'][] = ' t.category_id = :cid ';
-			$ret['params'][':cid'] = $_options['category_id'];
-		}
-		
-		if(isset($_options['ad_type_id'])){
-			$ret['where'][] = ' t.ad_type_id = :ati ';
-			$ret['params'][':ati'] = $_options['ad_type_id'];
-		}
-		
-		if(isset($_options['show_with_pic'])){
-			$ret['where'][] = "t.ad_pic <> '' AND t.ad_pic IS NOT NULL";
-		}
-		
-		if(isset($_options['show_with_video'])){
-			$ret['where'][] = "t.ad_video <> '' AND t.ad_video IS NOT NULL";
-		}
-		
-		if(isset($_options['show_with_map'])){
-			$ret['where'][] = "t.ad_lat <> '' AND t.ad_lat IS NOT NULL";
-		}
-		
-		if(isset($_options['show_active'])){
-			$ret['where'][] = 't.ad_valid_until >= :today';
-			$ret['params'][':today'] = date('Y-m-d');
-		}
-		
-		if(isset($_options['show_with_skype'])){
-			$ret['where'][] = "t.ad_skype <> '' AND t.ad_skype IS NOT NULL";
-		}
-		
-		if(isset($_options['price']) && isset($_options['price']['from']) && isset($_options['price']['to'])){
-			$from = (int)$_options['price']['from'];
-			$to = (int)$_options['price']['to'];
-			$ret['where'][] = 'ad_price >= :from AND ad_price <= :to';
-			$ret['params'][':from'] = $from;
-			$ret['params'][':to'] = $to;
-		}
-		
-		if(isset($_options['search_string'])){
-			$ret['where'][] = ' MATCH(ad_title, ad_description, ad_tags) AGAINST (:search_string) ';
-			$ret['params'][':search_string'] = $_options['search_string'];
-		}
-		
-		if(isset($_options['where'])){
-			$ret['where'][] = $_options['where'];
-		}
-		
 		return $ret;
 	}
 }
