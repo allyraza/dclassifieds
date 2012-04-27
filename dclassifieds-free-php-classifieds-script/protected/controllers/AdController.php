@@ -127,14 +127,18 @@ class AdController extends Controller
 			$this->view->adInfo = $adInfo;
 			
 			//get similar classifieds info
-			$similarAdsOptions = array('location_id' 	=> $adInfo->location_id, 
-									   'search_string'	=> $adInfo->ad_title,
-									   'where'			=> 't.ad_id <> ' . $adId,
-									   'offset' 		=> 0,
-									   'limit' 			=> NUM_SIMILAR_CLASSIFIEDS);
-			$cache_key_name = 'similarAds_' . md5(serialize($similarAdsOptions));
+			$criteria = new CDbCriteria();
+			$criteria->addCondition('location_id = :lid');
+			$criteria->addCondition('MATCH(ad_title, ad_description, ad_tags) AGAINST (:search_string)');
+			$criteria->addCondition('t.ad_id <> :ad_id');
+			$criteria->offset = 0;
+			$criteria->limit = NUM_SIMILAR_CLASSIFIEDS;
+			$criteria->params = array(':lid' => $adInfo->location_id, ':search_string' => $adInfo->ad_title, ':ad_id' => $adId);
+
+
+			$cache_key_name = 'similarAds_' . md5(serialize($criteria));
 			if(!$similarAds = Yii::app()->cache->get( $cache_key_name )) {									   
-				$similarAds = Ad::model()->getSearchList( $similarAdsOptions );
+				$similarAds = Ad::model()->getAdList($criteria);
 				Yii::app()->cache->set($cache_key_name , $similarAds);	
 			}
 			$this->view->similarAds = $similarAds;
