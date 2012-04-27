@@ -55,15 +55,16 @@ class AdController extends Controller
 			$inWhereArray = array($cid);
 
 			//check for category childs
-			$childs = $categoryInfo->childs;
+			//$childs = $categoryInfo->childs;
+			$childs = $categoryInfo->getChilds();
 			if(!empty($childs)){
 				$this->view->childs = $childs;
 				foreach ($childs as $k){
-					$inWhereArray[] = $k->category_id;
+					$inWhereArray[] = $k['category_id'];
 				}
 			}
 			
-			$criteria->addInCondition('category_id', $inWhereArray);
+			$criteria->addInCondition('t.category_id', $inWhereArray);
 			
 			//set params to pager
 			$pagerParams['cid'] = $cid;
@@ -96,7 +97,7 @@ class AdController extends Controller
 		}
 		
 		//get ad count that match criteria
-		$cache_key_name = md5(json_encode($criteria->toArray()));
+		$cache_key_name = md5(serialize($criteria->toArray()));
 		if(!$count = Yii::app()->cache->get( $cache_key_name )) {
 	    	$count=Ad::model()->count($criteria);
 	    	Yii::app()->cache->set($cache_key_name , $count);
@@ -113,7 +114,7 @@ class AdController extends Controller
 	    }
 	    
 	    //get classifieds
-	    $cache_key_name = md5(json_encode($criteria->toArray()));
+	    $cache_key_name = md5(serialize($criteria->toArray()));
 		if(!$adList = Yii::app()->cache->get( $cache_key_name )) {
 	    	$adList = Ad::model()->findAll($criteria);
 	    	Yii::app()->cache->set($cache_key_name , $adList);
@@ -138,17 +139,32 @@ class AdController extends Controller
 	
 	public function actionSearch()
 	{
-		//get params
-		$search_string 	= isset($_GET['search_string']) ? $_GET['search_string'] : null;
-		$location_id 	= isset(Yii::app()->session['lid']) ? Yii::app()->session['lid'] : null;
-		
-		//init vars
+		//define vars
 		$whereArray 	= array();
 		$pagerParams 	= array();
 		$options		= array();
 		$breadcrump		= array();
 		
-		//check incoming params
+		//check for search string
+		$search_string 	= isset($_GET['search_string']) ? $_GET['search_string'] : null;
+		
+		//check if location is selected
+		$location_id 	= isset(Yii::app()->session['lid']) ? Yii::app()->session['lid'] : null;
+		
+		//check for filters
+		$cid = isset($_GET['cid']) ? $_GET['cid'] : null;
+		$tid = isset($_GET['tid']) ? $_GET['tid'] : null;
+		$price = isset($_GET['price']) ? $_GET['price'] : null;
+		
+		//filters
+		$filters = array('show_with_pic', 'show_with_video', 'show_with_map', 'show_active', 'show_with_skype');
+		foreach ($filters as $k => $v){
+			if(isset($_GET[$v])){
+				$options[$v] = 1;
+			}
+		}
+		
+		//validate incoming params
 		if(!empty($search_string)){
 			$search_string_fixed = trim(DCUtil::sanitize( urldecode($search_string) ));
 			if( mb_strlen($search_string_fixed) > 0 ){
@@ -160,6 +176,21 @@ class AdController extends Controller
 		if(!empty($location_id) && is_numeric($location_id)){
 			$options['location_id'] = $location_id;
 		}
+		
+		if(!empty($cid) && is_numeric($cid)){
+			$options['category_id'] = $cid;
+		}
+		
+		if(!empty($tid) && is_numeric($tid)){
+			$options['ad_type_id'] = $tid;
+		}
+		
+		if(!empty($price) && $price_serilizied = base64_decode($price)){
+			$options['price'] = unserialize($price_serilizied);
+		}
+		
+		//generate search filters
+		$this->view->filters = Ad::model()->getSearchFilters($options);
 		
 		//get ad count that match criteria
 	    $count = Ad::model()->getSearchCount( $options );
@@ -214,7 +245,7 @@ class AdController extends Controller
 									   'where'			=> 't.ad_id <> ' . $adId,
 									   'offset' 		=> 0,
 									   'limit' 			=> NUM_SIMILAR_CLASSIFIEDS);
-			$cache_key_name = 'similarAds_' . md5(json_encode($similarAdsOptions));
+			$cache_key_name = 'similarAds_' . md5(serialize($similarAdsOptions));
 			if(!$similarAds = Yii::app()->cache->get( $cache_key_name )) {									   
 				$similarAds = Ad::model()->getSearchList( $similarAdsOptions );
 				Yii::app()->cache->set($cache_key_name , $similarAds);	
@@ -427,6 +458,11 @@ class AdController extends Controller
 					$uploadedFiles = CUploadedFile::getInstances($adModel, 'images');
 					if(!empty($uploadedFiles)){
 						define('ASIDO_GD_JPEG_QUALITY', 100);
+						Yii::import('application.extensions.asido.*');
+						require_once('class.asido.php');
+						asido::driver('gd');
+							
+						$i = 0;
 						
 						foreach($uploadedFiles as $k => $v){
 							$adPicModel = new AdPic();
@@ -435,10 +471,6 @@ class AdController extends Controller
 							$v->saveAs(PATH_UF_CLASSIFIEDS . $fileNameOnServer);
 							
 							$pic_variations = array('small' => array('name' => 'small-' . $fileNameOnServer, 'width' => 120, 'height' => 90));
-							
-							Yii::import('application.extensions.asido.*');
-							require_once('class.asido.php');
-							asido::driver('gd');
 							
 							//resize images
 							foreach ($pic_variations as $k => $v){
@@ -452,7 +484,14 @@ class AdController extends Controller
 							$adPicModel->ad_pic_path = $fileNameOnServer;
 							$adPicModel->save();
 							
+							//save the first picture in main table
+							if($i == 0){
+								$adModel->ad_pic = $fileNameOnServer;
+								$adModel->save(false);
+							}
+							
 							unset($adPicModel);
+							$i++;
 						}	
 					}
 					
@@ -724,8 +763,12 @@ class AdController extends Controller
 							$adPicModel->deleteAll('ad_id = :ad_id', array(':ad_id' => $adId));
 						}
 						
-						
 						define('ASIDO_GD_JPEG_QUALITY', 100);
+						Yii::import('application.extensions.asido.*');
+						require_once('class.asido.php');
+						asido::driver('gd');
+						
+						$i = 0;
 						
 						foreach($uploadedFiles as $k => $v){
 							$adPicModel = new AdPic();
@@ -734,10 +777,6 @@ class AdController extends Controller
 							$v->saveAs(PATH_UF_CLASSIFIEDS . $fileNameOnServer);
 							
 							$pic_variations = array('small' => array('name' => 'small-' . $fileNameOnServer, 'width' => 120, 'height' => 90));
-							
-							Yii::import('application.extensions.asido.*');
-							require_once('class.asido.php');
-							asido::driver('gd');
 							
 							//resize images
 							foreach ($pic_variations as $k => $v){
@@ -751,7 +790,14 @@ class AdController extends Controller
 							$adPicModel->ad_pic_path = $fileNameOnServer;
 							$adPicModel->save();
 							
+							//save the first picture in main table
+							if($i == 0){
+								$adModel->ad_pic = $fileNameOnServer;
+								$adModel->save(false);
+							}
+							
 							unset($adPicModel);
+							$i++;
 						}	
 					}
 					
