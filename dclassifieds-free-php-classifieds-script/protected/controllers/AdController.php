@@ -35,39 +35,17 @@ class AdController extends Controller
 	
 	public function actionIndex()
 	{
-		//get incoming params
-		$cid = isset($_GET['cid']) ? $_GET['cid'] : null;
-		$lid = isset(Yii::app()->session['lid']) ? Yii::app()->session['lid'] : null;
+		$breadcrump = array();
 		
-		//create criteria object
-		$criteria = new CDbCriteria();
-		$criteriaParams = array();
-		
-		//init vars
-		$whereArray 	= array();
-		$pagerParams 	= array();
-		$breadcrump		= array();
-		
-		//check incoming params
-		if(!empty($cid) && is_numeric($cid)){
+		if($search_string_fixed = DCUtil::isValidString($_GET, 'search_string')){
+			$this->view->title = stripslashes($search_string_fixed);
+			$breadcrump[] = stripslashes($search_string_fixed);	
+		} elseif ($cid = DCUtil::isValidInt($_GET, 'cid')){
 			$categoryInfo = Category::model()->findByPk( $cid );
-			
-			$inWhereArray = array($cid);
-
-			//check for category childs
-			//$childs = $categoryInfo->childs;
 			$childs = $categoryInfo->getChilds();
 			if(!empty($childs)){
 				$this->view->childs = $childs;
-				foreach ($childs as $k){
-					$inWhereArray[] = $k['category_id'];
-				}
 			}
-			
-			$criteria->addInCondition('t.category_id', $inWhereArray);
-			
-			//set params to pager
-			$pagerParams['cid'] = $cid;
 			
 			//set breadcrump
 			if($parents_array = Category::model()->getParentRecursive($cid)){
@@ -79,149 +57,58 @@ class AdController extends Controller
 			$breadcrump[] = $categoryInfo->category_title;
 			
 			//set category title in to the view
-			$this->view->category_title = $categoryInfo->category_title;
+			$this->view->title = $categoryInfo->category_title;
+		} else {
+			$this->view->title = '';
 		}
 		
-		//check incoming params
-		if(!empty($lid) && is_numeric($lid)){
-			$criteria->addCondition('t.location_id = :lid');
-			$criteriaParams[':lid'] = $lid;
-			$pagerParams['lid'] = $lid;
-		}
-		
-		//set order
-		$criteria->order = 't.ad_vip DESC, t.ad_id DESC';
-		
-		if(!empty($criteriaParams)){
-			$criteria->params = array_merge($criteria->params, $criteriaParams);
-		}
-		
-		//get ad count that match criteria
-		$cache_key_name = md5(serialize($criteria->toArray()));
-		if(!$count = Yii::app()->cache->get( $cache_key_name )) {
-	    	$count=Ad::model()->count($criteria);
-	    	Yii::app()->cache->set($cache_key_name , $count);
-		}
-		
-	    //create pagination object
-	    $pages=new CPagination($count);
-	
-	    //init pagination object
-	    $pages->pageSize = NUM_CLASSIFIEDS_ON_PAGE;
-	    $pages->applyLimit($criteria);
-	    if(!empty($pagerParams)){
-	    	$pages->params = $pagerParams;
-	    }
-	    
-	    //get classifieds
-	    $cache_key_name = md5(serialize($criteria->toArray()));
-		if(!$adList = Yii::app()->cache->get( $cache_key_name )) {
-	    	$adList = Ad::model()->findAll($criteria);
-	    	Yii::app()->cache->set($cache_key_name , $adList);
-		}	
-	    
-	    //inject classifieds data into the view
-	    $this->view->adList = $adList;
-	    
-	    if(!empty($breadcrump)){
-	    	$this->view->breadcrump = $breadcrump;
-	    }
-	    
-	    if(isset($this->view->category_title)){
-		    $this->view->pageTitle 			= $this->view->category_title;
-		    $this->view->pageDescription 	= $this->view->category_title;
-		    $this->view->pageKeywords 		= $this->view->category_title;
-	    }
-    
-	    //render view
-	    $this->render('index_tpl', array('pages' => $pages));	
-	}
-	
-	public function actionSearch()
-	{
-		//define vars
-		$whereArray 	= array();
-		$pagerParams 	= array();
-		$options		= array();
-		$breadcrump		= array();
-		
-		//check for search string
-		$search_string 	= isset($_GET['search_string']) ? $_GET['search_string'] : null;
-		
-		//check if location is selected
-		$location_id 	= isset(Yii::app()->session['lid']) ? Yii::app()->session['lid'] : null;
-		
-		//check for filters
-		$cid = isset($_GET['cid']) ? $_GET['cid'] : null;
-		$tid = isset($_GET['tid']) ? $_GET['tid'] : null;
-		$price = isset($_GET['price']) ? $_GET['price'] : null;
-		
-		//filters
-		$filters = array('show_with_pic', 'show_with_video', 'show_with_map', 'show_active', 'show_with_skype');
-		foreach ($filters as $k => $v){
-			if(isset($_GET[$v])){
-				$options[$v] = 1;
-			}
-		}
-		
-		//validate incoming params
-		if(!empty($search_string)){
-			$search_string_fixed = trim(DCUtil::sanitize( urldecode($search_string) ));
-			if( mb_strlen($search_string_fixed) > 0 ){
-				$options['search_string'] = $search_string_fixed;
-				$breadcrump[] = stripslashes($search_string_fixed);
-			}
-		}
-		
-		if(!empty($location_id) && is_numeric($location_id)){
-			$options['location_id'] = $location_id;
-		}
-		
-		if(!empty($cid) && is_numeric($cid)){
-			$options['category_id'] = $cid;
-		}
-		
-		if(!empty($tid) && is_numeric($tid)){
-			$options['ad_type_id'] = $tid;
-		}
-		
-		if(!empty($price) && $price_serilizied = base64_decode($price)){
-			$options['price'] = unserialize($price_serilizied);
-		}
+		//generate criteria from incoming parameters
+		$criteria = Ad::model()->createCriteria($_GET);
 		
 		//generate search filters
-		$this->view->filters = Ad::model()->getSearchFilters($options);
+		$this->view->filters = Ad::model()->getFilters($criteria);
 		
-		//get ad count that match criteria
-	    $count = Ad::model()->getSearchCount( $options );
-	    
-	    //create pagination object
+		//get ad count
+		$count = Ad::model()->getAdCount($criteria);
+		
+		//create pagination object
 	    $pages=new CPagination($count);
 	
 	    //init pagination object
 	    $pages->pageSize	= NUM_CLASSIFIEDS_ON_PAGE;
-		$options['offset'] 	= $pages->getOffset();
-		$options['limit'] 	= $pages->getPageSize();
+		$pages->applyLimit($criteria);
 		
-	    if(!empty($pagerParams)){
-	    	$pages->params = $pagerParams;
-	    }
-	    
-	    //get classifieds
-	    $adList = Ad::model()->getSearchList( $options );
+	    //set order
+	    $criteria->order = 't.ad_vip DESC, t.ad_id DESC';
+		
+		//get classifieds
+	    $adList = Ad::model()->getAdList($criteria);
 	    
 	    //inject classifieds data into the view
 	    $this->view->adList = $adList;
-	    
-	    if(!empty($breadcrump)){
+		
+		if(!empty($breadcrump)){
 	    	$this->view->breadcrump = $breadcrump;
 	    }
 	    
-	    $this->view->pageTitle 			= stripslashes($search_string_fixed);
-	    $this->view->pageDescription 	= stripslashes($search_string_fixed);
-	    $this->view->pageKeywords 		= stripslashes($search_string_fixed);
+	    if(isset($this->view->title)){
+		    $this->view->pageTitle 			= $this->view->title;
+		    $this->view->pageDescription 	= $this->view->title;
+		    $this->view->pageKeywords 		= $this->view->title;
+	    }
     
-	    $this->render('search_tpl', array('pages' => $pages));	
+	    //render view
+	    $this->render('index_tpl', array('pages' => $pages));
+	}
+	
+	//depricated, only for backward compatibility (for indexed urls like (site.com/tags-search_string.html))
+	public function actionSearch()
+	{
+		if(isset($_GET['search_string'])){
+			$this->redirect(Yii::app()->createUrl('ad/index', array('search_string' => $_GET['search_string'])), true, 301);
+		} else {
+			$this->redirect(SITE_URL, true, 301);
+		}
 	}
 	
 	public function actionDetail()
