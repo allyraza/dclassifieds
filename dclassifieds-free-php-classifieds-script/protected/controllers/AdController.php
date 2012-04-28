@@ -732,9 +732,9 @@ class AdController extends Controller
 	public function actionGmap()
 	{
 		$this->layout = 'google_map_layout';
-		$this->view->pageTitle 			= Yii::t('delete_page', 'pageTitle');
-		$this->view->pageDescription 	= Yii::t('delete_page', 'pageDescription');
-		$this->view->pageKeywords 		= Yii::t('delete_page', 'pageKeywords');
+		$this->view->pageTitle 			= Yii::t('publish_page', 'pageTitle');
+		$this->view->pageDescription 	= Yii::t('publish_page', 'pageDescription');
+		$this->view->pageKeywords 		= Yii::t('publish_page', 'pageKeywords');
 		$this->render('gmap_tpl');
 	}
 	
