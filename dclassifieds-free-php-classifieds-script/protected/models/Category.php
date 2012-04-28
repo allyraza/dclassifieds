@@ -316,7 +316,7 @@ class Category extends CActiveRecord
 			foreach ($_data as $k){
 				$_container .= '<li>';
 				$category_url = Yii::app()->createUrl('ad/index', array('category_title' => DCUtil::getSeoTitle($k['category_title']), 'cid' => $k['category_id']));
-				$_container .= '<a href="' . $category_url . '">' . $k['category_title'] . '</a>';
+				$_container .= '<a href="' . $category_url . '" title="' . htmlspecialchars(stripslashes($k['category_title'])) . '">' . stripslashes($k['category_title']) . '</a>';
 				if(!empty($k['childs'])){
 					$_container .= '<ul>';
 					$this->getCategoryULList( $_container, $k['childs'] );
@@ -336,11 +336,11 @@ class Category extends CActiveRecord
 				
 				if(!isset($k['level'])){
 					$_container .= '<div class="home_category_block">';
-    					$_container .= '<div class="home_category_block_title"><a href="' . $category_url . '">' . $k['category_title'] . '</a></div>';
+    					$_container .= '<div class="home_category_block_title"><a href="' . $category_url . '" title="' . htmlspecialchars(stripslashes($k['category_title'])) . '">' . stripslashes($k['category_title']) . '</a></div>';
     					$_container .= '<div class="home_category_block_content">';
 				} else {
 					if( $k['level'] <= 1){
-						$_container .= '<div class="home_category_block_item">&raquo; <a href="' . $category_url . '">' . $k['category_title'] . '</a> (' . $k['count'] . ')</div>';
+						$_container .= '<div class="home_category_block_item">&raquo; <a href="' . $category_url . '" title="' . htmlspecialchars(stripslashes($k['category_title'])) . '">' . stripslashes($k['category_title']) . '</a> (' . $k['count'] . ')</div>';
 					}
 				}
 				

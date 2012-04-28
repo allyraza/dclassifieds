@@ -3,7 +3,7 @@
 * DClassifieds                                                                    *
 * Open-Source Project Inspired by Dinko Georgiev (webmaster@dclassifieds.eu)      *
 * =============================================================================== *
-* Software Version:           0.1b                                           	  *
+* Software Version:           2.0                                           	  *
 * Software by:                Dinko Georgiev     								  *
 * Support, News, Updates at:  http://www.dclassifieds.eu                       	  *
 ***********************************************************************************
@@ -108,24 +108,5 @@ class AdPic extends CActiveRecord
 		        'pageSize'=>50,
 		    ),
 		));
-	}
-	
-	function getSmallPic( $_ad_id )
-	{
-		$ret = Yii::app()->theme->baseUrl . '/front/i/no_photo_small.jpg';
-		
-		$criteria = new CDbCriteria();
-		$criteria->condition = "ad_id = '{$_ad_id}'";
-		$criteria->limit = 1;
-		$criteria->order = 'ad_pic_id ASC';
-		$pic = $this->find( $criteria );
-		
-		if(!empty($pic)){
-			if(is_file(PATH_UF_CLASSIFIEDS . 'small-' . $pic->ad_pic_path)){
-				$ret = SITE_UF_CLASSIFIEDS . 'small-' . $pic->ad_pic_path;
-			}
-		}
-		
-		return $ret;
 	}
 }

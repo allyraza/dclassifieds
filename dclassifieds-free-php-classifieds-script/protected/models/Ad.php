@@ -442,4 +442,15 @@ class Ad extends CActiveRecord
 		}
 		return $ret;
 	}
+	
+	public function getSmallPic($_pic = '')
+	{
+		$ret = Yii::app()->theme->baseUrl . '/front/i/no_photo_small.jpg';
+		if(!empty($_pic)){
+			if(is_file(PATH_UF_CLASSIFIEDS . 'small-' . $_pic)){
+				$ret = SITE_UF_CLASSIFIEDS . 'small-' . $_pic;
+			}
+		}
+		return $ret;
+	}
 }
