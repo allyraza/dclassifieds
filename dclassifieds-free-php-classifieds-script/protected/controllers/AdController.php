@@ -292,16 +292,17 @@ class AdController extends Controller
 		$this->view->adValidList = $adValidList;
 		
 		if(isset($_POST['Ad'])){
+			$cleanData = array();
 			foreach ($_POST['Ad'] as $k => $v){
 				//enable visual editor tags if editor is enabled
 				if(ENABLE_VISUAL_EDITOR == 1 && $k == 'ad_description'){
-					$_POST['Ad'][$k] = DCUtil::sanitize($v, '<strong><em><u><ol><li><ul><br /><br>');
+					$cleanData[$k] = DCUtil::sanitize($v, '<strong><em><u><ol><li><ul><br /><br>');
 				} else {
-					$_POST['Ad'][$k] = DCUtil::sanitize($v);
+					$cleanData[$k] = DCUtil::sanitize($v);
 				}
 			}
 			
-			$adModel->attributes = $_POST['Ad'];
+			$adModel->attributes = $cleanData;
 			if($adModel->validate() && !AdBanEmail::model()->isBanned($adModel->ad_email)){
 				
 				//fix tags if any
@@ -542,6 +543,10 @@ class AdController extends Controller
 		//is there ad with this id
 		if(!$adModel = Ad::model()->findByPk($adId)){
 			$this->redirect(SITE_URL);
+		} else {
+			foreach ($adModel->attributes as $k => $v){
+				$adModel->$k = stripslashes($v);
+			}
 		}
 		
 		//validate user
@@ -588,16 +593,17 @@ class AdController extends Controller
 		
 		
 		if(isset($_POST['Ad'])){
+			$cleanData = array();
 			foreach ($_POST['Ad'] as $k => $v){
 				//enable visual editor tags if editor is enabled
 				if(ENABLE_VISUAL_EDITOR == 1 && $k == 'ad_description'){
-					$_POST['Ad'][$k] = DCUtil::sanitize($v, '<strong><em><u><ol><li><ul><br /><br>');
+					$cleanData[$k] = DCUtil::sanitize($v, '<strong><em><u><ol><li><ul><br /><br>');
 				} else {
-					$_POST['Ad'][$k] = DCUtil::sanitize($v);
+					$cleanData[$k] = DCUtil::sanitize($v);
 				}
 			}
 			
-			$adModel->attributes = $_POST['Ad'];
+			$adModel->attributes = $cleanData;
 			if($adModel->validate() && !AdBanEmail::model()->isBanned($adModel->ad_email)){
 				
 				//fix tags if any
