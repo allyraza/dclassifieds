@@ -11,7 +11,7 @@
     		<div style="float:left;">
 				<g:plusone></g:plusone>
 	        </div>
-	        <div style="float:left;">
+	        <div style="float:left; height:24px;">
 				<div class="fb-like" data-href="<?=$thisPageUrl?>" data-send="true" data-width="450" data-show-faces="true"></div>
 	        </div>
 	        <div style="float:left;">
@@ -230,11 +230,12 @@
 		<div style="margin-bottom: 10px;">
 			<?foreach ($this->view->similarAds as $k){
 				$adUrl = Yii::app()->createUrl('ad/detail' , array('title' => DCUtil::getSeoTitle( stripslashes($k['ad_title']) ), 'id' => $k->ad_id));
+				$alt = htmlspecialchars(stripslashes($k->ad_title));
 				?>
 			    <div class="classified_list_container">
-			        <div class="classified_list_pic"><a href="<?=$adUrl?>"><img src="<?=AdPic::model()->getSmallPic( $k->ad_id )?>" width="120" height="90"></a></div>
+			        <div class="classified_list_pic"><a href="<?=$adUrl?>" title="<?=$alt?>"><img src="<?=$k->getSmallPic( $k->ad_pic )?>" width="120" height="90" alt="<?=$alt?>" /></a></div>
 			        <div class="classified_list_description">
-			            <a href="<?=$adUrl?>"><?=stripslashes($k->ad_title)?></a>
+			            <a href="<?=$adUrl?>" title="<?=$alt?>"><?=stripslashes($k->ad_title)?></a>
 			            <p><?=DCUtil::getShortDescription( stripslashes($k->ad_description) )?></p>
 			            <p class="info"><?=Yii::t('common', 'Location')?> : <b><?=$k->location->location_name?></b> | <?=Yii::t('common', 'Category')?> : <b><?=$k->category->category_title?></b> | <?=Yii::t('common', 'Publish date')?> : <b><?=$k->ad_publish_date?></b></p>
 			        </div>

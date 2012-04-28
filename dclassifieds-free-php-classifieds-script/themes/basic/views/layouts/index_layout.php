@@ -2,17 +2,17 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title><?=$this->view->pageTitle?></title>
-<meta name="description" content="<?=$this->view->pageDescription?>" />
-<meta name="keywords" content="<?=$this->view->pageKeywords?>" />
+<title><?=htmlspecialchars($this->view->pageTitle)?></title>
+<meta name="description" content="<?=htmlspecialchars($this->view->pageDescription)?>" />
+<meta name="keywords" content="<?=htmlspecialchars($this->view->pageKeywords)?>" />
 <meta name="revisit-after" content="1 Days" />
 <meta name="robots" content="index , follow" />
 <meta name="googlebot" content="index , follow" />
 <meta name="rating" content="general" />
-<?if(isset($this->view->adInfo->pics) && !empty($this->view->adInfo->pics)){?>
-<meta property="og:title" content="<?=stripslashes($this->view->adInfo->ad_title)?>"/>
+<?if(isset($this->view->adInfo->ad_pic) && !empty($this->view->adInfo->ad_pic)){?>
+<meta property="og:title" content="<?=htmlspecialchars(stripslashes($this->view->adInfo->ad_title))?>"/>
 <meta property="og:site_name" content="<?=SITE_URL?>"/>
-<meta property="og:image" content="<?=SITE_UF_CLASSIFIEDS . 'small-' . $this->view->adInfo->pics[0]->ad_pic_path;?>"/>
+<meta property="og:image" content="<?=SITE_UF_CLASSIFIEDS . 'small-' . $this->view->adInfo->ad_pic;?>"/>
 <?}?>
 
 <base href="<?=SITE_URL?>" />
@@ -113,8 +113,7 @@ Yii::app()->clientscript->scriptMap['jquery.js'] = false;
         	Copyright (c) <?=date('Y')?> <?=APP_NAME?> v2.0 alpha
         	</div>
         	<div style="float:right;">
-        		Powered by <a href="http://www.dclassifieds.eu" title="free classifieds script" target="_blank">DClassifieds</a>&nbsp;
-        		<a href="http://www.bitak.net" title="Обяви" target="_blank">Обяви</a>
+        		Powered by <a href="http://www.dclassifieds.eu" title="free classifieds script" target="_blank">DClassifieds</a>
         	</div>
         	<div class="clear"></div>
         </footer>
