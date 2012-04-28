@@ -101,7 +101,7 @@ class Ad extends CActiveRecord
 			'location'	=>	array(self::BELONGS_TO, 'Location', 'location_id'),
 			'category'	=>	array(self::BELONGS_TO, 'Category', 'category_id'),
 			'type'		=>	array(self::BELONGS_TO, 'AdType', 'ad_type_id'),
-			'pics'		=>	array(self::HAS_MANY, 'AdPic', 'ad_id'),
+			'pics'		=>	array(self::HAS_MANY, 'AdPic', 'ad_id', 'order' => 'ad_pic_id ASC'),
 		);
 	}
 
