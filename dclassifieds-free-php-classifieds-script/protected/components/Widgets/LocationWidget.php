@@ -28,7 +28,7 @@ class LocationWidget extends CWidget
 			}
 			$link = Yii::app()->createUrl('ad/location');
 			$remove_link = '<a href="' . $link  . '">(' . Yii::t('common', 'clear') . ')</a>';
-			echo $location_info->location_name . ' ' . $remove_link;
+			echo '<strong>' . $location_info->location_name . '</strong> ' . $remove_link;
 		}
     }
 }

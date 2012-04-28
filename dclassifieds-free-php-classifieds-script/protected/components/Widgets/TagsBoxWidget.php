@@ -3,7 +3,7 @@
 * DClassifieds                                                                    *
 * Open-Source Project Inspired by Dinko Georgiev (webmaster@dclassifieds.eu)      *
 * =============================================================================== *
-* Software Version:           0.1b                                           	  *
+* Software Version:           2.0                                           	  *
 * Software by:                Dinko Georgiev     								  *
 * Support, News, Updates at:  http://www.dclassifieds.eu                       	  *
 ***********************************************************************************
@@ -27,12 +27,6 @@ class TagsBoxWidget extends CWidget
     	
 		$tagsArray = AdTag::model()->findAll( $criteria );
 		if(!empty($tagsArray)){
-//			$tagsArrayReady = array();
-//			foreach ($tagsArray as $k){
-//				$tagsUrl = Yii::app()->createUrl('ad/search', array('search_string' => stripslashes($k->tag_text)));
-//				$tagsArrayReady[] = '<a href="' . $tagsUrl . '" class="tag_link">' . stripslashes($k->tag_text) . '</a>';
-//				echo '<a href="' . $tagsUrl . '" class="tag_link">' . stripslashes($k->tag_text) . '</a>';
-//			}
 			
 			//render widget view
 			$this->render('tags_box_widget_tpl', array('tagsArray' => $tagsArray));

@@ -30,7 +30,7 @@ class PageMenuWidget extends CWidget
     	if(!empty($pages)){
     		foreach ($pages as $k){
     			$page_url = Yii::app()->createUrl('site/page', array('title' => DCUtil::getSeoTitle($k->page_title), 'pid' => $k->page_id));
-    			$ret .= sprintf('<li><a href="%s" title="%s">%s</a></li>', $page_url, $k->page_title, $k->page_title);
+    			$ret .= sprintf('<li><a href="%s" title="%s">%s</a></li>', $page_url, htmlspecialchars($k->page_title), $k->page_title);
     		}
     	}
     	if(!empty($ret)){
