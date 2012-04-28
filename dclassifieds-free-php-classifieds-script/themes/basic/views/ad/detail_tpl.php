@@ -120,7 +120,7 @@
 			if(!empty($tags)){
 				foreach ($tags as $k){
 					$link = Yii::app()->createUrl('ad/index', array('search_string' => stripslashes($k)));
-					$tagsArray[] = '<a href="' . $link . '" class="tag_link">' . stripslashes($k) . '</a>';
+					$tagsArray[] = '<a href="' . $link . '" class="tag_link" title="' . htmlspecialchars(stripslashes($k)) . '">' . stripslashes($k) . '</a>';
 				}
 				echo join(' ', $tagsArray);
 			}
