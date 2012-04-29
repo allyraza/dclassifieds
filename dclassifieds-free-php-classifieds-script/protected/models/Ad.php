@@ -235,8 +235,17 @@ class Ad extends CActiveRecord
 	
 	public function createCriteria($_where_to_check = array())
 	{
+		//create criteria object
 		$criteria = new CDbCriteria();
+		
+		//init criteria object params
 		$params = array();
+		
+		//filter widget params holder
+		$fwp = array();
+		if(isset(Yii::app()->params['fwp'])){
+			$fwp = Yii::app()->params['fwp'];
+		}
 		
 		//category check
 		if($cid = DCUtil::isValidInt($_where_to_check, 'cid')){
@@ -251,7 +260,11 @@ class Ad extends CActiveRecord
 				}
 			}
 			$criteria->addInCondition('t.category_id', $inWhereArray);
+			$fwp['cid'] = $cid;
+		} else {
+			unset($fwp['cid']);
 		}
+		
 		
 		//location check
 		if($lid = DCUtil::isValidInt($_where_to_check, 'lid')){
@@ -259,64 +272,94 @@ class Ad extends CActiveRecord
 			$params[':lid'] = $lid;
 		}
 		
-		//search check (keyword and tag)
+		//search check (keyword or tag)
 		if($search_string = DCUtil::isValidString($_where_to_check, 'search_string')){
 			$criteria->addCondition('MATCH(ad_title, ad_description, ad_tags) AGAINST (:search_string)');
 			$params[':search_string'] = urldecode($search_string);
+			$fwp['search_string'] = 1;
+		} else {
+			unset($fwp['search_string']);
 		}
 		
 		//ad type check
 		if($tid = DCUtil::isValidInt($_where_to_check, 'tid')){
 			$criteria->addCondition('t.ad_type_id = :ati');
-			$params[':ati'] = $tid;	
+			$params[':ati'] = $tid;
+			$fwp['tid']	= $tid;
+		} else {
+			unset($fwp['tid']);
 		}
 		
 		//price check
 		if($price = DCUtil::isValidString($_where_to_check, 'price')){
 			if($price_serilizied = base64_decode($price)){
-				$price_array = unserialize($price_serilizied);
-				if(isset($price_array['price']['from']) && isset($price_array['price']['to'])){
-					$criteria->addCondition('ad_price >= :from AND ad_price <= :to');
-					$params[':from'] = $from;
-					$params[':to'] = $to;		
+				if($price_array = @unserialize($price_serilizied)){
+					if(isset($price_array['from']) && isset($price_array['to']) && is_numeric($price_array['from']) && is_numeric($price_array['to'])){
+						$criteria->addCondition('ad_price >= :from AND ad_price <= :to');
+						$params[':from'] = $price_array['from'];
+						$params[':to'] = $price_array['to'];		
+						$fwp['price'] = $price;
+					}
 				}	
 			}
+		} else {
+			unset($fwp['price']);
 		}
 		
 		//show with pic only
 		if(DCUtil::isValidInt($_where_to_check, 'show_with_pic')){
 			$criteria->addCondition("t.ad_pic <> '' AND t.ad_pic IS NOT NULL");
+			$fwp['show_with_pic'] = 1;
+		} else {
+			unset($fwp['show_with_pic']);
 		}
 		
 		//show with video only
 		if(DCUtil::isValidInt($_where_to_check, 'show_with_video')){
 			$criteria->addCondition("t.ad_video <> '' AND t.ad_video IS NOT NULL");
+			$fwp['show_with_video'] = 1;
+		} else {
+			unset($fwp['show_with_video']);
 		}
 		
 		//show with map only
 		if(DCUtil::isValidInt($_where_to_check, 'show_with_map')){
 			$criteria->addCondition("t.ad_lat <> '' AND t.ad_lat IS NOT NULL");
+			$fwp['show_with_map'] = 1;
+		} else {
+			unset($fwp['show_with_map']);
 		}
 		
 		//show only active
 		if(DCUtil::isValidInt($_where_to_check, 'show_active')){
 			$criteria->addCondition('t.ad_valid_until >= :today');
 			$params[':today'] = date('Y-m-d');	
+			$fwp['show_active'] = 1;
+		} else {
+			unset($fwp['show_active']);
 		}
 		
 		//show only with skype
 		if(DCUtil::isValidInt($_where_to_check, 'show_with_skype')){
 			$criteria->addCondition("t.ad_skype <> '' AND t.ad_skype IS NOT NULL");
+			$fwp['show_with_skype'] = 1;
+		} else {
+			unset($fwp['show_with_skype']);
 		}
 		
+		//set params to criteria
 		$criteria->params = array_merge($criteria->params, $params);
+		
+		//set filter widget params to registry
+		Yii::app()->setParams(array('fwp' => $fwp));
 		
 		return $criteria;
 	}
 	
 	public function getFilters(CDbCriteria $originalCriteria)
 	{
-		$ret 		= array();
+		$ret = array();
+		Yii::app()->params['show_additional_filters'] = 0;
 		
 		//get the command builder
 		$commandBuilder = Yii::app()->db->getCommandBuilder();
@@ -345,8 +388,8 @@ class Ad extends CActiveRecord
 		
 		//get price filter
 		//if selected price range
-		if(isset($params[':from']) && isset($params[':to'])){
-			$data[0] = array('from' => $params[':from'], 'to' => $params[':to']);
+		if(isset($originalCriteria->params[':from']) && isset($originalCriteria->params[':to'])){
+			$data[0] = array('from' => $originalCriteria->params[':from'], 'to' => $originalCriteria->params[':to']);
 			$data[0]['ad_count'] = $this->count($originalCriteria);
 			$ret['price_filter'] = $data;
 		} else {
@@ -388,6 +431,7 @@ class Ad extends CActiveRecord
 		$res = $commandBuilder->createFindCommand('ad', $criteria)->queryAll();
 		if(!empty($res)){
 			$ret['pic_filter'] = count($res);
+			Yii::app()->params['show_additional_filters'] = 1;
 		}
 
 		//get only active
@@ -397,7 +441,8 @@ class Ad extends CActiveRecord
 		$criteria->params = array_merge($criteria->params, array(':today' => date('Y-m-d')));
 		$res = $this->count($criteria);
 		if(!empty($res)){
-			$ret['active_filter'] = $res;	
+			$ret['active_filter'] = $res;
+			Yii::app()->params['show_additional_filters'] = 1;
 		}
 				
 		//get only with skype
@@ -406,7 +451,8 @@ class Ad extends CActiveRecord
 		$criteria->addCondition("t.ad_skype <> '' AND t.ad_skype IS NOT NULL");
 		$res = $this->count($criteria);
 		if(!empty($res)){
-			$ret['skype_filter'] = $res;	
+			$ret['skype_filter'] = $res;
+			Yii::app()->params['show_additional_filters'] = 1;
 		}
 		
 		//get with video only if video is enabled
@@ -416,7 +462,8 @@ class Ad extends CActiveRecord
 			$criteria->addCondition("t.ad_video <> '' AND t.ad_video IS NOT NULL");
 			$res = $this->count($criteria);
 			if(!empty($res)){
-				$ret['video_filter'] = $res;	
+				$ret['video_filter'] = $res;
+				Yii::app()->params['show_additional_filters'] = 1;
 			}
 		}
 		
@@ -427,7 +474,8 @@ class Ad extends CActiveRecord
 			$criteria->addCondition("t.ad_lat <> '' AND t.ad_lat IS NOT NULL");
 			$res = $this->count($criteria);
 			if(!empty($res)){
-				$ret['map_filter'] = $res;	
+				$ret['map_filter'] = $res;
+				Yii::app()->params['show_additional_filters'] = 1;
 			}	
 		}
 		
