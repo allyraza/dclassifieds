@@ -1,0 +1,1 @@
+UPDATE ad SET ad_pic = (SELECT ad_pic_path FROM ad_pic AS AP WHERE AP.ad_id = ad.ad_id ORDER BY ad_pic_id LIMIT 1);
