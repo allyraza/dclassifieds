@@ -225,12 +225,22 @@ class Ad extends CActiveRecord
 	
 	public function getAdCount(CDbCriteria $criteria)
 	{
-		return $this->count($criteria);
+		$cache_key_name = 'getAdCount_' . md5(serialize($criteria));
+		if(!$ret = Yii::app()->cache->get($cache_key_name)){
+			$ret = $this->count($criteria);
+			Yii::app()->cache->set($cache_key_name , $ret);
+		}
+		return $ret;
 	}
 	
 	public function getAdList(CDbCriteria $criteria)
 	{
-		return $this->findAll($criteria);	
+		$cache_key_name = 'getAdList_' . md5(serialize($criteria));
+		if(!$ret = Yii::app()->cache->get($cache_key_name)){
+			$ret = $this->findAll($criteria);
+			Yii::app()->cache->set($cache_key_name , $ret);
+		}
+		return $ret;	
 	}
 	
 	public function createCriteria($_where_to_check = array())
@@ -378,7 +388,7 @@ class Ad extends CActiveRecord
 		//get type filter
 		//need new original criteria for every filter
 		$criteria = clone $originalCriteria;
-		$criteria->select = 't.ad_type_id, count(*) as ad_count, t1.ad_type_name';
+		$criteria->select = 't.ad_type_id, count(DISTINCT t.ad_id) as ad_count, t1.ad_type_name';
 		$criteria->group = 't.ad_type_id';
 		$criteria->join = 'LEFT JOIN ad_type AS t1 ON t1.ad_type_id = t.ad_type_id';
 		$res = $commandBuilder->createFindCommand('ad', $criteria)->queryAll();
@@ -428,9 +438,9 @@ class Ad extends CActiveRecord
 		$criteria = clone $originalCriteria;
 		$criteria->addCondition("t.ad_pic <> '' AND t.ad_pic IS NOT NULL");
 		
-		$res = $commandBuilder->createFindCommand('ad', $criteria)->queryAll();
+		$res = $this->count($criteria);
 		if(!empty($res)){
-			$ret['pic_filter'] = count($res);
+			$ret['pic_filter'] = $res;
 			Yii::app()->params['show_additional_filters'] = 1;
 		}
 
