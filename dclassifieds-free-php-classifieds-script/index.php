@@ -21,6 +21,9 @@ if(!ini_get('short_open_tag')){
 	ini_set('short_open_tag', 1);
 }
 
+//for debugging/devolopment set this to 1
+ini_set('display_errors' , 1);
+
 //uncomment for debugging/devolopment
 //$yii=dirname(__FILE__).'/yii/framework/yii.php';
 
