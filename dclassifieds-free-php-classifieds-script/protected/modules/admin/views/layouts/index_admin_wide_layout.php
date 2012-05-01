@@ -45,6 +45,7 @@
 				array('label'=>Yii::t('admin', 'Page'), 'url'=>array('/admin/page/admin')),
 				array('label'=>Yii::t('admin', 'Settings'), 'url'=>array('/admin/settings/admin')),
 				array('label'=>Yii::t('admin', 'Theme edit'), 'url'=>array('/admin/theme/admin')),
+				array('label'=>Yii::t('admin_v2', 'Support'), 'url'=>array('/admin/default/support')),
 				array('label'=>Yii::t('admin', 'Login'), 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 				array('label'=>Yii::t('admin', 'Logout') . ' ('.Yii::app()->user->name.')', 'url'=>array('/admin/default/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),

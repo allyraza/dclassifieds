@@ -150,4 +150,10 @@ class DefaultController extends Controller
 	        	$this->render('error', $error);
 	    }
 	}
+	
+	public function actionSupport()
+	{
+		$this->layout = 'index_admin_wide_layout';
+		$this->render('support');	
+	}
 }
