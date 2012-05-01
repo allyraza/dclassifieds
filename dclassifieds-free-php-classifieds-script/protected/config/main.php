@@ -63,8 +63,9 @@ return array(
 			'username' => DB_USER,
 			'password' => DB_PASS,
 			'charset' => 'utf8',
+			'schemaCachingDuration' => 3600,
 			'enableParamLogging' => true,
-			'schemaCachingDuration' => 1
+			'enableProfiling' => true,
 		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
@@ -73,15 +74,17 @@ return array(
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
-				array(
+				/*array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
-				),
+				),*/
 				// uncomment the following to show log messages on web pages
-				
 				/*array(
 					'class'=>'CWebLogRoute',
 				),*/
+				array(
+					'class'=>'CProfileLogRoute',
+				),
 			),
 		),
 		'DCInit'=>array(
