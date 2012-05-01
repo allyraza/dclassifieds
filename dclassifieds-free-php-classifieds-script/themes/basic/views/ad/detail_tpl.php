@@ -68,7 +68,7 @@
 				<?if($ad->ad_valid_until){?>
 					<?=Yii::t('publish_page_v2', 'Classifieds Validity Period')?> : <b><?=$ad->ad_valid_until?></b><br />
 				<?}?>
-				<?if(!empty($ad->ad_price)){?>
+				<?if(!empty($ad->ad_price) && $ad->ad_price > 0){?>
 					<?=Yii::t('detail_page', 'Price')?>: <b><?=$ad->ad_price?> <?=PRICE_CURRENCY_NAME?></b><br />
 				<?}?>
 				<?if(!empty($ad->ad_link)){?>
