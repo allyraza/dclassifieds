@@ -82,7 +82,7 @@ class Ad extends CActiveRecord
 			
 			
 			// verifyCode needs to be entered correctly
-			array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements()),
+			array('verifyCode', 'captcha', 'on'=> 'insert, update', 'allowEmpty'=>!CCaptcha::checkRequirements()),
 			
 			array('images', 'file', 'maxFiles' => NUM_PICS_UPLOAD, 'maxSize' => MAX_PIC_UPLOAD_SIZE, 'types'=>'jpg, gif, png', 'allowEmpty' => true),
 			
