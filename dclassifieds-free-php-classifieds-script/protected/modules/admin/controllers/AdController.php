@@ -77,6 +77,7 @@ class AdController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$model->scenario = 'adminupdate';
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -84,6 +85,9 @@ class AdController extends Controller
 		if(isset($_POST['Ad']))
 		{
 			$model->attributes=$_POST['Ad'];
+			foreach ($model->attributes as $k => $v){
+				$model->$k = addslashes($v);
+			}
 			if($model->save()){
 				Yii::app()->cache->flush();
 				$this->redirect(array('admin'));
@@ -97,6 +101,10 @@ class AdController extends Controller
 		$category_list = Category::model()->getCategoryList();
 		$category_html_list = array();
 		Category::model()->getCategoryHtmlList( $category_html_list , $category_list );
+		
+		foreach ($model->attributes as $k => $v){
+			$model->$k = stripslashes($v);
+		}
 
 		$this->render('update',array(
 			'model'=>$model,

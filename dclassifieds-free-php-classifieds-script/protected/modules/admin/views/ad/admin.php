@@ -41,16 +41,13 @@ $('.search-form form').submit(function(){
 		'location_id',
 		'location.location_name',
 		'category.category_title',
-		'ad_title',
+		array(
+			'name' => 'ad_title',
+			'value' => 'stripslashes($data->ad_title)',
+			'htmlOptions' => array('width'=>'500px', 'style' => 'font-weight:bold;')
+		),
 		'ad_email',
 		'ad_publish_date',
-		/*
-		'ad_price',
-		'ad_phone',
-		'ad_title',
-		'ad_description',
-		'ad_puslisher_name',
-		*/
 		array(
 			'class'=>'CButtonColumn',
 			'template' => '{update}{delete}'
