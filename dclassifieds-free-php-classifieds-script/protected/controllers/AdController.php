@@ -38,7 +38,7 @@ class AdController extends Controller
 		$breadcrump = array();
 		
 		if($search_string_fixed = DCUtil::isValidString($_GET, 'search_string')){
-			$this->view->title = stripslashes($search_string_fixed);
+			$this->view->title = $this->view->category_description = $this->view->category_keywords = stripslashes($search_string_fixed);
 			$breadcrump[] = stripslashes($search_string_fixed);	
 		} elseif ($cid = DCUtil::isValidInt($_GET, 'cid')){
 			$categoryInfo = Category::model()->findByPk( $cid );
@@ -58,6 +58,16 @@ class AdController extends Controller
 			
 			//set category title in to the view
 			$this->view->title = $categoryInfo->category_title;
+			
+			$this->view->category_description = $this->view->title;
+			if(!empty($categoryInfo->category_description)){
+				$this->view->category_description = $categoryInfo->category_description;
+			}
+			
+			$this->view->category_keywords = $this->view->title;
+			if(!empty($categoryInfo->category_keywords)){
+				$this->view->category_keywords = $categoryInfo->category_keywords;
+			}
 		} else {
 			$this->view->title = '';
 		}
@@ -93,8 +103,8 @@ class AdController extends Controller
 	    
 	    if(isset($this->view->title)){
 		    $this->view->pageTitle 			= $this->view->title;
-		    $this->view->pageDescription 	= $this->view->title;
-		    $this->view->pageKeywords 		= $this->view->title;
+		    $this->view->pageDescription 	= $this->view->category_description;
+		    $this->view->pageKeywords 		= $this->view->category_keywords;
 	    }
     
 	    //render view
