@@ -36,7 +36,8 @@ class AdminModule extends CWebModule
 			'user'=>array(
 				'class'=>'CWebUser',
 				'stateKeyPrefix'=>'admin',
-				'loginUrl'=>Yii::app()->createUrl('admin/default/login')
+				'loginUrl'=>Yii::app()->createUrl('admin/default/login'),
+				'allowAutoLogin' => true
 			)			
 		), false);
 	}
