@@ -69,8 +69,10 @@ class AdBanEmailController extends Controller
 		if(isset($_POST['AdBanEmail']))
 		{
 			$model->attributes=$_POST['AdBanEmail'];
-			if($model->save())
+			if($model->save()){
+				Yii::app()->cache->flush();
 				$this->redirect(array('admin'));
+			}
 		}
 
 		$this->render('create',array(
@@ -93,8 +95,10 @@ class AdBanEmailController extends Controller
 		if(isset($_POST['AdBanEmail']))
 		{
 			$model->attributes=$_POST['AdBanEmail'];
-			if($model->save())
+			if($model->save()){
+				Yii::app()->cache->flush();
 				$this->redirect(array('admin'));
+			}
 		}
 
 		$this->render('update',array(
@@ -113,6 +117,8 @@ class AdBanEmailController extends Controller
 		{
 			// we only allow deletion via POST request
 			$this->loadModel($id)->delete();
+			
+			Yii::app()->cache->flush();
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
