@@ -1,0 +1,1 @@
+DClassifieds Free PHP Classifieds Script is a Yii Framework based classifieds/listings script. Some futures : caching, friendly urls, templates, languages, easy configuration via admin panel, very fast. Template edinig future from admin panel.
